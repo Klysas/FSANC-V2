@@ -28,10 +28,13 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.GrpBoxMain = new System.Windows.Forms.GroupBox();
 			this.LstViewSearchResults = new System.Windows.Forms.ListView();
 			this.TxtBoxSearch = new System.Windows.Forms.TextBox();
 			this.CmbBoxType = new System.Windows.Forms.ComboBox();
+			this.BkWorkerSearcher = new System.ComponentModel.BackgroundWorker();
+			this.TxtBoxToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.GrpBoxMain.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -83,6 +86,12 @@
 			this.CmbBoxType.Size = new System.Drawing.Size(132, 21);
 			this.CmbBoxType.TabIndex = 0;
 			// 
+			// TxtBoxToolTip
+			// 
+			this.TxtBoxToolTip.AutomaticDelay = 50;
+			this.TxtBoxToolTip.IsBalloon = true;
+			this.TxtBoxToolTip.OwnerDraw = true;
+			// 
 			// Searcher
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -103,5 +112,7 @@
 		private System.Windows.Forms.ListView LstViewSearchResults;
 		private System.Windows.Forms.TextBox TxtBoxSearch;
 		private System.Windows.Forms.ComboBox CmbBoxType;
+		private System.ComponentModel.BackgroundWorker BkWorkerSearcher;
+		private System.Windows.Forms.ToolTip TxtBoxToolTip;
 	}
 }

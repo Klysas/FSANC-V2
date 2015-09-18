@@ -28,9 +28,16 @@ namespace FSANC_V2
 
 		#region Public methods
 
+		/// <summary>
+		/// Sets status value to status bar.
+		/// </summary>
+		/// <param name="status">Status value.</param>
 		public void SetStatus(string status)
 		{
-			this.ToolStripStatusLbl.Text = status;
+			this.Invoke(new MethodInvoker(delegate()
+			{
+				this.ToolStripStatusLbl.Text = status;
+			}));
 		}
 
 		#endregion

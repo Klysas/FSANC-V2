@@ -45,6 +45,8 @@ namespace FSANC_V2
 			this.LstViewSearchResults.ColumnClick += LstViewSearchResults_ColumnClick;
 			this.CmbBoxType.SelectedIndexChanged += CmbBoxType_SelectedIndexChanged;
 			this.TxtBoxSearch.KeyPress += TxtBoxSearch_KeyPress;
+			this.BkWorkerSearcher.RunWorkerCompleted += BkWorkerSearcher_RunWorkerCompleted;
+			this.BkWorkerSearcher.DoWork += BkWorkerSearcher_DoWork;
 
 			// Setting up current state
 			this.CmbBoxType.SelectedIndex = (int)SearchType.BOTH;
@@ -70,19 +72,111 @@ namespace FSANC_V2
 
 		private SearchType _current;
 
+		private bool _workerRunning = false;
+
 		#endregion
 
 		#region Private methods
 
-		private void Search()
+		private void RunSearch()
+		{
+			string name = TxtBoxSearch.Text.Trim();
+			if (name == string.Empty)
+			{
+				TxtBoxToolTip.Show("", this.TxtBoxSearch, 10, 10, 5000);
+				TxtBoxToolTip.Show("Field is empty.", this.TxtBoxSearch, 10, 10, 5000);
+				return;
+			}
+
+			LstViewSearchResults.Items.Clear();
+			LstViewResizeColumns();
+			EnableControls(false);
+			BkWorkerSearcher.RunWorkerAsync();
+		}
+
+		private void AddToSearchResultsListView(AbstractVideo[] list)
+		{
+			if (this.LstViewSearchResults.InvokeRequired)
+			{
+				this.Invoke(new MethodInvoker(delegate()
+				{
+					foreach (AbstractVideo video in list)
+					{
+						LstViewSearchResults.Items.Add(new ListViewItem(new[] { video.Type.ToString(), video.Name, video.Year.ToString() })).Tag = video;
+					}
+				}));
+			}
+			else
+			{
+				foreach (AbstractVideo video in list)
+				{
+					LstViewSearchResults.Items.Add(new ListViewItem(new[] { video.Type.ToString(), video.Name, video.Year.ToString() })).Tag = video;
+				}
+			}
+		}
+
+		private void SetStatus(string status)
+		{
+			if (this.Parent is MainForm)
+			{
+				((MainForm)this.Parent).SetStatus(status);
+			}
+		}
+
+		/// <summary>
+		/// NOTE: Thread NOT safe.
+		/// </summary>
+		/// <param name="enable"></param>
+		private void EnableControls(bool enable)
+		{
+			this.CmbBoxType.Enabled = enable;
+			this.TxtBoxSearch.Enabled = enable;
+			this.LstViewSearchResults.Enabled = enable;
+		}
+
+		/// <summary>
+		/// NOTE: Thread NOT safe.
+		/// </summary>
+		private void LstViewResizeColumns(){
+			if (this.LstViewSearchResults.Items.Count == 0)
+			{
+				this.LstViewSearchResults.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+			}
+			else
+			{
+				this.LstViewSearchResults.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+			}
+		}
+
+		#endregion
+
+		#region Private event handlers
+
+		void LstViewSearchResults_ColumnClick(object sender, ColumnClickEventArgs e)
+		{
+			this.LstViewSearchResults.Sort(); // TODO: Sorting by selected column.
+		}
+
+		private void TxtBoxSearch_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			this.TxtBoxToolTip.Hide(this.TxtBoxSearch);
+
+			if ((int)e.KeyChar == (int)Keys.ENTER)
+			{
+				RunSearch();
+			}
+		}
+
+		private void CmbBoxType_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			_current = (SearchType)this.CmbBoxType.SelectedValue;
+		}
+
+		void BkWorkerSearcher_DoWork(object sender, DoWorkEventArgs e)
 		{
 			SetStatus("Searching...");
 
-			LstViewSearchResults.Items.Clear();
-			this.LstViewSearchResults.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
-
 			string name = TxtBoxSearch.Text.Trim();
-			if (name == string.Empty) return;
 
 			switch (_current)
 			{
@@ -102,51 +196,15 @@ namespace FSANC_V2
 					}
 					break;
 			}
+		}
 
-			this.LstViewSearchResults.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-
+		private void BkWorkerSearcher_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			LstViewResizeColumns();
+			EnableControls(true);
 			SetStatus("Search complete.");
 		}
 
-		private void AddToSearchResultsListView(AbstractVideo[] list)
-		{
-			foreach (AbstractVideo video in list)
-			{
-				LstViewSearchResults.Items.Add(new ListViewItem(new[] { video.Type.ToString(), video.Name, video.Year.ToString() })).Tag = video;
-			}
-		}
-
-		private void SetStatus(string status)
-		{
-			if (this.Parent is MainForm)
-			{
-				((MainForm)this.Parent).SetStatus(status);
-			}
-		}
-
 		#endregion
-
-		#region Private event handlers
-
-		void LstViewSearchResults_ColumnClick(object sender, ColumnClickEventArgs e)
-		{
-			this.LstViewSearchResults.Sort(); // TODO: Sorting by selected column.
-		}
-
-		private void TxtBoxSearch_KeyPress(object sender, KeyPressEventArgs e)
-		{
-			if ((int)e.KeyChar == (int)Keys.ENTER)
-			{
-				Search();
-			}
-		}
-
-		private void CmbBoxType_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			_current = (SearchType)this.CmbBoxType.SelectedValue;
-		}
-
-		#endregion
-
 	}
 }
