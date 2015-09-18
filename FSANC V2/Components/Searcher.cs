@@ -76,6 +76,8 @@ namespace FSANC_V2
 
 		private void Search()
 		{
+			SetStatus("Searching...");
+
 			LstViewSearchResults.Items.Clear();
 			this.LstViewSearchResults.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
 
@@ -102,6 +104,8 @@ namespace FSANC_V2
 			}
 
 			this.LstViewSearchResults.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+
+			SetStatus("Search complete.");
 		}
 
 		private void AddToSearchResultsListView(AbstractVideo[] list)
@@ -109,6 +113,14 @@ namespace FSANC_V2
 			foreach (AbstractVideo video in list)
 			{
 				LstViewSearchResults.Items.Add(new ListViewItem(new[] { video.Type.ToString(), video.Name, video.Year.ToString() })).Tag = video;
+			}
+		}
+
+		private void SetStatus(string status)
+		{
+			if (this.Parent is MainForm)
+			{
+				((MainForm)this.Parent).SetStatus(status);
 			}
 		}
 

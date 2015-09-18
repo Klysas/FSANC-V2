@@ -33,10 +33,13 @@
 			this.TabPageMain = new System.Windows.Forms.TabPage();
 			this.TabPageRename = new System.Windows.Forms.TabPage();
 			this.TabPageTorrent = new System.Windows.Forms.TabPage();
+			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+			this.ToolStripStatusLbl = new System.Windows.Forms.ToolStripStatusLabel();
 			this.Displayer = new FSANC_V2.InfoDisplayer();
 			this.Searcher = new FSANC_V2.Searcher();
 			this.TabControl.SuspendLayout();
 			this.TabPageMain.SuspendLayout();
+			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// TabControl
@@ -85,6 +88,23 @@
 			this.TabPageTorrent.Text = "Torrent";
 			this.TabPageTorrent.UseVisualStyleBackColor = true;
 			// 
+			// statusStrip1
+			// 
+			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripStatusLbl});
+			this.statusStrip1.Location = new System.Drawing.Point(0, 469);
+			this.statusStrip1.Name = "statusStrip1";
+			this.statusStrip1.Size = new System.Drawing.Size(1063, 22);
+			this.statusStrip1.TabIndex = 3;
+			this.statusStrip1.Text = "statusStrip1";
+			// 
+			// ToolStripStatusLbl
+			// 
+			this.ToolStripStatusLbl.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.ToolStripStatusLbl.Name = "ToolStripStatusLbl";
+			this.ToolStripStatusLbl.Size = new System.Drawing.Size(39, 17);
+			this.ToolStripStatusLbl.Text = "Status";
+			// 
 			// Displayer
 			// 
 			this.Displayer.AutoSize = true;
@@ -111,7 +131,8 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1063, 476);
+			this.ClientSize = new System.Drawing.Size(1063, 491);
+			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.TabControl);
 			this.Controls.Add(this.Searcher);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -122,6 +143,8 @@
 			this.TabControl.ResumeLayout(false);
 			this.TabPageMain.ResumeLayout(false);
 			this.TabPageMain.PerformLayout();
+			this.statusStrip1.ResumeLayout(false);
+			this.statusStrip1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -135,5 +158,7 @@
 		private System.Windows.Forms.TabPage TabPageMain;
 		private System.Windows.Forms.TabPage TabPageRename;
 		private System.Windows.Forms.TabPage TabPageTorrent;
+		private System.Windows.Forms.StatusStrip statusStrip1;
+		private System.Windows.Forms.ToolStripStatusLabel ToolStripStatusLbl;
 	}
 }

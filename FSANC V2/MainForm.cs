@@ -26,6 +26,15 @@ namespace FSANC_V2
 
 		#endregion
 
+		#region Public methods
+
+		public void SetStatus(string status)
+		{
+			this.ToolStripStatusLbl.Text = status;
+		}
+
+		#endregion
+
 		#region Private event handlers
 
 		private void searcher_Load(object sender, EventArgs e)
