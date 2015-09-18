@@ -35,11 +35,13 @@
 			this.CmbBoxType = new System.Windows.Forms.ComboBox();
 			this.BkWorkerSearcher = new System.ComponentModel.BackgroundWorker();
 			this.TxtBoxToolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.BtnSearch = new System.Windows.Forms.Button();
 			this.GrpBoxMain.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// GrpBoxMain
 			// 
+			this.GrpBoxMain.Controls.Add(this.BtnSearch);
 			this.GrpBoxMain.Controls.Add(this.LstViewSearchResults);
 			this.GrpBoxMain.Controls.Add(this.TxtBoxSearch);
 			this.GrpBoxMain.Controls.Add(this.CmbBoxType);
@@ -71,10 +73,10 @@
 			// 
 			this.TxtBoxSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.TxtBoxSearch.Location = new System.Drawing.Point(145, 19);
-			this.TxtBoxSearch.MinimumSize = new System.Drawing.Size(198, 20);
+			this.TxtBoxSearch.Location = new System.Drawing.Point(170, 19);
+			this.TxtBoxSearch.MinimumSize = new System.Drawing.Size(173, 20);
 			this.TxtBoxSearch.Name = "TxtBoxSearch";
-			this.TxtBoxSearch.Size = new System.Drawing.Size(198, 20);
+			this.TxtBoxSearch.Size = new System.Drawing.Size(173, 20);
 			this.TxtBoxSearch.TabIndex = 1;
 			// 
 			// CmbBoxType
@@ -91,6 +93,19 @@
 			this.TxtBoxToolTip.AutomaticDelay = 50;
 			this.TxtBoxToolTip.IsBalloon = true;
 			this.TxtBoxToolTip.OwnerDraw = true;
+			// 
+			// BtnSearch
+			// 
+			this.BtnSearch.BackgroundImage = global::FSANC_V2.Properties.Resources.search;
+			this.BtnSearch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.BtnSearch.Location = new System.Drawing.Point(144, 19);
+			this.BtnSearch.MaximumSize = new System.Drawing.Size(20, 20);
+			this.BtnSearch.MinimumSize = new System.Drawing.Size(20, 20);
+			this.BtnSearch.Name = "BtnSearch";
+			this.BtnSearch.Size = new System.Drawing.Size(20, 20);
+			this.BtnSearch.TabIndex = 3;
+			this.BtnSearch.UseVisualStyleBackColor = true;
+			this.BtnSearch.Click += new System.EventHandler(this.BtnSearch_Click);
 			// 
 			// Searcher
 			// 
@@ -114,5 +129,6 @@
 		private System.Windows.Forms.ComboBox CmbBoxType;
 		private System.ComponentModel.BackgroundWorker BkWorkerSearcher;
 		private System.Windows.Forms.ToolTip TxtBoxToolTip;
+		private System.Windows.Forms.Button BtnSearch;
 	}
 }

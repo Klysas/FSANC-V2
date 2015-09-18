@@ -72,8 +72,6 @@ namespace FSANC_V2
 
 		private SearchType _current;
 
-		private bool _workerRunning = false;
-
 		#endregion
 
 		#region Private methods
@@ -132,6 +130,7 @@ namespace FSANC_V2
 			this.CmbBoxType.Enabled = enable;
 			this.TxtBoxSearch.Enabled = enable;
 			this.LstViewSearchResults.Enabled = enable;
+			this.BtnSearch.Enabled = enable;
 		}
 
 		/// <summary>
@@ -203,6 +202,11 @@ namespace FSANC_V2
 			LstViewResizeColumns();
 			EnableControls(true);
 			SetStatus("Search complete.");
+		}
+
+		private void BtnSearch_Click(object sender, EventArgs e)
+		{
+			RunSearch();
 		}
 
 		#endregion
