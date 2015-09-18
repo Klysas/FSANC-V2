@@ -53,10 +53,10 @@
   <ItemGroup>
     <Compile Include="AbstractVideo.cs" />
     <Compile Include="Database.cs" />
-    <Compile Include="InfoDisplayer.cs">
+    <Compile Include="Components\InfoDisplayer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="InfoDisplayer.Designer.cs">
+    <Compile Include="Components\InfoDisplayer.Designer.cs">
       <DependentUpon>InfoDisplayer.cs</DependentUpon>
     </Compile>
     <Compile Include="KeyGatherer.cs">
@@ -74,15 +74,15 @@
     <Compile Include="Movie.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Searcher.cs">
+    <Compile Include="Components\Searcher.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Searcher.Designer.cs">
+    <Compile Include="Components\Searcher.Designer.cs">
       <DependentUpon>Searcher.cs</DependentUpon>
     </Compile>
     <Compile Include="Series.cs" />
     <Compile Include="Utils.cs" />
-    <EmbeddedResource Include="InfoDisplayer.resx">
+    <EmbeddedResource Include="Components\InfoDisplayer.resx">
       <DependentUpon>InfoDisplayer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="KeyGatherer.resx">
@@ -101,7 +101,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Searcher.resx">
+    <EmbeddedResource Include="Components\Searcher.resx">
       <DependentUpon>Searcher.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
