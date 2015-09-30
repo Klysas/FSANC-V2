@@ -35,8 +35,7 @@ namespace FSANC_V2
 		/// <returns>If date is null retruns 0, otherwise - year.</returns>
 		public static int ExtractYear(DateTime? date)
 		{
-			if (date == null) return 0;
-			return date.Value.Year;
+			return date == null ? 0 : date.Value.Year;
 		}
 
 		/// <summary>
@@ -64,6 +63,20 @@ namespace FSANC_V2
 				}
 			}
 			return str;
+		}
+
+		/// <summary>
+		/// Checks if array has null items.
+		/// </summary>
+		/// <param name="array"></param>
+		/// <returns>True if array contains null, otherwise false.</returns>
+		public static bool HasNullItems(Object[] array)
+		{
+			foreach (Object item in array)
+			{
+				if (item == null) return true;
+			}
+			return false;
 		}
 	}
 }
