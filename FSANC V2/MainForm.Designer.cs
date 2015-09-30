@@ -1,4 +1,5 @@
-﻿namespace FSANC_V2
+﻿using FSANC_V2.Components;
+namespace FSANC_V2
 {
 	partial class MainForm
 	{
@@ -35,8 +36,10 @@
 			this.TabPageTorrent = new System.Windows.Forms.TabPage();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.ToolStripStatusLbl = new System.Windows.Forms.ToolStripStatusLabel();
-			this.Displayer = new FSANC_V2.InfoDisplayer();
-			this.Searcher = new FSANC_V2.Searcher();
+			this.Displayer = new InfoDisplayer();
+			this.Searcher = new Searcher();
+			this.FileRenamer = new FileRenameDisplayer();
+			this.Torrent = new TorrentDisplayer();
 			this.TabControl.SuspendLayout();
 			this.TabPageMain.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
@@ -70,6 +73,7 @@
 			// 
 			// TabPageRename
 			// 
+			this.TabPageRename.Controls.Add(this.FileRenamer);
 			this.TabPageRename.Location = new System.Drawing.Point(4, 22);
 			this.TabPageRename.Name = "TabPageRename";
 			this.TabPageRename.Padding = new System.Windows.Forms.Padding(3);
@@ -80,6 +84,7 @@
 			// 
 			// TabPageTorrent
 			// 
+			this.TabPageTorrent.Controls.Add(this.Torrent);
 			this.TabPageTorrent.Location = new System.Drawing.Point(4, 22);
 			this.TabPageTorrent.Name = "TabPageTorrent";
 			this.TabPageTorrent.Padding = new System.Windows.Forms.Padding(3);
@@ -113,6 +118,24 @@
 			this.Displayer.Name = "Displayer";
 			this.Displayer.Size = new System.Drawing.Size(670, 419);
 			this.Displayer.TabIndex = 1;
+			// 
+			// FileRenamer
+			// 
+			this.FileRenamer.AutoSize = true;
+			this.FileRenamer.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.FileRenamer.Location = new System.Drawing.Point(3, 3);
+			this.FileRenamer.Name = "Displayer";
+			this.FileRenamer.Size = new System.Drawing.Size(670, 419);
+			this.FileRenamer.TabIndex = 1;
+			// 
+			// Torrent
+			// 
+			this.Torrent.AutoSize = true;
+			this.Torrent.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.Torrent.Location = new System.Drawing.Point(3, 3);
+			this.Torrent.Name = "Displayer";
+			this.Torrent.Size = new System.Drawing.Size(670, 419);
+			this.Torrent.TabIndex = 1;
 			// 
 			// Searcher
 			// 
@@ -154,6 +177,8 @@
 
 		private Searcher Searcher;
 		private InfoDisplayer Displayer;
+		private FileRenameDisplayer FileRenamer;
+		private TorrentDisplayer Torrent;
 		private System.Windows.Forms.TabControl TabControl;
 		private System.Windows.Forms.TabPage TabPageMain;
 		private System.Windows.Forms.TabPage TabPageRename;

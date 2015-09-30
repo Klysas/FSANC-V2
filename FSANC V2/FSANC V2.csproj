@@ -52,6 +52,27 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractVideo.cs" />
+    <Compile Include="Components\AbstractVideoDisplayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Components\AbstractVideoDisplayer.Designer.cs">
+      <DependentUpon>AbstractVideoDisplayer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Components\FileRenameDisplayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Components\FileRenameDisplayer.Designer.cs">
+      <DependentUpon>FileRenameDisplayer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Components\TorrentDisplayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Components\TorrentDisplayer.Designer.cs">
+      <DependentUpon>TorrentDisplayer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Components\InfoDisplayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Controler.cs" />
     <Compile Include="Database\Database.cs" />
     <Compile Include="Components\InfoDisplayer.cs" />

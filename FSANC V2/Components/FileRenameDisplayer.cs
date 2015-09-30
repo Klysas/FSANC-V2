@@ -7,16 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using FSANC_V2.Components;
 
-namespace FSANC_V2
+namespace FSANC_V2.Components
 {
-	public partial class InfoDisplayer : AbstractVideoDisplayer
+	public partial class FileRenameDisplayer : AbstractVideoDisplayer
 	{
 
 		#region Public constructors
 
-		public InfoDisplayer()
+		public FileRenameDisplayer()
 		{
 			InitializeComponent();
 		}
@@ -27,12 +26,12 @@ namespace FSANC_V2
 
 		protected override void Update(Movie movie)
 		{
-
+			
 		}
 
 		protected override void Update(Series series)
 		{
-
+			
 		}
 
 		#endregion
@@ -41,9 +40,6 @@ namespace FSANC_V2
 
 		public void Update(AbstractVideo video)
 		{
-			LblTitle.Text = video.Name;
-			LblYear.Text = video.Year == 0 ? "" : video.Year.ToString();
-			LblGenres.Text = Utils.ConcatWithSeparator(video.Genres, Properties.Resources.STR_GENRES_SEPARATOR);
 
 			base.Update(video);
 		}

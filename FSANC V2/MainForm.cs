@@ -57,6 +57,8 @@ namespace FSANC_V2
 			{
 				this.CurrentVideo = item;
 				this.Displayer.Update(CurrentVideo);
+				this.FileRenamer.Update(CurrentVideo);
+				this.Torrent.Update(CurrentVideo);
 			}
 		}
 
