@@ -75,7 +75,9 @@
     </Compile>
     <Compile Include="Controler.cs" />
     <Compile Include="Database\Database.cs" />
-    <Compile Include="Components\InfoDisplayer.cs" />
+    <Compile Include="Components\InfoDisplayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Components\InfoDisplayer.Designer.cs">
       <DependentUpon>InfoDisplayer.cs</DependentUpon>
     </Compile>
