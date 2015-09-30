@@ -36,9 +36,9 @@
 			this.LblTitle.AutoSize = true;
 			this.LblTitle.Location = new System.Drawing.Point(14, 15);
 			this.LblTitle.Name = "LblTitle";
-			this.LblTitle.Size = new System.Drawing.Size(35, 13);
+			this.LblTitle.Size = new System.Drawing.Size(27, 13);
 			this.LblTitle.TabIndex = 0;
-			this.LblTitle.Text = "label1";
+			this.LblTitle.Text = "Title";
 			// 
 			// TorrentDisplayer
 			// 
