@@ -8,22 +8,6 @@ namespace FSANC_V2
 {
 	public sealed class Series : AbstractVideo
 	{
-		#region Private variables
-
-
-
-		#endregion
-
-		#region Public properties
-
-		public Season[] Seasons
-		{
-			get;
-			set;
-		}
-
-		#endregion
-
 		#region Public constructors
 
 		public Series(int id, string name, int year)
@@ -31,10 +15,6 @@ namespace FSANC_V2
 		{
 			this.Type = VideoType.SERIES;
 		}
-
-		#endregion
-
-		#region Public methods
 
 		#endregion
 	}

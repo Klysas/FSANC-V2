@@ -17,6 +17,15 @@ namespace FSANC_V2
 
 		#endregion
 
+		#region Public methods
+
+		public override string ToString()
+		{
+			return string.Format("{0}:\t{1}\t{2}", this.Type.ToString(), this.Name, this.Year);
+		}
+
+		#endregion
+
 		#region Public properties
 
 		public int Id
@@ -58,15 +67,6 @@ namespace FSANC_V2
 			this.Id = id;
 			this.Name = name;
 			this.Year = year;
-		}
-
-		#endregion
-
-		#region Public methods
-
-		public override string ToString()
-		{
-			return string.Format("{0}:\t{1}\t{2}", this.Type.ToString(), this.Name, this.Year);
 		}
 
 		#endregion
