@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FSANC_V2
 {
-	class Series : AbstractVideo
+	public sealed class Series : AbstractVideo
 	{
 		#region Public constructors
 

@@ -10,15 +10,22 @@ using System.Windows.Forms;
 
 namespace FSANC_V2.Components
 {
-	public partial class FileRenamer : UserControl
+	public abstract partial class AbstractVideoDisplayer : UserControl
 	{
-
 		#region Public constructors
 
-		public FileRenamer()
+		public AbstractVideoDisplayer()
 		{
 			InitializeComponent();
 		}
+
+		#endregion
+
+		#region Protected methods
+
+		protected abstract void Update(Movie movie);
+
+		protected abstract void Update(Series series);
 
 		#endregion
 
@@ -26,7 +33,6 @@ namespace FSANC_V2.Components
 
 		public void Update(AbstractVideo video)
 		{
-
 			switch (video.Type)
 			{
 				case AbstractVideo.VideoType.MOVIE: Update(video as Movie);
@@ -35,20 +41,6 @@ namespace FSANC_V2.Components
 					break;
 			}
 			this.Update();
-		}
-
-		#endregion
-
-		#region Private methods
-
-		private void Update(Movie movie)
-		{
-
-		}
-
-		private void Update(Series series)
-		{
-
 		}
 
 		#endregion

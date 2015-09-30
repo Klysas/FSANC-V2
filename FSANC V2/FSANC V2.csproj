@@ -52,17 +52,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractVideo.cs" />
-    <Compile Include="Components\FileRenamer.cs">
+    <Compile Include="Components\AbstractVideoDisplayer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Components\FileRenamer.Designer.cs">
-      <DependentUpon>FileRenamer.cs</DependentUpon>
+    <Compile Include="Components\AbstractVideoDisplayer.Designer.cs">
+      <DependentUpon>AbstractVideoDisplayer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Components\Torrent.cs">
+    <Compile Include="Components\FileRenameDisplayer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Components\Torrent.Designer.cs">
-      <DependentUpon>Torrent.cs</DependentUpon>
+    <Compile Include="Components\FileRenameDisplayer.Designer.cs">
+      <DependentUpon>FileRenameDisplayer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Components\TorrentDisplayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Components\TorrentDisplayer.Designer.cs">
+      <DependentUpon>TorrentDisplayer.cs</DependentUpon>
     </Compile>
     <Compile Include="Database.cs" />
     <Compile Include="Components\InfoDisplayer.cs">

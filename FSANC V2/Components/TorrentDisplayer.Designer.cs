@@ -1,6 +1,6 @@
 ﻿namespace FSANC_V2.Components
 {
-	partial class Torrent
+	partial class TorrentDisplayer
 	{
 		/// <summary> 
 		/// Required designer variable.

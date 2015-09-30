@@ -38,8 +38,8 @@ namespace FSANC_V2
 			this.ToolStripStatusLbl = new System.Windows.Forms.ToolStripStatusLabel();
 			this.Displayer = new InfoDisplayer();
 			this.Searcher = new Searcher();
-			this.FileRenamer = new FileRenamer();
-			this.Torrent = new Torrent();
+			this.FileRenamer = new FileRenameDisplayer();
+			this.Torrent = new TorrentDisplayer();
 			this.TabControl.SuspendLayout();
 			this.TabPageMain.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
@@ -177,8 +177,8 @@ namespace FSANC_V2
 
 		private Searcher Searcher;
 		private InfoDisplayer Displayer;
-		private FileRenamer FileRenamer;
-		private Torrent Torrent;
+		private FileRenameDisplayer FileRenamer;
+		private TorrentDisplayer Torrent;
 		private System.Windows.Forms.TabControl TabControl;
 		private System.Windows.Forms.TabPage TabPageMain;
 		private System.Windows.Forms.TabPage TabPageRename;

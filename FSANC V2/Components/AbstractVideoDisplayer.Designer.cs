@@ -1,6 +1,6 @@
 ﻿namespace FSANC_V2.Components
 {
-	partial class FileRenamer
+	partial class AbstractVideoDisplayer
 	{
 		/// <summary> 
 		/// Required designer variable.
