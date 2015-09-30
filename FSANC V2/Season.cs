@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FSANC_V2
 {
-	class Season
+	public sealed class Season
 	{
 		#region Private variables
 

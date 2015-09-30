@@ -70,9 +70,6 @@
     <Compile Include="Components\TorrentDisplayer.Designer.cs">
       <DependentUpon>TorrentDisplayer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Components\InfoDisplayer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="Controler.cs" />
     <Compile Include="Database\Database.cs" />
     <Compile Include="Components\InfoDisplayer.cs">

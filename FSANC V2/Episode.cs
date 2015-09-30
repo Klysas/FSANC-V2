@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FSANC_V2
 {
-	class Episode
+	public sealed class Episode
 	{
 		#region Public properties
 
