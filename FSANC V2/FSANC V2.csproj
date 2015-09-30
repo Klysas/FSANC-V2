@@ -104,6 +104,12 @@
     <Compile Include="Season.cs" />
     <Compile Include="Series.cs" />
     <Compile Include="Database\SeriesDatabase.cs" />
+    <Compile Include="Settings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Settings.Designer.cs">
+      <DependentUpon>Settings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utils.cs" />
     <EmbeddedResource Include="Components\InfoDisplayer.resx">
       <DependentUpon>InfoDisplayer.cs</DependentUpon>
@@ -129,6 +135,9 @@
     </Compile>
     <EmbeddedResource Include="Components\Searcher.resx">
       <DependentUpon>Searcher.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings.resx">
+      <DependentUpon>Settings.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

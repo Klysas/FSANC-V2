@@ -80,5 +80,10 @@ namespace FSANC_V2
 
 		#endregion
 
+		private void ToolStripBtnSettings_Click(object sender, EventArgs e)
+		{
+			SettingsWindow.ShowDialog();
+		}
+
 	}
 }
