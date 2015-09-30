@@ -28,10 +28,32 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			components = new System.ComponentModel.Container();
+			this.LblTitle = new System.Windows.Forms.Label();
+			this.SuspendLayout();
+			// 
+			// LblTitle
+			// 
+			this.LblTitle.AutoSize = true;
+			this.LblTitle.Location = new System.Drawing.Point(14, 15);
+			this.LblTitle.Name = "LblTitle";
+			this.LblTitle.Size = new System.Drawing.Size(35, 13);
+			this.LblTitle.TabIndex = 0;
+			this.LblTitle.Text = "label1";
+			// 
+			// TorrentDisplayer
+			// 
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.LblTitle);
+			this.Name = "TorrentDisplayer";
+			this.Size = new System.Drawing.Size(370, 346);
+			this.ResumeLayout(false);
+			this.PerformLayout();
+
 		}
 
 		#endregion
+
+		private System.Windows.Forms.Label LblTitle;
 	}
 }

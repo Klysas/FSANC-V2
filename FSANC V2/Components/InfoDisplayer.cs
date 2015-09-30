@@ -39,7 +39,7 @@ namespace FSANC_V2
 
 		#region Public methods
 
-		public void Update(AbstractVideo video)
+		public new void Update(AbstractVideo video)
 		{
 			LblTitle.Text = video.Name;
 			LblYear.Text = video.Year == 0 ? "" : video.Year.ToString();

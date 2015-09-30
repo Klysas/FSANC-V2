@@ -38,7 +38,7 @@ namespace FSANC_V2.Components
 
 		#region Public methods
 
-		public void Update(AbstractVideo video)
+		public new void Update(AbstractVideo video)
 		{
 
 			base.Update(video);

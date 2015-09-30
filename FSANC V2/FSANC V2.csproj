@@ -108,6 +108,9 @@
     <EmbeddedResource Include="Components\InfoDisplayer.resx">
       <DependentUpon>InfoDisplayer.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Components\TorrentDisplayer.resx">
+      <DependentUpon>TorrentDisplayer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="KeyGatherer.resx">
       <DependentUpon>KeyGatherer.cs</DependentUpon>
     </EmbeddedResource>
