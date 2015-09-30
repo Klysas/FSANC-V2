@@ -181,7 +181,7 @@ namespace FSANC_V2
 			{
 				case SearchType.BOTH:
 					{
-						AddToSearchResultsListView(Database.Instance.FindMoviesAndTvShows(name));
+						AddToSearchResultsListView(Database.Instance.FindMoviesAndSeries(name));
 					}
 					break;
 				case SearchType.MOVIE:
@@ -191,7 +191,7 @@ namespace FSANC_V2
 					break;
 				case SearchType.SERIES:
 					{
-						AddToSearchResultsListView(Database.Instance.FindTvShows(name));
+						AddToSearchResultsListView(Database.Instance.FindSeries(name));
 					}
 					break;
 			}
