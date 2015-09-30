@@ -52,6 +52,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractVideo.cs" />
+    <Compile Include="Components\FileRenamer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Components\FileRenamer.Designer.cs">
+      <DependentUpon>FileRenamer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Torrent.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Components\Torrent.Designer.cs">
+      <DependentUpon>Torrent.cs</DependentUpon>
+    </Compile>
     <Compile Include="Database.cs" />
     <Compile Include="Components\InfoDisplayer.cs">
       <SubType>UserControl</SubType>
