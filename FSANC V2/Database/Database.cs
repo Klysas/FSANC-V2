@@ -43,42 +43,6 @@ namespace FSANC_V2
 
 		#region Private methods
 
-		private AbstractVideo UpdateInfo(AbstractVideo video)
-		{
-			if (video.Type == AbstractVideo.VideoType.MOVIE)
-			{
-				return UpdateInfo(video as Movie);
-			}
-			else
-			{
-				return UpdateInfo(video as Series);
-			}
-		}
-
-		private Movie UpdateInfo(Movie movie)
-		{
-			TMDbLib.Objects.Movies.Movie theMovie = _client.GetMovie(movie.Id);
-
-			if (theMovie.Id != 0)// If movie was found.
-			{
-				movie.Genres = GetGenres(theMovie);
-			}
-			return movie;
-		}
-
-		private Series UpdateInfo(Series series)
-		{
-			TMDbLib.Objects.TvShows.TvShow show = _client.GetTvShow(series.Id);
-
-			// Do I need to check?
-			//if (show.Id != 0)// If tvShow was found.
-			//{
-			//}
-			series.Genres = GetGenres(show);
-
-			return series;
-		}
-
 		#endregion
 
 		#region Public methods
@@ -91,48 +55,25 @@ namespace FSANC_V2
 		public AbstractVideo[] FindMoviesAndSeries(string name)
 		{
 			AbstractVideo[] movies = FindMovies(name);
-			AbstractVideo[] series = FindSeries(name);			
+			AbstractVideo[] series = FindSeries(name);
 			return movies.Union(series).ToArray();
 		}
 
 		/// <summary>
-		/// Finds all movies by given name.
+		/// Updates video's genres.
 		/// </summary>
-		/// <param name="name">Name of movie.</param>
-		/// <returns>List of movies.</returns>
-		public Movie[] FindMovies(string name)
+		/// <param name="video"></param>
+		/// <returns></returns>
+		public AbstractVideo UpdateGenres(AbstractVideo video)
 		{
-			SearchContainer<SearchMovie> container = _client.SearchMovie(name);
-
-			if (container.Results.Count == 0) return new Movie[0];
-
-			Movie[] list = new Movie[container.Results.Count];
-			int i = 0;
-			foreach (SearchMovie movie in container.Results)
+			if (video.Type == AbstractVideo.VideoType.MOVIE)
 			{
-				list[i++] = UpdateInfo(new Movie(movie.Id, movie.Title, Utils.ExtractYear(movie.ReleaseDate)));
+				return UpdateGenres(video as Movie);
 			}
-			return list;
-		}
-
-		/// <summary>
-		/// Finds all series by given name.
-		/// </summary>
-		/// <param name="name">Name of series.</param>
-		/// <returns>List of series.</returns>
-		public Series[] FindSeries(string name)
-		{
-			SearchContainer<SearchTv> container = _client.SearchTvShow(name);
-			
-			if (container.Results.Count == 0) return new Series[0];
-
-			Series[] list = new Series[container.Results.Count];
-			int i = 0;
-			foreach (SearchTv series in container.Results)
+			else
 			{
-				list[i++] = UpdateInfo(new Series(series.Id, series.Name, Utils.ExtractYear(series.FirstAirDate)));
+				return UpdateGenres(video as Series);
 			}
-			return list;
 		}
 
 		#endregion

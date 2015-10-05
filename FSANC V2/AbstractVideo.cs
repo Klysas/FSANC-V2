@@ -66,7 +66,7 @@ namespace FSANC_V2
 
 		public override string ToString()
 		{
-			return string.Format("{0}:\t{1}\t{2}", this.Type.ToString(), this.Name, this.Year);
+			return string.Format("{0}:\t{1}\t\t{2}", this.Type.ToString(), this.Name, this.Year);
 		}
 
 		#endregion

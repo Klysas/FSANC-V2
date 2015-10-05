@@ -55,17 +55,21 @@ namespace FSANC_V2
 
 			if (CurrentVideo == null || CurrentVideo.Id != item.Id)
 			{
-				this.CurrentVideo = item;
-				this.Displayer.Update(CurrentVideo);
-				this.FileRenamer.Update(CurrentVideo);
-				this.Torrent.Update(CurrentVideo);
+				CurrentVideo = item;
+
+				// Update video info.
+				Database.Instance.UpdateGenres(CurrentVideo);
+
+				Displayer.Update(CurrentVideo);
+				FileRenamer.Update(CurrentVideo);
+				Torrent.Update(CurrentVideo);
 			}
 		}
 
 		void MainForm_Resize(object sender, EventArgs e)
 		{
-			this.Searcher.Location = new Point(this.TabControl.Size.Width + 18, this.Searcher.Location.Y); // TODO: fix positioning when resizing.
-			this.Searcher.Size = new Size((this.Size.Width - this.TabControl.Size.Width) - this.TabControl.Margin.Horizontal - this.Searcher.Margin.Horizontal - 30, this.Searcher.Size.Height);
+			Searcher.Location = new Point(this.TabControl.Size.Width + 18, this.Searcher.Location.Y); // TODO: fix positioning when resizing.
+			Searcher.Size = new Size((this.Size.Width - this.TabControl.Size.Width) - this.TabControl.Margin.Horizontal - this.Searcher.Margin.Horizontal - 30, this.Searcher.Size.Height);
 		}
 
 		#endregion

@@ -22,7 +22,7 @@ namespace FSANC_V2
 			int i = 0;
 			foreach (Genre genre in list)
 			{
-				genres[i++] = genre.Name;// TODO: "Science Fiction" change to "Sci-Fi"
+				genres[i++] = genre.Name.Equals("Science Fiction") ? "Sci-Fi" : genre.Name;
 			}
 			return genres;
 		}

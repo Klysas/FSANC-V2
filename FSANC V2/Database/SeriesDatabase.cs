@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TMDbLib.Objects.General;
+using TMDbLib.Objects.Search;
 
 namespace FSANC_V2
 {
@@ -42,6 +44,42 @@ namespace FSANC_V2
 
 		#region Public methods
 
+		/// <summary>
+		/// Finds all series by given name.
+		/// </summary>
+		/// <param name="name">Name of series.</param>
+		/// <returns>List of series.</returns>
+		public Series[] FindSeries(string name)
+		{
+			SearchContainer<SearchTv> container = _client.SearchTvShow(name);
+
+			if (container.Results.Count == 0) return new Series[0];
+
+			Series[] list = new Series[container.Results.Count];
+			int i = 0;
+			foreach (SearchTv series in container.Results)
+			{
+				list[i++] = new Series(series.Id, series.Name, Utils.ExtractYear(series.FirstAirDate));
+			}
+			return list;
+		}
+
+		/// <summary>
+		/// Updates series's genres.
+		/// </summary>
+		/// <param name="series"></param>
+		/// <returns></returns>
+		public Series UpdateGenres(Series series)
+		{
+			series.Genres = GetGenres(_client.GetTvShow(series.Id));
+			return series;
+		}
+
+		/// <summary>
+		/// Updates seasons and episodes information.
+		/// </summary>
+		/// <param name="series"></param>
+		/// <returns></returns>
 		public Series UpdateSeasonsEpisodesInfo(Series series)
 		{
 			series.Seasons = GetSeasons(_client.GetTvShow(series.Id));
