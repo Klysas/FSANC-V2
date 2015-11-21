@@ -82,7 +82,10 @@ namespace FSANC_V2
 		/// <returns></returns>
 		public Series UpdateSeasonsEpisodesInfo(Series series)
 		{
-			series.Seasons = GetSeasons(_client.GetTvShow(series.Id));
+			if (!series.SeasonsLoaded)
+			{
+				series.Seasons = GetSeasons(_client.GetTvShow(series.Id));
+			}
 			return series;
 		}
 

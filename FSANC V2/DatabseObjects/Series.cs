@@ -10,16 +10,32 @@ namespace FSANC_V2
 	{
 		#region Private variables
 
-
+		private Season[] _seasons;
 
 		#endregion
 
 		#region Public properties
 
-		public Season[] Seasons
+		public bool SeasonsLoaded
 		{
 			get;
-			set;
+			private set;
+		}
+
+		public Season[] Seasons
+		{
+			get
+			{
+				return _seasons != null ? (Season[])_seasons.Clone() : null;
+			}
+			set
+			{
+				if (value != null && !Utils.HasNullItems(value))
+				{
+					_seasons = value;
+					SeasonsLoaded = true;
+				}
+			}
 		}
 
 		#endregion
