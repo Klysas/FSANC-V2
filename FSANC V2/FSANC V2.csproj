@@ -51,7 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractVideo.cs" />
+    <Compile Include="DatabseObjects\AbstractVideo.cs" />
     <Compile Include="Components\AbstractVideoDisplayer.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -84,7 +84,7 @@
       <DependentUpon>InfoDisplayer.cs</DependentUpon>
     </Compile>
     <Compile Include="Database\DatabaseUtils.cs" />
-    <Compile Include="Episode.cs" />
+    <Compile Include="DatabseObjects\Episode.cs" />
     <Compile Include="KeyGatherer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -97,7 +97,7 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Movie.cs" />
+    <Compile Include="DatabseObjects\Movie.cs" />
     <Compile Include="Database\MovieDatabase.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -107,8 +107,8 @@
     <Compile Include="Components\Searcher.Designer.cs">
       <DependentUpon>Searcher.cs</DependentUpon>
     </Compile>
-    <Compile Include="Season.cs" />
-    <Compile Include="Series.cs" />
+    <Compile Include="DatabseObjects\Season.cs" />
+    <Compile Include="DatabseObjects\Series.cs" />
     <Compile Include="Database\SeriesDatabase.cs" />
     <Compile Include="Settings.cs">
       <SubType>Form</SubType>
