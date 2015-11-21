@@ -14,12 +14,19 @@ namespace FSANC_V2
 
 		private Season[] GetSeasons(TMDbLib.Objects.TvShows.TvShow show)
 		{
-			// First season(array index = 0) contains special episodes.
-			var seasons = new Season[show.Seasons.Count - 1];
-			for (int i = 0; i < show.Seasons.Count - 1; i++)
+			var seasons = new Season[show.NumberOfSeasons];
+
+			//Check if first season in list is Season number 1.
+			int index = 0;
+			if (show.Seasons[0].SeasonNumber != 1)
 			{
-				var currentSeason = show.Seasons[i + 1];
-				seasons[i] = new Season(currentSeason.SeasonNumber, GetEpisodes(show.Id, currentSeason));
+				index++;
+			}
+
+			for (int i = index; i < show.Seasons.Count; i++)
+			{
+				var currentSeason = show.Seasons[i];
+				seasons[currentSeason.SeasonNumber - 1] = new Season(currentSeason.SeasonNumber, GetEpisodes(show.Id, currentSeason));
 			}
 			return seasons;
 		}
