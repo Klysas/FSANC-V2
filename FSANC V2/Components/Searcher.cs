@@ -16,9 +16,9 @@ namespace FSANC_V2
 
 		private enum SearchType
 		{
-			BOTH,
-			MOVIE,
-			SERIES
+			Both,
+			Movie,
+			Series
 		}
 
 		private enum Keys
@@ -49,7 +49,7 @@ namespace FSANC_V2
 			this.BkWorkerSearcher.DoWork += BkWorkerSearcher_DoWork;
 
 			// Setting up current state
-			this.CmbBoxType.SelectedIndex = (int)SearchType.BOTH;
+			this.CmbBoxType.SelectedIndex = (int)SearchType.Both;
 			this.CmbBoxType.Focus();
 		}
 
@@ -179,17 +179,17 @@ namespace FSANC_V2
 
 			switch (_current)
 			{
-				case SearchType.BOTH:
+				case SearchType.Both:
 					{
 						AddToSearchResultsListView(Database.Instance.FindMoviesAndSeries(name));
 					}
 					break;
-				case SearchType.MOVIE:
+				case SearchType.Movie:
 					{
 						AddToSearchResultsListView(Database.Instance.FindMovies(name));
 					}
 					break;
-				case SearchType.SERIES:
+				case SearchType.Series:
 					{
 						AddToSearchResultsListView(Database.Instance.FindSeries(name));
 					}
