@@ -80,6 +80,12 @@ namespace FSANC_V2
 
 		#region Public methods
 
+		/// <summary>
+		/// Return episode by given number.
+		/// NOTE: numbers range 1..* .
+		/// </summary>
+		/// <param name="number"></param>
+		/// <returns></returns>
 		public Episode getEpisode(int number)
 		{
 			return _episodes[number - 1];

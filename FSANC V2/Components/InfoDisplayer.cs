@@ -14,6 +14,10 @@ namespace FSANC_V2
 	public partial class InfoDisplayer : AbstractVideoDisplayer
 	{
 
+		#region Private variables
+
+		#endregion
+
 		#region Public constructors
 
 		public InfoDisplayer()
@@ -32,7 +36,9 @@ namespace FSANC_V2
 
 		protected override void Update(Series series)
 		{
+			Database.Instance.UpdateSeasonsEpisodesInfo(series);//TODO: do in async. Maybe check if needs to update???
 
+			SeasonInfo.UpdateInfo(series);
 		}
 
 		#endregion
@@ -44,7 +50,7 @@ namespace FSANC_V2
 			LblTitle.Text = video.Name;
 			LblYear.Text = video.Year == 0 ? "" : video.Year.ToString();
 			LblGenres.Text = Utils.ConcatWithSeparator(video.Genres, Properties.Resources.STR_GENRES_SEPARATOR);
-
+			
 			base.Update(video);
 		}
 
