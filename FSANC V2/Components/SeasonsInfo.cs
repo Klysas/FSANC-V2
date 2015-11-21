@@ -44,12 +44,29 @@ namespace FSANC_V2
 			InitializeComponent();
 
 			_linkLables = new List<LinkLabel>();
+
+			BgWorker_SeriesUpdater.RunWorkerCompleted += BgWorker_SeriesUpdater_RunWorkerCompleted;
+			BgWorker_SeriesUpdater.DoWork += BgWorker_SeriesUpdater_DoWork;
 		}
 
 		#endregion
 
 		#region Private methods
 
+		private void SetLoading(bool loading = true)
+		{
+			IsLoading = loading;
+			if (loading)
+			{	//Loading.
+
+			}
+			else
+			{	//Not loading.
+
+			}
+		}
+
+		// Shows required number of link lables(adds more if needed).
 		private void ShowLinkLables(int number)
 		{
 			if (number > _linkLables.Count)
@@ -57,7 +74,7 @@ namespace FSANC_V2
 				CreateLinkLabels(number - _linkLables.Count);
 			}
 
-			// Hides unwanted controls.
+			// Hides unwanted controls(shows others).
 			for (int i = 0; i < _linkLables.Count; i++)
 			{
 				if (i < number) 
@@ -72,7 +89,7 @@ namespace FSANC_V2
 		}
 
 		// Creates link lables(adds to the end of list).
-		private void CreateLinkLabels(int number)//TODO: put all to list, so later I can dispose of them. Create at start and use how many you need(create more if needed), but don't recreate.
+		private void CreateLinkLabels(int number)
 		{
 			int x = _linkLabelPosX;
 			int upperLimit = number + _linkLables.Count;
@@ -85,10 +102,12 @@ namespace FSANC_V2
 				_linkLables.Add(label);
 
 				label.AutoSize = true;
-				label.Text = (i + 1).ToString();
+				label.Text = label.Name = (i + 1).ToString();
 
 				label.Location = new System.Drawing.Point(x, 20);
 				x += label.Width;
+
+				label.Click += LnkLabel_Click;
 
 				// List box...
 				var listbox = CreateListBox();
@@ -112,29 +131,100 @@ namespace FSANC_V2
 			return listBox;
 		}
 
+		void LnkLabel_Click(object sender, EventArgs e)
+		{
+			foreach (var label in _linkLables)
+			{
+				(label.Tag as ListBox).Hide();
+			}
+			((sender as LinkLabel).Tag as ListBox).Show();
+		}
+
+		void BgWorker_SeriesUpdater_DoWork(object sender, DoWorkEventArgs e)
+		{
+			SetLoading();
+			e.Result = Database.Instance.UpdateSeasonsEpisodesInfo(e.Argument as Series);
+			if ((sender as BackgroundWorker).CancellationPending)
+			{
+				e.Cancel = true;
+			}
+		}
+
+		void BgWorker_SeriesUpdater_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			try
+			{
+				var series = (e.Result as Series);
+
+				ShowLinkLables(series.Seasons.Length);
+				// Store information.
+				ClearInfo();
+				foreach (var season in series.Seasons)
+				{
+					foreach (Episode episode in season.Episodes)
+					{
+						((ListBox)_linkLables[episode.SeasonNumber - 1].Tag).Items.Add(string.Format("{0} \t{1}", episode.EpisodeNumber, episode.Name));
+					}
+				}
+
+				SetLoading(false);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("Thread stopped.");
+				SetLoading(false);
+				(sender as BackgroundWorker).Dispose();
+			}
+			finally
+			{
+			
+			}
+		}
+
 		#endregion
 
 		#region Public methods
 
+		/// <summary>
+		/// Updates control using given series information(seasons & episodes). If required, updates series info from database.
+		/// </summary>
+		/// <param name="series"></param>
 		public void UpdateInfo(Series series)
 		{
-			//TODO: Validate seasons and episodes info.
-
-			//TODO: update seasons and episodes information.
-
-			ShowLinkLables(series.Seasons.Length);
-
-
-			foreach (Episode episode in series.Seasons[0].Episodes)
+			if (series == null)
 			{
-				((ListBox)_linkLables[0].Tag).Items.Add(string.Format("{0} \t{1}", episode.EpisodeNumber, episode.Name));
+				new ArgumentNullException("Series is null.");
 			}
-			//listBox1.Items.Add(string.Format("{0} \t{1}", series.Seasons[0].getEpisode(1).EpisodeNumber, series.Seasons[0].getEpisode(1).Name));
+
+			//TODO: async cancellation.
+			if (!BgWorker_SeriesUpdater.IsBusy)
+			{
+				BgWorker_SeriesUpdater.RunWorkerAsync(series);
+			}
+			else
+			{
+				Console.WriteLine("BGWorker is busy.");
+				//BgWorker_SeriesUpdater.CancelAsync();
+				//BgWorker_SeriesUpdater = new BackgroundWorker();
+				//BgWorker_SeriesUpdater.WorkerSupportsCancellation = true;
+				//BgWorker_SeriesUpdater.RunWorkerAsync(series);
+			}
 		}
 
+		/// <summary>
+		/// Clears all stored information in control.
+		/// </summary>
 		public void ClearInfo()
 		{
-			//TODO: clear list.
+			foreach (var label in _linkLables)
+			{
+				var listBox = (label.Tag as ListBox);
+				if (listBox != null)
+				{
+					listBox.Items.Clear();
+					listBox.Items.Add(string.Format("{0} \t{1}", "Number", "Title"));
+				}
+			}
 		}
 
 		#endregion

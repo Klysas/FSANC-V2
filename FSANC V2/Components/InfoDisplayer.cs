@@ -36,8 +36,6 @@ namespace FSANC_V2
 
 		protected override void Update(Series series)
 		{
-			Database.Instance.UpdateSeasonsEpisodesInfo(series);//TODO: do in async. Maybe check if needs to update???
-
 			SeasonInfo.UpdateInfo(series);
 		}
 

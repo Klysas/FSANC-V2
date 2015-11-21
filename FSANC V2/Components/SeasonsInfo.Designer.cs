@@ -29,6 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.GrpSeasons = new System.Windows.Forms.GroupBox();
+			this.BgWorker_SeriesUpdater = new System.ComponentModel.BackgroundWorker();
 			this.SuspendLayout();
 			// 
 			// GrpSeasons
@@ -39,6 +40,10 @@
 			this.GrpSeasons.TabIndex = 0;
 			this.GrpSeasons.TabStop = false;
 			this.GrpSeasons.Text = "Seasons";
+			// 
+			// BgWorker_SeriesUpdater
+			// 
+			this.BgWorker_SeriesUpdater.WorkerSupportsCancellation = true;
 			// 
 			// SeasonsInfo
 			// 
@@ -54,5 +59,6 @@
 		#endregion
 
 		private System.Windows.Forms.GroupBox GrpSeasons;
+		private System.ComponentModel.BackgroundWorker BgWorker_SeriesUpdater;
 	}
 }
