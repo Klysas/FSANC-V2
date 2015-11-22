@@ -103,6 +103,7 @@ namespace FSANC_V2
 
 				label.AutoSize = true;
 				label.Text = label.Name = (i + 1).ToString();
+				label.Font = new Font("Microsoft Sans Serif", 13);
 
 				label.Location = new System.Drawing.Point(x, 20);
 				x += label.Width;
