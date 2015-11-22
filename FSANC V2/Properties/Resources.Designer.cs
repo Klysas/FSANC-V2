@@ -91,7 +91,7 @@ namespace FSANC_V2.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &amp;&amp;.
+        ///   Looks up a localized string similar to  &amp;&amp; .
         /// </summary>
         internal static string STR_GENRES_SEPARATOR {
             get {
