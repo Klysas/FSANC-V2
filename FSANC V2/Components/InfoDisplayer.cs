@@ -31,11 +31,12 @@ namespace FSANC_V2
 
 		protected override void Update(Movie movie)
 		{
-
+			SeasonInfo.Hide();
 		}
 
 		protected override void Update(Series series)
 		{
+			SeasonInfo.Show();
 			SeasonInfo.UpdateInfo(series);
 		}
 
