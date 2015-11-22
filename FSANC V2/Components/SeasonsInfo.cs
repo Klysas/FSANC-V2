@@ -122,10 +122,11 @@ namespace FSANC_V2
 		private ListBox CreateListBox()
 		{
 			var listBox = new ListBox();
+			listBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+			| System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
 			listBox.FormattingEnabled = true;
 			listBox.Location = new System.Drawing.Point(7, 47);
 			listBox.Size = new System.Drawing.Size(409, 147);
-
 			listBox.Items.Add(string.Format("{0} \t{1}", "Number", "Title"));
 
 			return listBox;

@@ -66,6 +66,8 @@
 			// 
 			// GrpMainInformation
 			// 
+			this.GrpMainInformation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.GrpMainInformation.Controls.Add(this.LblTitle);
 			this.GrpMainInformation.Controls.Add(this.LblGenres);
 			this.GrpMainInformation.Controls.Add(this.LblYear);
@@ -77,10 +79,13 @@
 			// 
 			// SeasonInfo
 			// 
+			this.SeasonInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.SeasonInfo.AutoSize = true;
 			this.SeasonInfo.Location = new System.Drawing.Point(2, 78);
 			this.SeasonInfo.Name = "SeasonInfo";
-			this.SeasonInfo.Size = new System.Drawing.Size(528, 371);
+			this.SeasonInfo.Size = new System.Drawing.Size(528, 232);
 			this.SeasonInfo.TabIndex = 1;
 			// 
 			// InfoDisplayer
@@ -90,7 +95,7 @@
 			this.Controls.Add(this.GrpMainInformation);
 			this.Controls.Add(this.SeasonInfo);
 			this.Name = "InfoDisplayer";
-			this.Size = new System.Drawing.Size(533, 452);
+			this.Size = new System.Drawing.Size(533, 312);
 			this.GrpMainInformation.ResumeLayout(false);
 			this.GrpMainInformation.PerformLayout();
 			this.ResumeLayout(false);

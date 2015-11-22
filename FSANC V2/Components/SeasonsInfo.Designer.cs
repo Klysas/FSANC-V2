@@ -34,9 +34,10 @@
 			// 
 			// GrpSeasons
 			// 
-			this.GrpSeasons.Location = new System.Drawing.Point(3, 3);
+			this.GrpSeasons.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.GrpSeasons.Location = new System.Drawing.Point(0, 0);
 			this.GrpSeasons.Name = "GrpSeasons";
-			this.GrpSeasons.Size = new System.Drawing.Size(424, 268);
+			this.GrpSeasons.Size = new System.Drawing.Size(365, 235);
 			this.GrpSeasons.TabIndex = 0;
 			this.GrpSeasons.TabStop = false;
 			this.GrpSeasons.Text = "Seasons";
@@ -51,7 +52,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.GrpSeasons);
 			this.Name = "SeasonsInfo";
-			this.Size = new System.Drawing.Size(430, 274);
+			this.Size = new System.Drawing.Size(365, 235);
 			this.ResumeLayout(false);
 
 		}
