@@ -85,6 +85,7 @@
     </Compile>
     <Compile Include="Database\DatabaseUtils.cs" />
     <Compile Include="DatabseObjects\Episode.cs" />
+    <Compile Include="File.cs" />
     <Compile Include="KeyGatherer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -117,6 +118,9 @@
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
     <Compile Include="Utils.cs" />
+    <EmbeddedResource Include="Components\FileRenameDisplayer.resx">
+      <DependentUpon>FileRenameDisplayer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Components\InfoDisplayer.resx">
       <DependentUpon>InfoDisplayer.cs</DependentUpon>
     </EmbeddedResource>

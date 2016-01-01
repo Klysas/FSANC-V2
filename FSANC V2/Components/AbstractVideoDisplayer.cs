@@ -12,27 +12,32 @@ namespace FSANC_V2.Components
 {
 	public abstract partial class AbstractVideoDisplayer : UserControl
 	{
-		#region Public constructors
-
-		public AbstractVideoDisplayer()
+		//=============================================================
+		//	Protected constructors
+		//=============================================================
+		
+		protected AbstractVideoDisplayer()
 		{
 			InitializeComponent();
 		}
 
-		#endregion
+		//=============================================================
+		//	Protected properties
+		//=============================================================
 
-		#region Protected methods
+		protected AbstractVideo Video
+		{
+			get;
+			private set;
+		}
 
-		protected abstract void Update(Movie movie);
-
-		protected abstract void Update(Series series);
-
-		#endregion
-
-		#region Public methods
+		//=============================================================
+		//	Public methods
+		//=============================================================
 
 		public void Update(AbstractVideo video)
 		{
+			Video = video;
 			switch (video.Type)
 			{
 				case AbstractVideo.VideoType.MOVIE: Update(video as Movie);
@@ -43,6 +48,12 @@ namespace FSANC_V2.Components
 			this.Update();
 		}
 
-		#endregion
+		//=============================================================
+		//	Protected methods
+		//=============================================================
+
+		protected abstract void Update(Movie movie);
+
+		protected abstract void Update(Series series);
 	}
 }

@@ -130,4 +130,22 @@
   <data name="STR_GENRES_SEPARATOR" xml:space="preserve">
     <value> &amp;&amp; </value>
   </data>
+  <data name="DEFAULT_MOVIE_NAME_FORMAT" xml:space="preserve">
+    <value>$name [$year][$genres]</value>
+  </data>
+  <data name="DEFAULT_SERIES_NAME_FORMAT" xml:space="preserve">
+    <value>$name [$year][$genres]</value>
+  </data>
+  <data name="STR_CODE_GENRES" xml:space="preserve">
+    <value>$genres</value>
+    <comment>Movie/series genres.</comment>
+  </data>
+  <data name="STR_CODE_NAME" xml:space="preserve">
+    <value>$name</value>
+    <comment>Name of movie/series.</comment>
+  </data>
+  <data name="STR_CODE_YEAR" xml:space="preserve">
+    <value>$year</value>
+    <comment>Year movie/series released.</comment>
+  </data>
 </root>

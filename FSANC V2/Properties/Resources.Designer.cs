@@ -61,6 +61,24 @@ namespace FSANC_V2.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to $name [$year][$genres].
+        /// </summary>
+        internal static string DEFAULT_MOVIE_NAME_FORMAT {
+            get {
+                return ResourceManager.GetString("DEFAULT_MOVIE_NAME_FORMAT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to $name [$year][$genres].
+        /// </summary>
+        internal static string DEFAULT_SERIES_NAME_FORMAT {
+            get {
+                return ResourceManager.GetString("DEFAULT_SERIES_NAME_FORMAT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon plus {
@@ -87,6 +105,33 @@ namespace FSANC_V2.Properties {
             get {
                 object obj = ResourceManager.GetObject("search", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to $genres.
+        /// </summary>
+        internal static string STR_CODE_GENRES {
+            get {
+                return ResourceManager.GetString("STR_CODE_GENRES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to $name.
+        /// </summary>
+        internal static string STR_CODE_NAME {
+            get {
+                return ResourceManager.GetString("STR_CODE_NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to $year.
+        /// </summary>
+        internal static string STR_CODE_YEAR {
+            get {
+                return ResourceManager.GetString("STR_CODE_YEAR", resourceCulture);
             }
         }
         
