@@ -62,8 +62,8 @@ namespace FSANC_V2.Components
 		{
 			Lbl_Name.Text = video.Name;
 
-
 			base.Update(video);
+			UpdateRenamedNamesInListView();
 		}
 
 		//-------------------------------------------------------------
@@ -93,6 +93,19 @@ namespace FSANC_V2.Components
 			return false;
 		}
 
+		private void UpdateRenamedNamesInListView()
+		{
+			if (Video != null && _files.Count > 0)
+			{
+				string name = ConstructName(Video);
+
+				foreach (ListViewItem item in ListView_Files.Items)
+				{
+					item.SubItems[1].Text = name;
+				}
+			}
+		}
+
 		private void UpdateUI()
 		{
 			ListView_Files.Items.Clear();
@@ -100,8 +113,35 @@ namespace FSANC_V2.Components
 			{
 				ListView_Files.Items.Add(new ListViewItem(new []{file.OriginalName, string.Empty})).Tag = file;
 			}
+			UpdateRenamedNamesInListView();
 
 			ListView_Files.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+		}
+
+		private string ConstructName(AbstractVideo video)
+		{
+			string name = string.Empty;
+			switch (video.Type)
+			{
+				case AbstractVideo.VideoType.MOVIE:
+					{
+						name = Properties.Settings.Default.MOVIE_NAME_FORMAT;
+						var movie = video as Movie;
+
+					}
+					break;
+				case AbstractVideo.VideoType.SERIES:
+					{
+						name = Properties.Settings.Default.SERIES_NAME_FORMAT;
+						var series = video as Series;
+
+					}
+					break;
+			}
+			name = name.Replace(Properties.Resources.STR_CODE_NAME, video.Name);
+			name = name.Replace(Properties.Resources.STR_CODE_YEAR, video.Year.ToString());
+			name = name.Replace(Properties.Resources.STR_CODE_GENRES, Utils.ConcatWithSeparator(video.Genres, "&"));
+			return name;
 		}
 	}
 }
