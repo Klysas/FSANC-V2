@@ -1,214 +1,166 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SeriesMovieInfoDatabase;
+using SeriesMovieInfoDatabase.Objects;
 
-namespace FSANC_V2
+namespace FSANC_V2.Components
 {
 	public partial class Searcher : UserControl
 	{
-		#region Enum
+		//=============================================================
+		//	Private variables
+		//=============================================================
 
-		private enum SearchType
-		{
-			Both,
-			Movie,
-			Series
-		}
+		private SearchType _current;
 
-		private enum Keys
-		{
-			ENTER = 13
-		}
+		/// <summary>
+		/// Movies and series database.
+		/// </summary>
+		private readonly Database _database;
 
-		#endregion
-
-		#region Public constructors
+		//=============================================================
+		//	Public constructors
+		//=============================================================
 
 		public Searcher()
 		{
 			InitializeComponent();
 
-			this.CmbBoxType.DataSource = Enum.GetValues(typeof(SearchType));
+			_database = new Database(Properties.Settings.Default.API_KEY);
+			_database.VideoFound += Database_VideoFound;
 
-			// TODO(Klysas): Move to designer file.
-			this.LstViewSearchResults.Columns.Add("Type", -2, HorizontalAlignment.Left);
-			this.LstViewSearchResults.Columns.Add("Title", -2, HorizontalAlignment.Left);
-			this.LstViewSearchResults.Columns.Add("Year", -2, HorizontalAlignment.Left);
+			ComboBox_Type.DataSource = Enum.GetValues(typeof(SearchType));
 
-			// Event handlers
-			this.LstViewSearchResults.ColumnClick += LstViewSearchResults_ColumnClick;
-			this.CmbBoxType.SelectedIndexChanged += CmbBoxType_SelectedIndexChanged;
-			this.TxtBoxSearch.KeyPress += TxtBoxSearch_KeyPress;
-			this.BkWorkerSearcher.RunWorkerCompleted += BkWorkerSearcher_RunWorkerCompleted;
-			this.BkWorkerSearcher.DoWork += BkWorkerSearcher_DoWork;
-
+			// CHECK: maybe change something?
 			// Setting up current state
-			this.CmbBoxType.SelectedIndex = (int)SearchType.Both;
-			this.CmbBoxType.Focus();
+			ComboBox_Type.SelectedIndex = (int)SearchType.Both;
+			ComboBox_Type.Focus();
+			EnableControls(true);
 		}
 
-		#endregion
+		//=============================================================
+		//	Public events
+		//=============================================================
 
-		#region Public methods
-
-		/// <summary>
-		/// Event when item is selected in list view.
-		/// </summary>
-		/// <param name="handler"></param>
-		public void AddEvenHandlerItemSelectionChanged(ListViewItemSelectionChangedEventHandler handler)
+		public event ListViewItemSelectionChangedEventHandler SearchResultSelectionChanged
 		{
-			this.LstViewSearchResults.ItemSelectionChanged += handler;
+			add { ListView_SearchResults.ItemSelectionChanged += value; }
+			remove { ListView_SearchResults.ItemSelectionChanged -= value; }
 		}
 
-		#endregion
+		//-------------------------------------------------------------
+		//	Private events
+		//-------------------------------------------------------------
 
-		#region Private variables
-
-		private SearchType _current;
-
-		#endregion
-
-		#region Private methods
-
-		private void RunSearch()
+		private void ButtonSearch_Click(object sender, EventArgs e)
 		{
-			string name = TxtBoxSearch.Text.Trim();
-			if (name == string.Empty)
+			RunSearch();
+		}
+
+		private void ButtonStopSearch_Click(object sender, EventArgs e)
+		{
+			_database.Stop();
+		}
+
+		private void ComboBoxType_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			_current = (SearchType)ComboBox_Type.SelectedItem;
+		}
+
+		private void Database_VideoFound(object sender, Database.VideoFoundEventArgs e)
+		{
+			if (ListView_SearchResults.InvokeRequired)
 			{
-				TxtBoxToolTip.Show("", this.TxtBoxSearch, 10, 10, 5000);
-				TxtBoxToolTip.Show("Field is empty.", this.TxtBoxSearch, 10, 10, 5000);
-				return;
-			}
-
-			LstViewSearchResults.Items.Clear();
-			LstViewResizeColumns();
-			EnableControls(false);
-			BkWorkerSearcher.RunWorkerAsync();
-		}
-
-		private void AddToSearchResultsListView(AbstractVideo[] list)
-		{
-			if (this.LstViewSearchResults.InvokeRequired)
-			{
-				this.Invoke(new MethodInvoker(delegate()
+				Invoke(new MethodInvoker(delegate
 				{
-					foreach (AbstractVideo video in list)
-					{
-						LstViewSearchResults.Items.Add(new ListViewItem(new[] { video.Type.ToString(), video.Name, video.Year.ToString() })).Tag = video;
-					}
+					AddAbstractVideoToResultsListView(e.Video);
 				}));
 			}
 			else
 			{
-				foreach (AbstractVideo video in list)
-				{
-					LstViewSearchResults.Items.Add(new ListViewItem(new[] { video.Type.ToString(), video.Name, video.Year.ToString() })).Tag = video;
-				}
+				AddAbstractVideoToResultsListView(e.Video);
 			}
 		}
 
-		private void SetStatus(string status)
+		private void TextBoxSearchField_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			if (this.Parent is MainForm)
-			{
-				((MainForm)this.Parent).SetStatus(status);
-			}
-		}
+			TextBox_ToolTip.Hide(TextBox_SearchField);
 
-		/// <summary>
-		/// NOTE: Thread NOT safe.
-		/// </summary>
-		/// <param name="enable"></param>
-		private void EnableControls(bool enable)
-		{
-			this.CmbBoxType.Enabled = enable;
-			this.TxtBoxSearch.Enabled = enable;
-			this.LstViewSearchResults.Enabled = enable;
-			this.BtnSearch.Enabled = enable;
-		}
-
-		/// <summary>
-		/// NOTE: Thread NOT safe.
-		/// </summary>
-		private void LstViewResizeColumns(){
-			if (this.LstViewSearchResults.Items.Count == 0)
-			{
-				this.LstViewSearchResults.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
-			}
-			else
-			{
-				this.LstViewSearchResults.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-			}
-		}
-
-		#endregion
-
-		#region Private event handlers
-
-		void LstViewSearchResults_ColumnClick(object sender, ColumnClickEventArgs e)
-		{
-			this.LstViewSearchResults.Sort(); // TODO: Sorting by selected column.
-		}
-
-		private void TxtBoxSearch_KeyPress(object sender, KeyPressEventArgs e)
-		{
-			this.TxtBoxToolTip.Hide(this.TxtBoxSearch);
-
-			if ((int)e.KeyChar == (int)Keys.ENTER)
+			if (e.KeyChar == (int)Keys.Enter)
 			{
 				RunSearch();
 			}
 		}
 
-		private void CmbBoxType_SelectedIndexChanged(object sender, EventArgs e)
+		//=============================================================
+		//	Private enums
+		//=============================================================
+
+		private enum SearchType
 		{
-			_current = (SearchType)this.CmbBoxType.SelectedValue;
+			Both,
+			Movies,
+			Series
 		}
 
-		void BkWorkerSearcher_DoWork(object sender, DoWorkEventArgs e)
+		private enum Keys
 		{
-			SetStatus("Searching...");
+			Enter = 13
+		}
 
-			string name = TxtBoxSearch.Text.Trim();
+		//=============================================================
+		//	Private methods
+		//=============================================================
 
+		private void AddAbstractVideoToResultsListView(AbstractVideo video)
+		{
+			var item = new ListViewItem(new[] { video.Type.ToString(), video.Title, video.Year.ToString() }) { Tag = video };
+			ListView_SearchResults.Items.Add(item);
+			ListView_SearchResults.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+		}
+
+		private void EnableControls(bool enable)
+		{
+			ComboBox_Type.Enabled = enable;
+			TextBox_SearchField.Enabled = enable;
+			Button_Search.Enabled = enable;
+
+			Button_StopSearch.Enabled = !enable;
+		}
+
+		private async void RunSearch()
+		{
+			var title = TextBox_SearchField.Text.Trim();
+			if (string.IsNullOrEmpty(title))
+			{
+				TextBox_ToolTip.Show("", TextBox_SearchField, 10, 10, 5000);
+				TextBox_ToolTip.Show("Field is empty.", TextBox_SearchField, 10, 10, 5000);
+				return;
+			}
+
+			ListView_SearchResults.Items.Clear();
+
+			EnableControls(false);
 			switch (_current)
 			{
 				case SearchType.Both:
 					{
-						AddToSearchResultsListView(Database.Instance.FindMoviesAndSeries(name));
+						await Task.Run(() => _database.FindSeriesAndMovies(title));
+						break;
 					}
-					break;
-				case SearchType.Movie:
+				case SearchType.Movies:
 					{
-						AddToSearchResultsListView(Database.Instance.FindMovies(name));
+						await Task.Run(() => _database.FindMovies(title));
+						break;
 					}
-					break;
 				case SearchType.Series:
 					{
-						AddToSearchResultsListView(Database.Instance.FindSeries(name));
+						await Task.Run(() => _database.FindSeries(title));
+						break;
 					}
-					break;
 			}
-		}
-
-		private void BkWorkerSearcher_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-		{
-			LstViewResizeColumns();
 			EnableControls(true);
-			SetStatus("Search complete.");
 		}
-
-		private void BtnSearch_Click(object sender, EventArgs e)
-		{
-			RunSearch();
-		}
-
-		#endregion
 	}
 }

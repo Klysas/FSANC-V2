@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using SeriesMovieInfoDatabase.Objects;
 
 namespace FSANC_V2.Components
 {
@@ -16,7 +12,7 @@ namespace FSANC_V2.Components
 		//	Private variables
 		//=============================================================
 
-		private List<File> _files;
+		private readonly List<File> _files;
 
 		//=============================================================
 		//	Public constructors
@@ -35,19 +31,19 @@ namespace FSANC_V2.Components
 		//	Private events
 		//=============================================================
 
-		private void Btn_SelectFiles_Click(object sender, EventArgs e)
+		private void ButtonRenameFiles_Click(object sender, EventArgs e)
 		{
-			OpenFileDialog.ShowDialog();
-			foreach (var path in OpenFileDialog.FileNames)
-			{
-				if(!IsFileLoaded(path)) _files.Add(new File(path));
-			}
-			UpdateUI();
+			throw new NotImplementedException();
 		}
 
-		private void Btn_RenameFiles_Click(object sender, EventArgs e)
+		private void ButtonSelectFiles_Click(object sender, EventArgs e)
 		{
-			// TODO: implement.
+			OpenFileDialog.ShowDialog();
+			foreach (var path in OpenFileDialog.FileNames.Where(path => !IsFileLoaded(path)))
+			{
+				_files.Add(new File(path));
+			}
+			UpdateUI(); 
 		}
 
 		//=============================================================
@@ -58,9 +54,9 @@ namespace FSANC_V2.Components
 		/// Updates control with given video.
 		/// </summary>
 		/// <param name="video"></param>
-		public new void Update(AbstractVideo video)
+		public override void Update(AbstractVideo video)
 		{
-			Lbl_Name.Text = video.Name;
+			Label_Title.Text = video.Title;
 
 			base.Update(video);
 			UpdateRenamedNamesInListView();
@@ -72,37 +68,58 @@ namespace FSANC_V2.Components
 
 		protected override void Update(Movie movie)
 		{
-			Lbl_Name.Text += " [Movie]";
+			Label_Title.Text += @" [Movie]";
 		}
 
 		protected override void Update(Series series)
 		{
-			Lbl_Name.Text += " [Series]";
+			Label_Title.Text += @" [Series]";
 		}
 
 		//-------------------------------------------------------------
 		//	Private methods
 		//-------------------------------------------------------------
 
+		private string ConstructName(AbstractVideo video)
+		{
+			var name = string.Empty;
+			switch (video.Type)
+			{
+				case VideoType.Movie:
+					{
+						name = Properties.Settings.Default.MOVIE_NAME_FORMAT;
+						var movie = video as Movie;
+
+					}
+					break;
+				case VideoType.Series:
+					{
+						name = Properties.Settings.Default.SERIES_NAME_FORMAT;
+						var series = video as Series;
+
+					}
+					break;
+			}
+			name = name.Replace(Properties.Resources.STR_CODE_NAME, video.Title);
+			name = name.Replace(Properties.Resources.STR_CODE_YEAR, video.Year.ToString());
+			name = name.Replace(Properties.Resources.STR_CODE_GENRES, Utils.ConcatWithSeparator(video.Genres, "&"));
+			return name;
+		}
+
 		private bool IsFileLoaded(string path)
 		{
-			foreach (var file in _files)
-			{
-				if (file.ToString().Equals(path)) return true;
-			}
-			return false;
+			return _files.Any(file => file.ToString().Equals(path));
 		}
 
 		private void UpdateRenamedNamesInListView()
 		{
-			if (Video != null && _files.Count > 0)
-			{
-				string name = ConstructName(Video);
+			if (Video == null || _files.Count <= 0) return;
 
-				foreach (ListViewItem item in ListView_Files.Items)
-				{
-					item.SubItems[1].Text = name;
-				}
+			var name = ConstructName(Video);
+
+			foreach (ListViewItem item in ListView_Files.Items)
+			{
+				item.SubItems[1].Text = name;
 			}
 		}
 
@@ -111,37 +128,11 @@ namespace FSANC_V2.Components
 			ListView_Files.Items.Clear();
 			foreach (var file in _files)
 			{
-				ListView_Files.Items.Add(new ListViewItem(new []{file.OriginalName, string.Empty})).Tag = file;
+				ListView_Files.Items.Add(new ListViewItem(new[] { file.OriginalName, string.Empty })).Tag = file;
 			}
+
 			UpdateRenamedNamesInListView();
-
 			ListView_Files.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
-		}
-
-		private string ConstructName(AbstractVideo video)
-		{
-			string name = string.Empty;
-			switch (video.Type)
-			{
-				case AbstractVideo.VideoType.MOVIE:
-					{
-						name = Properties.Settings.Default.MOVIE_NAME_FORMAT;
-						var movie = video as Movie;
-
-					}
-					break;
-				case AbstractVideo.VideoType.SERIES:
-					{
-						name = Properties.Settings.Default.SERIES_NAME_FORMAT;
-						var series = video as Series;
-
-					}
-					break;
-			}
-			name = name.Replace(Properties.Resources.STR_CODE_NAME, video.Name);
-			name = name.Replace(Properties.Resources.STR_CODE_YEAR, video.Year.ToString());
-			name = name.Replace(Properties.Resources.STR_CODE_GENRES, Utils.ConcatWithSeparator(video.Genres, "&"));
-			return name;
 		}
 	}
 }

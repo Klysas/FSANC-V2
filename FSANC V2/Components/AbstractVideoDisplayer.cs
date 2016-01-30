@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
+using SeriesMovieInfoDatabase.Objects;
 
 namespace FSANC_V2.Components
 {
@@ -15,7 +8,7 @@ namespace FSANC_V2.Components
 		//=============================================================
 		//	Protected constructors
 		//=============================================================
-		
+
 		protected AbstractVideoDisplayer()
 		{
 			InitializeComponent();
@@ -35,22 +28,22 @@ namespace FSANC_V2.Components
 		//	Public methods
 		//=============================================================
 
-		public void Update(AbstractVideo video)
+		public virtual void Update(AbstractVideo video)
 		{
 			Video = video;
 			switch (video.Type)
 			{
-				case AbstractVideo.VideoType.MOVIE: Update(video as Movie);
+				case VideoType.Movie: Update(video as Movie);
 					break;
-				case AbstractVideo.VideoType.SERIES: Update(video as Series);
+				case VideoType.Series: Update(video as Series);
 					break;
 			}
-			this.Update();
+			Update();
 		}
 
-		//=============================================================
+		//-------------------------------------------------------------
 		//	Protected methods
-		//=============================================================
+		//-------------------------------------------------------------
 
 		protected abstract void Update(Movie movie);
 

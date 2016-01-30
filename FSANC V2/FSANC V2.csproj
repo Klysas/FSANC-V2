@@ -32,9 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="RestSharp">
-      <HintPath>..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.DirectoryServices" />
@@ -46,12 +43,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="TMDbLib">
-      <HintPath>..\packages\TMDbLib.0.8.3\lib\net45\TMDbLib.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DatabseObjects\AbstractVideo.cs" />
     <Compile Include="Components\AbstractVideoDisplayer.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -76,15 +69,12 @@
     <Compile Include="Components\TorrentDisplayer.Designer.cs">
       <DependentUpon>TorrentDisplayer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Database\Database.cs" />
     <Compile Include="Components\InfoDisplayer.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Components\InfoDisplayer.Designer.cs">
       <DependentUpon>InfoDisplayer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Database\DatabaseUtils.cs" />
-    <Compile Include="DatabseObjects\Episode.cs" />
     <Compile Include="File.cs" />
     <Compile Include="KeyGatherer.cs">
       <SubType>Form</SubType>
@@ -98,8 +88,6 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="DatabseObjects\Movie.cs" />
-    <Compile Include="Database\MovieDatabase.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Components\Searcher.cs">
@@ -108,15 +96,13 @@
     <Compile Include="Components\Searcher.Designer.cs">
       <DependentUpon>Searcher.cs</DependentUpon>
     </Compile>
-    <Compile Include="DatabseObjects\Season.cs" />
-    <Compile Include="DatabseObjects\Series.cs" />
-    <Compile Include="Database\SeriesDatabase.cs" />
     <Compile Include="Settings.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
+    <Compile Include="StringValueAttribute.cs" />
     <Compile Include="Utils.cs" />
     <EmbeddedResource Include="Components\FileRenameDisplayer.resx">
       <DependentUpon>FileRenameDisplayer.cs</DependentUpon>
@@ -174,6 +160,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\plus.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SeriesMovieInfoDatabase\SeriesMovieInfoDatabase.csproj">
+      <Project>{46bce558-d371-4074-bebd-d3533a715bbe}</Project>
+      <Name>SeriesMovieInfoDatabase</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

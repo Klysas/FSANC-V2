@@ -1,66 +1,45 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TMDbLib.Client;
 
 namespace FSANC_V2
 {
-	class Utils
+	public sealed class Utils
 	{
-		/// <summary>
-		/// Checks if TMDB API key is valid.
-		/// </summary>
-		/// <param name="key">TMDB API key.</param>
-		/// <returns>True if API key is valid, false - otherwise.</returns>
-		public static bool IsKeyValid(string key)
-		{
-			TMDbClient client = new TMDbClient(key);
-			try
-			{
-				client.AuthenticationRequestAutenticationToken();
-			}
-			catch (UnauthorizedAccessException)
-			{
-				return false;
-			}
-			return true;
-		}
+		//=============================================================
+		//	Public static methods
+		//=============================================================
 
 		/// <summary>
 		/// Gets year value from date.
 		/// </summary>
 		/// <param name="date"></param>
-		/// <returns>If date is null retruns 0, otherwise - year.</returns>
+		/// <returns>If date is null returns 0, otherwise - year.</returns>
 		public static int ExtractYear(DateTime? date)
 		{
 			return date == null ? 0 : date.Value.Year;
 		}
 
 		/// <summary>
-		/// Concatinates given string array and inserts given separator between each element.
+		/// Concatenates given string array and inserts given separator between each element.
 		/// </summary>
 		/// <param name="array"></param>
 		/// <param name="separator"></param>
-		/// <returns>Concatinated string array.</returns>
+		/// <returns>Concatenated string array.</returns>
 		public static string ConcatWithSeparator(string[] array, string separator)
 		{
 			if (array == null)
 			{
 				return string.Empty;
 			}
-			
-			string str = string.Empty;
-			if (array.Length > 0)
-			{
-				str += array[0];
 
-				for (int i = 1; i < array.Length; i++)
-				{
-					str += separator;
-					str += array[i];
-				}
+			var str = string.Empty;
+			if (array.Length <= 0) return str;
+
+			str += array[0];
+			for (var i = 1; i < array.Length; i++)
+			{
+				str += separator;
+				str += array[i];
 			}
 			return str;
 		}
@@ -68,15 +47,11 @@ namespace FSANC_V2
 		/// <summary>
 		/// Checks if array has null items.
 		/// </summary>
-		/// <param name="array"></param>
-		/// <returns>True if array contains null, otherwise false.</returns>
-		public static bool HasNullItems(Object[] array)
+		/// <param name="array">Can be NULL.</param>
+		/// <returns>True if array contains null, otherwise false(if array = null, false too).</returns>
+		public static bool HasNullItems(object[] array)
 		{
-			foreach (Object item in array)
-			{
-				if (item == null) return true;
-			}
-			return false;
+			return array != null && array.Any(item => item == null);
 		}
 	}
 }

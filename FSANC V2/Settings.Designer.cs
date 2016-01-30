@@ -108,9 +108,9 @@
 			this.Btn_Save.Name = "Btn_Save";
 			this.Btn_Save.Size = new System.Drawing.Size(75, 23);
 			this.Btn_Save.TabIndex = 1;
-			this.Btn_Save.Text = "Save";
+			this.Btn_Save.Text = "SaveSettings";
 			this.Btn_Save.UseVisualStyleBackColor = true;
-			this.Btn_Save.Click += new System.EventHandler(this.Btn_Save_Click);
+			this.Btn_Save.Click += new System.EventHandler(this.ButtonSave_Click);
 			// 
 			// Btn_Cancel
 			// 
@@ -120,7 +120,7 @@
 			this.Btn_Cancel.TabIndex = 2;
 			this.Btn_Cancel.Text = "Cancel";
 			this.Btn_Cancel.UseVisualStyleBackColor = true;
-			this.Btn_Cancel.Click += new System.EventHandler(this.Btn_Cancel_Click);
+			this.Btn_Cancel.Click += new System.EventHandler(this.ButtonCancel_Click);
 			// 
 			// Settings
 			// 

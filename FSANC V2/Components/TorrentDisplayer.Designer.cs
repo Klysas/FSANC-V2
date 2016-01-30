@@ -28,23 +28,23 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.LblTitle = new System.Windows.Forms.Label();
+			this.Label_Title = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
-			// LblTitle
+			// Label_Title
 			// 
-			this.LblTitle.AutoSize = true;
-			this.LblTitle.Location = new System.Drawing.Point(14, 15);
-			this.LblTitle.Name = "LblTitle";
-			this.LblTitle.Size = new System.Drawing.Size(27, 13);
-			this.LblTitle.TabIndex = 0;
-			this.LblTitle.Text = "Title";
+			this.Label_Title.AutoSize = true;
+			this.Label_Title.Location = new System.Drawing.Point(14, 15);
+			this.Label_Title.Name = "Label_Title";
+			this.Label_Title.Size = new System.Drawing.Size(27, 13);
+			this.Label_Title.TabIndex = 0;
+			this.Label_Title.Text = "Title";
 			// 
 			// TorrentDisplayer
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.LblTitle);
+			this.Controls.Add(this.Label_Title);
 			this.Name = "TorrentDisplayer";
 			this.Size = new System.Drawing.Size(370, 346);
 			this.ResumeLayout(false);
@@ -54,6 +54,6 @@
 
 		#endregion
 
-		private System.Windows.Forms.Label LblTitle;
+		private System.Windows.Forms.Label Label_Title;
 	}
 }

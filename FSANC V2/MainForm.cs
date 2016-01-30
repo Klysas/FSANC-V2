@@ -1,93 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿using SeriesMovieInfoDatabase.Objects;
+using System;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using FSANC_V2.Components;
 
 namespace FSANC_V2
 {
 	public partial class MainForm : Form
 	{
-
-		#region Public constructors
+		//=============================================================
+		//	Public constructors
+		//=============================================================
 
 		public MainForm()
 		{
 			InitializeComponent();
 
-			this.TabControl.MaximumSize = new Size( (int)(SystemInformation.VirtualScreen.Width * 0.6), 0);
-			this.Searcher.MaximumSize = new Size((int)(SystemInformation.VirtualScreen.Width * 0.4), 0);
-			this.Resize += MainForm_Resize;
+			Control_Searcher.SearchResultSelectionChanged += SelectedItemInSearcherChanged;
+
+			TabControl.MaximumSize = new Size((int)(SystemInformation.VirtualScreen.Width * 0.6), 0);
+			Control_Searcher.MaximumSize = new Size((int)(SystemInformation.VirtualScreen.Width * 0.4), 0);
 		}
 
-		#endregion
+		//=============================================================
+		//	Private events
+		//=============================================================
 
-		#region Public methods
-
-		/// <summary>
-		/// Sets status value to status bar.
-		/// </summary>
-		/// <param name="status">Status value.</param>
-		public void SetStatus(string status)
+		private void SelectedItemInSearcherChanged(object sender, ListViewItemSelectionChangedEventArgs e)
 		{
-			this.Invoke(new MethodInvoker(delegate()
-			{
-				this.ToolStripStatusLbl.Text = status;
-			}));
-		}
-
-		#endregion
-
-		#region Private event handlers
-
-		private void searcher_Load(object sender, EventArgs e)
-		{
-			this.Searcher.AddEvenHandlerItemSelectionChanged(new ListViewItemSelectionChangedEventHandler(ItemSelectedInSearcher));
-		}
-
-		private void ItemSelectedInSearcher(object sender, ListViewItemSelectionChangedEventArgs e)
-		{			
 			var item = e.Item.Tag as AbstractVideo;
 
-			if (CurrentVideo == null || CurrentVideo.Id != item.Id)
+			if (item == null) return;
+
+			// We look for objects, derived from AbstractVideoDisplayer class, in TabPages to update them with new AbstractVideo.
+			foreach (var abstractControl in TabControl.Controls.OfType<TabPage>().SelectMany(tabPage => tabPage.Controls.OfType<AbstractVideoDisplayer>()))
 			{
-				CurrentVideo = item;
-
-				// Update video info.
-				Database.Instance.UpdateGenres(CurrentVideo);
-
-				Displayer.Update(CurrentVideo);
-				FileRenamer.Update(CurrentVideo);
-				Torrent.Update(CurrentVideo);
+				abstractControl.Update(item);
 			}
 		}
 
-		void MainForm_Resize(object sender, EventArgs e)
+		private void MainForm_Resize(object sender, EventArgs e)
 		{
-			Searcher.Location = new Point(this.TabControl.Size.Width + 18, this.Searcher.Location.Y); // TODO: fix positioning when resizing.
-			Searcher.Size = new Size((this.Size.Width - this.TabControl.Size.Width) - this.TabControl.Margin.Horizontal - this.Searcher.Margin.Horizontal - 30, this.Searcher.Size.Height);
+			Control_Searcher.Location = new Point(TabControl.Size.Width + 18, Control_Searcher.Location.Y);
+			Control_Searcher.Size = new Size((Size.Width - TabControl.Size.Width) - TabControl.Margin.Horizontal - Control_Searcher.Margin.Horizontal - 30, Control_Searcher.Size.Height);
 		}
 
-		#endregion
-
-		#region Public properties
-
-		public AbstractVideo CurrentVideo
-		{
-			get;
-			private set;
-		}
-
-		#endregion
-
-		private void ToolStripBtnSettings_Click(object sender, EventArgs e)
+		private void ToolStripButtonSettings_Click(object sender, EventArgs e)
 		{
 			SettingsWindow.ShowDialog();
 		}
-
 	}
 }

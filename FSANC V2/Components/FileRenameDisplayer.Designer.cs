@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.Lbl_Name = new System.Windows.Forms.Label();
+			this.Label_Title = new System.Windows.Forms.Label();
 			this.Lbl_Separator = new System.Windows.Forms.Label();
 			this.Btn_SelectFiles = new System.Windows.Forms.Button();
 			this.Btn_RenameFiles = new System.Windows.Forms.Button();
@@ -40,12 +40,12 @@
 			// 
 			// Lbl_Name
 			// 
-			this.Lbl_Name.AutoSize = true;
-			this.Lbl_Name.Location = new System.Drawing.Point(9, 10);
-			this.Lbl_Name.Name = "Lbl_Name";
-			this.Lbl_Name.Size = new System.Drawing.Size(35, 13);
-			this.Lbl_Name.TabIndex = 0;
-			this.Lbl_Name.Text = "Name";
+			this.Label_Title.AutoSize = true;
+			this.Label_Title.Location = new System.Drawing.Point(9, 10);
+			this.Label_Title.Name = "Lbl_Name";
+			this.Label_Title.Size = new System.Drawing.Size(35, 13);
+			this.Label_Title.TabIndex = 0;
+			this.Label_Title.Text = "Name";
 			// 
 			// Lbl_Separator
 			// 
@@ -65,7 +65,7 @@
 			this.Btn_SelectFiles.TabIndex = 2;
 			this.Btn_SelectFiles.Text = "Select files";
 			this.Btn_SelectFiles.UseVisualStyleBackColor = true;
-			this.Btn_SelectFiles.Click += new System.EventHandler(this.Btn_SelectFiles_Click);
+			this.Btn_SelectFiles.Click += new System.EventHandler(this.ButtonSelectFiles_Click);
 			// 
 			// Btn_RenameFiles
 			// 
@@ -76,7 +76,7 @@
 			this.Btn_RenameFiles.TabIndex = 3;
 			this.Btn_RenameFiles.Text = "Rename files";
 			this.Btn_RenameFiles.UseVisualStyleBackColor = true;
-			this.Btn_RenameFiles.Click += new System.EventHandler(this.Btn_RenameFiles_Click);
+			this.Btn_RenameFiles.Click += new System.EventHandler(this.ButtonRenameFiles_Click);
 			// 
 			// OpenFileDialog
 			// 
@@ -116,7 +116,7 @@
 			this.Controls.Add(this.Btn_RenameFiles);
 			this.Controls.Add(this.Btn_SelectFiles);
 			this.Controls.Add(this.Lbl_Separator);
-			this.Controls.Add(this.Lbl_Name);
+			this.Controls.Add(this.Label_Title);
 			this.Name = "FileRenameDisplayer";
 			this.Size = new System.Drawing.Size(456, 321);
 			this.ResumeLayout(false);
@@ -126,7 +126,7 @@
 
 		#endregion
 
-		private System.Windows.Forms.Label Lbl_Name;
+		private System.Windows.Forms.Label Label_Title;
 		private System.Windows.Forms.Label Lbl_Separator;
 		private System.Windows.Forms.Button Btn_SelectFiles;
 		private System.Windows.Forms.Button Btn_RenameFiles;

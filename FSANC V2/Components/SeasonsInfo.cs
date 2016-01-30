@@ -1,139 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using SeriesMovieInfoDatabase.Objects;
 
-namespace FSANC_V2
+namespace FSANC_V2.Components
 {
 	public partial class SeasonsInfo : UserControl
 	{
-		#region Private variables
+		//=============================================================
+		//	Private variables
+		//=============================================================
 
-		// X postion, at which next created label will be set.
+		// X position, at which next created label will be set.
 		private int _linkLabelPosX = 7;
 
-		private List<LinkLabel> _linkLables;
+		private readonly List<LinkLabel> _linkLables;
 
-		#endregion
-
-		#region Public properties
-
-		public bool IsLoading
-		{
-			get;
-			private set;
-		}
-
-		public bool IsEmpty
-		{
-			get;
-			private set;
-		}
-
-		#endregion
-
-		#region Public constructors
+		//=============================================================
+		//	Public constructors
+		//=============================================================
 
 		public SeasonsInfo()
 		{
 			InitializeComponent();
 
 			_linkLables = new List<LinkLabel>();
-
-			BgWorker_SeriesUpdater.RunWorkerCompleted += BgWorker_SeriesUpdater_RunWorkerCompleted;
-			BgWorker_SeriesUpdater.DoWork += BgWorker_SeriesUpdater_DoWork;
 		}
 
-		#endregion
+		//=============================================================
+		//	Private events
+		//=============================================================
 
-		#region Private methods
-
-		private void SetLoading(bool loading = true)
-		{
-			IsLoading = loading;
-			if (loading)
-			{	//Loading.
-
-			}
-			else
-			{	//Not loading.
-
-			}
-		}
-
-		// Shows required number of link lables(adds more if needed).
-		private void ShowLinkLables(int number)
-		{
-			if (number > _linkLables.Count)
-			{
-				CreateLinkLabels(number - _linkLables.Count);
-			}
-
-			// Hides unwanted controls(shows others).
-			for (int i = 0; i < _linkLables.Count; i++)
-			{
-				if (i < number) 
-				{ 
-					_linkLables[i].Show(); 
-				}
-				else
-				{ 
-					_linkLables[i].Hide();
-				}
-			}
-		}
-
-		// Creates link lables(adds to the end of list).
-		private void CreateLinkLabels(int number)
-		{
-			int x = _linkLabelPosX;
-			int upperLimit = number + _linkLables.Count;
-			for (int i = _linkLables.Count; i < upperLimit; i++)
-			{
-				// Link label...
-				var label = new LinkLabel();
-
-				GrpSeasons.Controls.Add(label);
-				_linkLables.Add(label);
-
-				label.AutoSize = true;
-				label.Text = label.Name = (i + 1).ToString();
-				label.Font = new Font("Microsoft Sans Serif", 13);
-
-				label.Location = new System.Drawing.Point(x, 20);
-				x += label.Width;
-
-				label.Click += LnkLabel_Click;
-
-				// List box...
-				var listbox = CreateListBox();
-
-				GrpSeasons.Controls.Add(listbox);
-
-				label.Tag = listbox;
-			}
-			_linkLabelPosX = x;
-		}
-
-		private ListBox CreateListBox()
-		{
-			var listBox = new ListBox();
-			listBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-			| System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
-			listBox.FormattingEnabled = true;
-			listBox.Location = new System.Drawing.Point(7, 47);
-			listBox.Size = new System.Drawing.Size(409, 147);
-			listBox.Items.Add(string.Format("{0} \t{1}", "Number", "Title"));
-
-			return listBox;
-		}
-
-		void LnkLabel_Click(object sender, EventArgs e)
+		private void LinkLabel_Click(object sender, EventArgs e)
 		{
 			foreach (var label in _linkLables)
 			{
@@ -142,75 +41,17 @@ namespace FSANC_V2
 			((sender as LinkLabel).Tag as ListBox).Show();
 		}
 
-		void BgWorker_SeriesUpdater_DoWork(object sender, DoWorkEventArgs e)
-		{
-			SetLoading();
-			e.Result = Database.Instance.UpdateSeasonsEpisodesInfo(e.Argument as Series);
-			if ((sender as BackgroundWorker).CancellationPending)
-			{
-				e.Cancel = true;
-			}
-		}
-
-		void BgWorker_SeriesUpdater_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-		{
-			try
-			{
-				var series = (e.Result as Series);
-
-				ShowLinkLables(series.Seasons.Length);
-				// Store information.
-				ClearInfo();
-				foreach (var season in series.Seasons)
-				{
-					foreach (Episode episode in season.Episodes)
-					{
-						((ListBox)_linkLables[episode.SeasonNumber - 1].Tag).Items.Add(string.Format("{0} \t{1}", episode.EpisodeNumber, episode.Name));
-					}
-				}
-
-				SetLoading(false);
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine("Thread stopped.");
-				SetLoading(false);
-				(sender as BackgroundWorker).Dispose();
-			}
-			finally
-			{
-			
-			}
-		}
-
-		#endregion
-
-		#region Public methods
+		//=============================================================
+		//	Public methods
+		//=============================================================
 
 		/// <summary>
 		/// Updates control using given series information(seasons & episodes). If required, updates series info from database.
 		/// </summary>
 		/// <param name="series"></param>
-		public void UpdateInfo(Series series)
+		public void Update(Series series)
 		{
-			if (series == null)
-			{
-				new ArgumentNullException("Series is null.");
-			}
-
-			//TODO: async cancellation.
-			if (!BgWorker_SeriesUpdater.IsBusy)
-			{
-				BgWorker_SeriesUpdater.RunWorkerAsync(series);
-			}
-			else
-			{
-				Console.WriteLine("BGWorker is busy.");
-				//BgWorker_SeriesUpdater.CancelAsync();
-				//BgWorker_SeriesUpdater = new BackgroundWorker();
-				//BgWorker_SeriesUpdater.WorkerSupportsCancellation = true;
-				//BgWorker_SeriesUpdater.RunWorkerAsync(series);
-			}
+			// TODO: implement.
 		}
 
 		/// <summary>
@@ -229,6 +70,77 @@ namespace FSANC_V2
 			}
 		}
 
-		#endregion
+		//-------------------------------------------------------------
+		//	Private methods
+		//-------------------------------------------------------------
+
+		// Creates link labels(adds to the end of list).
+		private void CreateLinkLabels(int number)
+		{
+			int x = _linkLabelPosX;
+			int upperLimit = number + _linkLables.Count;
+			for (int i = _linkLables.Count; i < upperLimit; i++)
+			{
+				// Link label...
+				var label = new LinkLabel();
+
+				GrpSeasons.Controls.Add(label);
+				_linkLables.Add(label);
+
+				label.AutoSize = true;
+				label.Text = label.Name = (i + 1).ToString();
+				label.Font = new Font("Microsoft Sans Serif", 13);
+
+				label.Location = new Point(x, 20);
+				x += label.Width;
+
+				label.Click += LinkLabel_Click;
+
+				// List box...
+				var listbox = CreateListBox();
+
+				GrpSeasons.Controls.Add(listbox);
+
+				label.Tag = listbox;
+			}
+			_linkLabelPosX = x;
+		}
+
+		private ListBox CreateListBox()
+		{
+			var listBox = new ListBox
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Bottom)
+				          | AnchorStyles.Left) | AnchorStyles.Right,
+				FormattingEnabled = true,
+				Location = new Point(7, 47),
+				Size = new Size(409, 147)
+			};
+			listBox.Items.Add(string.Format("{0} \t{1}", "Number", "Title"));
+
+			return listBox;
+		}
+
+		// Shows required number of link labels(adds more if needed).
+		private void ShowLinkLables(int number)
+		{
+			if (number > _linkLables.Count)
+			{
+				CreateLinkLabels(number - _linkLables.Count);
+			}
+
+			// Hides unwanted controls(shows others).
+			for (var i = 0; i < _linkLables.Count; i++)
+			{
+				if (i < number)
+				{
+					_linkLables[i].Show();
+				}
+				else
+				{
+					_linkLables[i].Hide();
+				}
+			}
+		}
 	}
 }

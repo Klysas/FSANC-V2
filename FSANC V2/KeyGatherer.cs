@@ -1,19 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿using SeriesMovieInfoDatabase;
+using System;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FSANC_V2
 {
 	public partial class KeyGatherer : Form
 	{
+		//=============================================================
+		//	Private variables
+		//=============================================================
 
-		#region Public constructors
+		private readonly Point _toolTipPosition;
+
+		//=============================================================
+		//	Public constructors
+		//=============================================================
 
 		public KeyGatherer()
 		{
@@ -21,52 +23,43 @@ namespace FSANC_V2
 
 			_toolTipPosition = new Point(5, 5);
 
-			TxtBoxKey.GotFocus += TxtBoxKey_GotFocus;
+			TextBox_Key.GotFocus += TextBoxKey_GotFocus;
 		}
 
-		#endregion
+		//=============================================================
+		//	Private events
+		//=============================================================
 
-		#region Private variables
+		private void ButtonOK_Click(object sender, EventArgs e)
+		{
+			if (TextBox_Key.Text.Trim().Equals(string.Empty))
+			{
+				ToolTip.Show("Input API key.", TextBox_Key, _toolTipPosition);
+			}
+			else
+			{
+				string key = TextBox_Key.Text.Trim();
+				if (Database.IsKeyValid(key))
+				{
+					Properties.Settings.Default.API_KEY = key;
+					Properties.Settings.Default.Save();
+					Close();
+				}
+				else
+				{
+					ToolTip.Show("Incorrect API key, make sure that you input correct key.", TextBox_Key, _toolTipPosition);
+				}
+			}
+		}
 
-		private Point _toolTipPosition;
-
-		#endregion
-
-		#region Private event handlers
-
-		private void LnkLblTMDB_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		private void LinkLabelTMDB_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			System.Diagnostics.Process.Start("https://www.themoviedb.org/");
 		}
 
-		private void BtnOk_Click(object sender, EventArgs e)
+		private void TextBoxKey_GotFocus(object sender, EventArgs e)
 		{
-			if (TxtBoxKey.Text.Trim().Equals(string.Empty))
-			{
-				TolTip.Show("Input API key.", this.TxtBoxKey, _toolTipPosition);
-			}
-			else
-			{
-				string key = TxtBoxKey.Text.Trim();
-				if (Utils.IsKeyValid(key))
-				{
-					Properties.Settings.Default.API_KEY = key;
-					Properties.Settings.Default.Save();
-					this.Close();
-					this.Dispose();
-				}
-				else
-				{
-					TolTip.Show("Incorrect API key, make sure that you input correct key.", this.TxtBoxKey, _toolTipPosition);
-				}
-			}
+			ToolTip.Hide(TextBox_Key);
 		}
-
-		private void TxtBoxKey_GotFocus(object sender, EventArgs e)
-		{
-			TolTip.Hide(this.TxtBoxKey);
-		}
-
-		#endregion
 	}
 }
