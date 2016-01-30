@@ -102,7 +102,7 @@
     <Compile Include="Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
-    <Compile Include="StringValueAttribute.cs" />
+    <Compile Include="DescriptionEnum.cs" />
     <Compile Include="Utils.cs" />
     <EmbeddedResource Include="Components\FileRenameDisplayer.resx">
       <DependentUpon>FileRenameDisplayer.cs</DependentUpon>

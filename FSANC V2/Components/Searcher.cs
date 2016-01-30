@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SeriesMovieInfoDatabase;
@@ -30,12 +31,11 @@ namespace FSANC_V2.Components
 			_database = new Database(Properties.Settings.Default.API_KEY);
 			_database.VideoFound += Database_VideoFound;
 
-			ComboBox_Type.DataSource = Enum.GetValues(typeof(SearchType));
+			ComboBox_Type.DataSource = DescriptionEnum.GetDescriptionValues(typeof(SearchType));
 
-			// CHECK: maybe change something?
-			// Setting up current state
+			// Setting up current state.
 			ComboBox_Type.SelectedIndex = (int)SearchType.Both;
-			ComboBox_Type.Focus();
+			TextBox_SearchField.Focus();
 			EnableControls(true);
 		}
 
@@ -65,7 +65,9 @@ namespace FSANC_V2.Components
 
 		private void ComboBoxType_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			_current = (SearchType)ComboBox_Type.SelectedItem;
+			var enumValue = DescriptionEnum.GetEnumByDescription(ComboBox_Type.SelectedItem.ToString(), typeof(SearchType));
+			if (enumValue == null) return;
+			_current = (SearchType)enumValue;
 		}
 
 		private void Database_VideoFound(object sender, Database.VideoFoundEventArgs e)
@@ -99,8 +101,11 @@ namespace FSANC_V2.Components
 
 		private enum SearchType
 		{
+			[Description("Movies&Series")]
 			Both,
+			[Description("Movies")]
 			Movies,
+			[Description("Series")]
 			Series
 		}
 
