@@ -1,23 +1,12 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
 namespace FSANC_V2
 {
-	public sealed class Utils
+	public static class Utils
 	{
 		//=============================================================
 		//	Public static methods
 		//=============================================================
-
-		/// <summary>
-		/// Gets year value from date.
-		/// </summary>
-		/// <param name="date"></param>
-		/// <returns>If date is null returns 0, otherwise - year.</returns>
-		public static int ExtractYear(DateTime? date)
-		{
-			return date == null ? 0 : date.Value.Year;
-		}
 
 		/// <summary>
 		/// Concatenates given string array and inserts given separator between each element.
