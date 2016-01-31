@@ -18,20 +18,21 @@ namespace SeriesMovieInfoDatabase
 		/// <returns>True if API key is valid, false - otherwise.</returns>
 		public static bool IsKeyValid(string key)
 		{
-			TMDbClient client = new TMDbClient(key);
+			if (string.IsNullOrEmpty(key)) return false;
 			try
 			{
+				var client = new TMDbClient(key);
 				client.AuthenticationRequestAutenticationToken();
+				return true;
 			}
 			catch (UnauthorizedAccessException)
 			{
 				return false;
 			}
-			return true;
 		}
 
 		//=============================================================
-		//	Private methods
+		//	Private static methods
 		//=============================================================
 
 		/// <summary>
@@ -39,7 +40,7 @@ namespace SeriesMovieInfoDatabase
 		/// </summary>
 		/// <param name="date"></param>
 		/// <returns>If date is null returns 0, otherwise - year.</returns>
-		private int ExtractYear(DateTime? date)
+		private static int ExtractYear(DateTime? date)
 		{
 			return date == null ? 0 : date.Value.Year;
 		}
@@ -49,12 +50,13 @@ namespace SeriesMovieInfoDatabase
 		/// </summary>
 		/// <param name="list">Genres list.</param>
 		/// <returns>Genres in string array.</returns>
-		private string[] GenresToArray(List<Genre> list)
+		private static string[] GenresToArray(IReadOnlyCollection<Genre> list)
 		{
-			// CHECK: What if list is null, how to handle.
-			string[] array = new string[list.Count];
+			if (list == null || list.Count == 0) return new string[0];
+
+			var array = new string[list.Count];
 			int i = 0;
-			foreach (Genre genre in list)
+			foreach (var genre in list)
 			{
 				array[i++] = genre.Name.Equals("Science Fiction") ? "Sci-Fi" : genre.Name;
 			}

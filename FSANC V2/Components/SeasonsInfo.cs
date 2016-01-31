@@ -51,7 +51,7 @@ namespace FSANC_V2.Components
 		/// <param name="series"></param>
 		public void Update(Series series)
 		{
-			// TODO: implement.
+			// TODO: implement Update(Series series).
 		}
 
 		/// <summary>

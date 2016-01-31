@@ -120,7 +120,7 @@ namespace FSANC_V2.Components
 
 		public void UpdateSettings()
 		{
-			// TODO: implement.
+			// TODO: implement UpdateSettings().
 		}
 
 		//-------------------------------------------------------------
