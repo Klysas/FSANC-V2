@@ -28,108 +28,108 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.GrpBox_NameChanger = new System.Windows.Forms.GroupBox();
-			this.TxtBox_SeriesNameFormat = new System.Windows.Forms.TextBox();
-			this.TxtBox_MovieNameFormat = new System.Windows.Forms.TextBox();
-			this.Lbl_SeriesNameFormat = new System.Windows.Forms.Label();
-			this.Lbl_MovieNameFormat = new System.Windows.Forms.Label();
-			this.PicBox_QuestionMark = new System.Windows.Forms.PictureBox();
-			this.Btn_Save = new System.Windows.Forms.Button();
-			this.Btn_Cancel = new System.Windows.Forms.Button();
-			this.GrpBox_NameChanger.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.PicBox_QuestionMark)).BeginInit();
+			this.GroupBox_NameChanger = new System.Windows.Forms.GroupBox();
+			this.PictureBox_QuestionMark = new System.Windows.Forms.PictureBox();
+			this.TextBox_SeriesNameFormat = new System.Windows.Forms.TextBox();
+			this.TextBox_MovieNameFormat = new System.Windows.Forms.TextBox();
+			this.Label_SeriesNameFormat = new System.Windows.Forms.Label();
+			this.Label_MovieNameFormat = new System.Windows.Forms.Label();
+			this.Button_Save = new System.Windows.Forms.Button();
+			this.Button_Cancel = new System.Windows.Forms.Button();
+			this.GroupBox_NameChanger.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.PictureBox_QuestionMark)).BeginInit();
 			this.SuspendLayout();
 			// 
-			// GrpBox_NameChanger
+			// GroupBox_NameChanger
 			// 
-			this.GrpBox_NameChanger.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			this.GroupBox_NameChanger.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.GrpBox_NameChanger.Controls.Add(this.PicBox_QuestionMark);
-			this.GrpBox_NameChanger.Controls.Add(this.TxtBox_SeriesNameFormat);
-			this.GrpBox_NameChanger.Controls.Add(this.TxtBox_MovieNameFormat);
-			this.GrpBox_NameChanger.Controls.Add(this.Lbl_SeriesNameFormat);
-			this.GrpBox_NameChanger.Controls.Add(this.Lbl_MovieNameFormat);
-			this.GrpBox_NameChanger.Location = new System.Drawing.Point(13, 13);
-			this.GrpBox_NameChanger.Name = "GrpBox_NameChanger";
-			this.GrpBox_NameChanger.Size = new System.Drawing.Size(259, 69);
-			this.GrpBox_NameChanger.TabIndex = 0;
-			this.GrpBox_NameChanger.TabStop = false;
-			this.GrpBox_NameChanger.Text = "Name changer";
+			this.GroupBox_NameChanger.Controls.Add(this.PictureBox_QuestionMark);
+			this.GroupBox_NameChanger.Controls.Add(this.TextBox_SeriesNameFormat);
+			this.GroupBox_NameChanger.Controls.Add(this.TextBox_MovieNameFormat);
+			this.GroupBox_NameChanger.Controls.Add(this.Label_SeriesNameFormat);
+			this.GroupBox_NameChanger.Controls.Add(this.Label_MovieNameFormat);
+			this.GroupBox_NameChanger.Location = new System.Drawing.Point(13, 13);
+			this.GroupBox_NameChanger.Name = "GroupBox_NameChanger";
+			this.GroupBox_NameChanger.Size = new System.Drawing.Size(259, 69);
+			this.GroupBox_NameChanger.TabIndex = 0;
+			this.GroupBox_NameChanger.TabStop = false;
+			this.GroupBox_NameChanger.Text = "Name changer";
 			// 
-			// TxtBox_SeriesNameFormat
+			// PictureBox_QuestionMark
 			// 
-			this.TxtBox_SeriesNameFormat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			this.PictureBox_QuestionMark.BackgroundImage = global::FSANC_V2.Properties.Resources.questionMark;
+			this.PictureBox_QuestionMark.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+			this.PictureBox_QuestionMark.Location = new System.Drawing.Point(6, 17);
+			this.PictureBox_QuestionMark.Name = "PictureBox_QuestionMark";
+			this.PictureBox_QuestionMark.Size = new System.Drawing.Size(14, 41);
+			this.PictureBox_QuestionMark.TabIndex = 1;
+			this.PictureBox_QuestionMark.TabStop = false;
+			// 
+			// TextBox_SeriesNameFormat
+			// 
+			this.TextBox_SeriesNameFormat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.TxtBox_SeriesNameFormat.Location = new System.Drawing.Point(127, 38);
-			this.TxtBox_SeriesNameFormat.Name = "TxtBox_SeriesNameFormat";
-			this.TxtBox_SeriesNameFormat.Size = new System.Drawing.Size(126, 20);
-			this.TxtBox_SeriesNameFormat.TabIndex = 3;
+			this.TextBox_SeriesNameFormat.Location = new System.Drawing.Point(127, 38);
+			this.TextBox_SeriesNameFormat.Name = "TextBox_SeriesNameFormat";
+			this.TextBox_SeriesNameFormat.Size = new System.Drawing.Size(126, 20);
+			this.TextBox_SeriesNameFormat.TabIndex = 3;
 			// 
-			// TxtBox_MovieNameFormat
+			// TextBox_MovieNameFormat
 			// 
-			this.TxtBox_MovieNameFormat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			this.TextBox_MovieNameFormat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.TxtBox_MovieNameFormat.Location = new System.Drawing.Point(127, 17);
-			this.TxtBox_MovieNameFormat.Name = "TxtBox_MovieNameFormat";
-			this.TxtBox_MovieNameFormat.Size = new System.Drawing.Size(126, 20);
-			this.TxtBox_MovieNameFormat.TabIndex = 2;
+			this.TextBox_MovieNameFormat.Location = new System.Drawing.Point(127, 17);
+			this.TextBox_MovieNameFormat.Name = "TextBox_MovieNameFormat";
+			this.TextBox_MovieNameFormat.Size = new System.Drawing.Size(126, 20);
+			this.TextBox_MovieNameFormat.TabIndex = 2;
 			// 
-			// Lbl_SeriesNameFormat
+			// Label_SeriesNameFormat
 			// 
-			this.Lbl_SeriesNameFormat.AutoSize = true;
-			this.Lbl_SeriesNameFormat.Location = new System.Drawing.Point(21, 41);
-			this.Lbl_SeriesNameFormat.Name = "Lbl_SeriesNameFormat";
-			this.Lbl_SeriesNameFormat.Size = new System.Drawing.Size(100, 13);
-			this.Lbl_SeriesNameFormat.TabIndex = 1;
-			this.Lbl_SeriesNameFormat.Text = "Series name format:";
+			this.Label_SeriesNameFormat.AutoSize = true;
+			this.Label_SeriesNameFormat.Location = new System.Drawing.Point(21, 41);
+			this.Label_SeriesNameFormat.Name = "Label_SeriesNameFormat";
+			this.Label_SeriesNameFormat.Size = new System.Drawing.Size(100, 13);
+			this.Label_SeriesNameFormat.TabIndex = 1;
+			this.Label_SeriesNameFormat.Text = "Series name format:";
 			// 
-			// Lbl_MovieNameFormat
+			// Label_MovieNameFormat
 			// 
-			this.Lbl_MovieNameFormat.AutoSize = true;
-			this.Lbl_MovieNameFormat.Location = new System.Drawing.Point(21, 20);
-			this.Lbl_MovieNameFormat.Name = "Lbl_MovieNameFormat";
-			this.Lbl_MovieNameFormat.Size = new System.Drawing.Size(100, 13);
-			this.Lbl_MovieNameFormat.TabIndex = 0;
-			this.Lbl_MovieNameFormat.Text = "Movie name format:";
+			this.Label_MovieNameFormat.AutoSize = true;
+			this.Label_MovieNameFormat.Location = new System.Drawing.Point(21, 20);
+			this.Label_MovieNameFormat.Name = "Label_MovieNameFormat";
+			this.Label_MovieNameFormat.Size = new System.Drawing.Size(100, 13);
+			this.Label_MovieNameFormat.TabIndex = 0;
+			this.Label_MovieNameFormat.Text = "Movie name format:";
 			// 
-			// PicBox_QuestionMark
+			// Button_Save
 			// 
-			this.PicBox_QuestionMark.BackgroundImage = global::FSANC_V2.Properties.Resources.questionMark;
-			this.PicBox_QuestionMark.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-			this.PicBox_QuestionMark.Location = new System.Drawing.Point(6, 17);
-			this.PicBox_QuestionMark.Name = "PicBox_QuestionMark";
-			this.PicBox_QuestionMark.Size = new System.Drawing.Size(14, 41);
-			this.PicBox_QuestionMark.TabIndex = 1;
-			this.PicBox_QuestionMark.TabStop = false;
+			this.Button_Save.Location = new System.Drawing.Point(59, 226);
+			this.Button_Save.Name = "Button_Save";
+			this.Button_Save.Size = new System.Drawing.Size(75, 23);
+			this.Button_Save.TabIndex = 1;
+			this.Button_Save.Text = "Save";
+			this.Button_Save.UseVisualStyleBackColor = true;
+			this.Button_Save.Click += new System.EventHandler(this.ButtonSave_Click);
 			// 
-			// Btn_Save
+			// Button_Cancel
 			// 
-			this.Btn_Save.Location = new System.Drawing.Point(59, 226);
-			this.Btn_Save.Name = "Btn_Save";
-			this.Btn_Save.Size = new System.Drawing.Size(75, 23);
-			this.Btn_Save.TabIndex = 1;
-			this.Btn_Save.Text = "SaveSettings";
-			this.Btn_Save.UseVisualStyleBackColor = true;
-			this.Btn_Save.Click += new System.EventHandler(this.ButtonSave_Click);
-			// 
-			// Btn_Cancel
-			// 
-			this.Btn_Cancel.Location = new System.Drawing.Point(154, 226);
-			this.Btn_Cancel.Name = "Btn_Cancel";
-			this.Btn_Cancel.Size = new System.Drawing.Size(75, 23);
-			this.Btn_Cancel.TabIndex = 2;
-			this.Btn_Cancel.Text = "Cancel";
-			this.Btn_Cancel.UseVisualStyleBackColor = true;
-			this.Btn_Cancel.Click += new System.EventHandler(this.ButtonCancel_Click);
+			this.Button_Cancel.Location = new System.Drawing.Point(154, 226);
+			this.Button_Cancel.Name = "Button_Cancel";
+			this.Button_Cancel.Size = new System.Drawing.Size(75, 23);
+			this.Button_Cancel.TabIndex = 2;
+			this.Button_Cancel.Text = "Cancel";
+			this.Button_Cancel.UseVisualStyleBackColor = true;
+			this.Button_Cancel.Click += new System.EventHandler(this.ButtonCancel_Click);
 			// 
 			// Settings
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(284, 261);
-			this.Controls.Add(this.Btn_Cancel);
-			this.Controls.Add(this.Btn_Save);
-			this.Controls.Add(this.GrpBox_NameChanger);
+			this.Controls.Add(this.Button_Cancel);
+			this.Controls.Add(this.Button_Save);
+			this.Controls.Add(this.GroupBox_NameChanger);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Icon = global::FSANC_V2.Properties.Resources.plus;
 			this.MaximizeBox = false;
@@ -138,22 +138,22 @@
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Settings";
 			this.Shown += new System.EventHandler(this.Settings_Shown);
-			this.GrpBox_NameChanger.ResumeLayout(false);
-			this.GrpBox_NameChanger.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.PicBox_QuestionMark)).EndInit();
+			this.GroupBox_NameChanger.ResumeLayout(false);
+			this.GroupBox_NameChanger.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.PictureBox_QuestionMark)).EndInit();
 			this.ResumeLayout(false);
 
 		}
 
 		#endregion
 
-		private System.Windows.Forms.GroupBox GrpBox_NameChanger;
-		private System.Windows.Forms.TextBox TxtBox_SeriesNameFormat;
-		private System.Windows.Forms.TextBox TxtBox_MovieNameFormat;
-		private System.Windows.Forms.Label Lbl_SeriesNameFormat;
-		private System.Windows.Forms.Label Lbl_MovieNameFormat;
-		private System.Windows.Forms.PictureBox PicBox_QuestionMark;
-		private System.Windows.Forms.Button Btn_Save;
-		private System.Windows.Forms.Button Btn_Cancel;
+		private System.Windows.Forms.GroupBox GroupBox_NameChanger;
+		private System.Windows.Forms.TextBox TextBox_SeriesNameFormat;
+		private System.Windows.Forms.TextBox TextBox_MovieNameFormat;
+		private System.Windows.Forms.Label Label_SeriesNameFormat;
+		private System.Windows.Forms.Label Label_MovieNameFormat;
+		private System.Windows.Forms.PictureBox PictureBox_QuestionMark;
+		private System.Windows.Forms.Button Button_Save;
+		private System.Windows.Forms.Button Button_Cancel;
 	}
 }

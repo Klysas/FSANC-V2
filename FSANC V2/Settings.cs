@@ -53,15 +53,15 @@ namespace FSANC_V2
 
 		private void UpdateUI(){
 			_settings.Reload();
-			TxtBox_MovieNameFormat.Text = _settings.MOVIE_NAME_FORMAT;
-			TxtBox_SeriesNameFormat.Text = _settings.SERIES_NAME_FORMAT;
+			TextBox_MovieNameFormat.Text = _settings.MOVIE_NAME_FORMAT;
+			TextBox_SeriesNameFormat.Text = _settings.SERIES_NAME_FORMAT;
 		}
 
 		private void SaveSettings()
 		{
 			// TODO: settings validation.
-			_settings.SERIES_NAME_FORMAT = TxtBox_SeriesNameFormat.Text;
-			_settings.MOVIE_NAME_FORMAT = TxtBox_MovieNameFormat.Text;
+			_settings.SERIES_NAME_FORMAT = TextBox_SeriesNameFormat.Text;
+			_settings.MOVIE_NAME_FORMAT = TextBox_MovieNameFormat.Text;
 			_settings.Save();
 		}
 	}
