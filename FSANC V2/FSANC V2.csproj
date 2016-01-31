@@ -76,6 +76,7 @@
       <DependentUpon>InfoDisplayer.cs</DependentUpon>
     </Compile>
     <Compile Include="File.cs" />
+    <Compile Include="ISettings.cs" />
     <Compile Include="KeyGatherer.cs">
       <SubType>Form</SubType>
     </Compile>

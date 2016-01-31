@@ -7,7 +7,7 @@ using SeriesMovieInfoDatabase.Objects;
 
 namespace FSANC_V2.Components
 {
-	public partial class Searcher : UserControl
+	public partial class Searcher : UserControl, ISettings
 	{
 		//=============================================================
 		//	Private variables
@@ -115,8 +115,17 @@ namespace FSANC_V2.Components
 		}
 
 		//=============================================================
-		//	Private methods
+		//	Public methods
 		//=============================================================
+
+		public void UpdateSettings()
+		{
+			// TODO: implement.
+		}
+
+		//-------------------------------------------------------------
+		//	Private methods
+		//-------------------------------------------------------------
 
 		private void AddAbstractVideoToResultsListView(AbstractVideo video)
 		{

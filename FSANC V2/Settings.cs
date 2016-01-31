@@ -48,8 +48,28 @@ namespace FSANC_V2
 		}
 
 		//=============================================================
-		//	Private methods
+		//	Private static methods
 		//=============================================================
+
+		private static void UpdateSettings(Control control)
+		{
+			if (control == null) return;
+
+			var settingsControl = control as ISettings;
+			if (settingsControl != null)
+			{
+				settingsControl.UpdateSettings();
+			}
+
+			foreach (var item in control.Controls)
+			{
+				UpdateSettings((Control)item);
+			}
+		}
+
+		//-------------------------------------------------------------
+		//	Private non-static methods
+		//-------------------------------------------------------------
 
 		private void UpdateUI(){
 			_settings.Reload();
@@ -63,6 +83,7 @@ namespace FSANC_V2
 			_settings.SERIES_NAME_FORMAT = TextBox_SeriesNameFormat.Text;
 			_settings.MOVIE_NAME_FORMAT = TextBox_MovieNameFormat.Text;
 			_settings.Save();
+			UpdateSettings(Owner);
 		}
 	}
 }

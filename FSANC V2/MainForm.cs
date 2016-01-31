@@ -48,7 +48,7 @@ namespace FSANC_V2
 
 		private void ToolStripButtonSettings_Click(object sender, EventArgs e)
 		{
-			SettingsWindow.ShowDialog();
+			SettingsWindow.ShowDialog(this);
 		}
 	}
 }
