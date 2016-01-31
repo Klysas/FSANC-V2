@@ -1,30 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
 namespace SeriesMovieInfoDatabase
 {
-	internal sealed class Utils
+	internal static class Utils
 	{
 		//=============================================================
 		//	Public static methods
 		//=============================================================
-		
+
 		/// <summary>
 		/// Checks if array has null items.
 		/// </summary>
 		/// <param name="array">Can be NULL.</param>
 		/// <returns>True if array contains null, otherwise false(if array = null, false too).</returns>
-		public static bool HasNullItems(Object[] array)
+		public static bool HasNullItems(object[] array)
 		{
-			if (array == null) return false;
-			foreach (Object item in array)
-			{
-				if (item == null) return true;
-			}
-			return false;
+			return array != null && array.Any(item => item == null);
 		}
 	}
 }

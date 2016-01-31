@@ -70,7 +70,7 @@ namespace FSANC_V2.Components
 			_current = (SearchType)enumValue;
 		}
 
-		private void Database_VideoFound(object sender, Database.VideoFoundEventArgs e)
+		private void Database_VideoFound(object sender, VideoFoundEventArgs e)
 		{
 			if (ListView_SearchResults.InvokeRequired)
 			{

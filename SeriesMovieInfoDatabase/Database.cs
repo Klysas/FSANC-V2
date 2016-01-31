@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Linq;
 using TMDbLib.Client;
 using SeriesMovieInfoDatabase.Objects;
-using TMDbLib.Objects.General;
 using TMDbLib.Objects.Search;
 
 namespace SeriesMovieInfoDatabase
@@ -15,23 +15,17 @@ namespace SeriesMovieInfoDatabase
 		/// <summary>
 		/// Object to access TMDB framework.
 		/// </summary>
-		private TMDbClient _client;
+		private readonly TMDbClient _client;
+
+		/// <summary>
+		/// Holds search progress data.
+		/// </summary>
+		private readonly SearchProgress _progress;
 
 		/// <summary>
 		/// Belongs to ReturnedResultsCount property.
 		/// </summary>
 		private int _returnedResultsCount;
-
-		/// <summary>
-		/// Holds search progress data.
-		/// </summary>
-		private SearchProgress _progress;
-
-		/// <summary>
-		/// States.
-		/// </summary>
-		private bool _running;
-		private bool _cancelled;
 
 		//=============================================================
 		//	Public constructors
@@ -48,10 +42,13 @@ namespace SeriesMovieInfoDatabase
 			{
 				throw new ArgumentException("Invalid key.", "key");
 			}
+
+			// Initialization.
 			_client = new TMDbClient(key);
 			_progress = new SearchProgress();
-			_running = false;
-			_cancelled = false;
+
+			// Setting up current state.
+			CurrentState = State.Idle;
 			Reset();
 		}
 
@@ -85,8 +82,17 @@ namespace SeriesMovieInfoDatabase
 		//=============================================================
 
 		/// <summary>
+		/// [GET] Contains current <see cref="State">state</see> of database.
+		/// </summary>
+		public State CurrentState
+		{
+			get;
+			private set;
+		}
+
+		/// <summary>
 		/// [GET/SET] Count of search results returned.
-		/// <p>Default value is 20. To return all results set to 0. Range 0..infinity.
+		/// <p/>Default value is 20. To return all results set to 0. Range 0..infinity.
 		/// </summary>
 		public int ReturnedResultsCount
 		{
@@ -109,6 +115,9 @@ namespace SeriesMovieInfoDatabase
 
 		/// <summary>
 		/// Finds movies and series by given title.
+		/// NOTE: Database runs one search at a time. If search is running and 
+		/// you call Find method - it will return empty results array(won't start second search).
+		/// To start new search, you have to Stop search(CurrentState == Idle).
 		/// </summary>
 		/// <param name="title">Title of series or movie.</param>
 		/// <returns>Array of found series and movies.</returns>
@@ -116,35 +125,48 @@ namespace SeriesMovieInfoDatabase
 		/// <exception cref="System.ArgumentException">Thrown when title is empty.</exception>
 		public AbstractVideo[] FindSeriesAndMovies(string title)
 		{
-			throw new NotImplementedException("Use FindSeries() or FindMovies() instead.");
+			if (CurrentState != State.Idle) return new AbstractVideo[0];
+			try
+			{
+				CurrentState = State.Running;
+				Validate(title);
 
-			//Validate(title);
+				var movieContainer = _client.SearchMovie(title);
+				var seriesContainer = _client.SearchTvShow(title);
 
-			//SearchContainer<SearchMovie> movieContainer = _client.SearchMovie(title);
-			//SearchContainer<SearchTv> seriesContainer = _client.SearchTvShow(title);
+				if (movieContainer.Results.Count == 0 && seriesContainer.Results.Count == 0) return new AbstractVideo[0];
 
-			//int moviesCount, seriesCount;
-			//if (ReturnedResultsCount == 0) {
-			//	// Return all results.
-			//	moviesCount = movieContainer.TotalResults;
-			//	seriesCount = seriesContainer.TotalResults;
-			//}
-			//else
-			//{
-			//	moviesCount = seriesCount = ReturnedResultsCount;
-			//}
+				int moviesCount, seriesCount;
+				if (ReturnedResultsCount == 0)
+				{
+					// Return all results.
+					moviesCount = movieContainer.TotalResults;
+					seriesCount = seriesContainer.TotalResults;
+				}
+				else
+				{
+					moviesCount = seriesCount = ReturnedResultsCount / 2;
+				}
 
-			//_progress.CurrentItemsCount = 0;
-			//_progress.TotalItemsCount = moviesCount;
-			//_progress.TotalItemsCount += seriesCount;
+				_progress.CurrentItemsCount = 0;
+				_progress.TotalItemsCount = moviesCount;
+				_progress.TotalItemsCount += seriesCount;
 
-			//AbstractVideo[] movies = FindMovies(title, moviesCount);
-			//AbstractVideo[] series = FindSeries(title, seriesCount);
-			//return movies.Union(series).ToArray();
+				var movies = FindMovies(title, moviesCount);
+				var series = FindSeries(title, seriesCount);
+				return movies.Union<AbstractVideo>(series).ToArray();
+			}
+			finally
+			{
+				CurrentState = State.Idle;
+			}
 		}
 
 		/// <summary>
 		/// Finds movies by given title.
+		/// NOTE: Database runs one search at a time. If search is running and 
+		/// you call Find method - it will return empty results array(won't start second search).
+		/// To start new search, you have to Stop search(CurrentState == Idle).
 		/// </summary>
 		/// <param name="title">Title of movie.</param>
 		/// <returns>Array of found movies.</returns>
@@ -152,12 +174,12 @@ namespace SeriesMovieInfoDatabase
 		/// <exception cref="System.ArgumentException">Thrown when title is empty.</exception>
 		public Movie[] FindMovies(string title)
 		{
-			if (_running) Stop();
+			if (CurrentState != State.Idle) return new Movie[0];
 			try
 			{
-				_running = true;
+				CurrentState = State.Running;
 				Validate(title);
-				SearchContainer<SearchMovie> container = _client.SearchMovie(title);
+				var container = _client.SearchMovie(title);
 
 				if (container.Results.Count == 0) return new Movie[0];
 
@@ -168,12 +190,15 @@ namespace SeriesMovieInfoDatabase
 			}
 			finally
 			{
-				_running = false;
+				CurrentState = State.Idle;
 			}
 		}
 
 		/// <summary>
 		/// Finds series by given title.
+		/// NOTE: Database runs one search at a time. If search is running and 
+		/// you call Find method - it will return empty results array(won't start second search).
+		/// To start new search, you have to Stop search(CurrentState == Idle).
 		/// </summary>
 		/// <param name="title">Title of series.</param>
 		/// <returns>Array of found series.</returns>
@@ -181,12 +206,12 @@ namespace SeriesMovieInfoDatabase
 		/// <exception cref="System.ArgumentException">Thrown when title is empty.</exception>
 		public Series[] FindSeries(string title)
 		{
-			if (_running) Stop();
+			if (CurrentState != State.Idle) return new Series[0];
 			try
 			{
-				_running = true;
+				CurrentState = State.Running;
 				Validate(title);
-				SearchContainer<SearchTv> container = _client.SearchTvShow(title);
+				var container = _client.SearchTvShow(title);
 
 				if (container.Results.Count == 0) return new Series[0];
 
@@ -197,27 +222,7 @@ namespace SeriesMovieInfoDatabase
 			}
 			finally
 			{
-				_running = false;
-			}
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns>Current database state.</returns>
-		public State GetState()
-		{
-			if (!_running)
-			{
-				return State.Idle;
-			}
-			else if (!_cancelled)
-			{
-				return State.Running;
-			}
-			else
-			{
-				return State.Stopping;
+				CurrentState = State.Idle;
 			}
 		}
 
@@ -234,11 +239,9 @@ namespace SeriesMovieInfoDatabase
 		/// </summary>
 		public void Stop()
 		{
-			if (_running)
+			if (CurrentState == State.Running)
 			{
-				_cancelled = true;
-				while (_running) { }
-				_cancelled = false;
+				CurrentState = State.Stopping;
 			}
 		}
 
@@ -248,7 +251,7 @@ namespace SeriesMovieInfoDatabase
 
 		private Movie[] FindMovies(string title, int totalResults)
 		{
-			Movie[] movies = new Movie[totalResults];
+			var movies = new Movie[totalResults];
 
 			int pageIndex = 1;
 			int movieIndex = 0;
@@ -260,9 +263,9 @@ namespace SeriesMovieInfoDatabase
 				{
 					movies[movieIndex++] = OnNewVideo(GetMovie(movie));
 					if (movieIndex >= totalResults) break;
-					if (_cancelled) break;
+					if (CurrentState == State.Stopping) break;
 				}
-				if (_cancelled) break;
+				if (CurrentState == State.Stopping) break;
 				pageIndex++;
 			} while (movieIndex < totalResults);
 
@@ -271,7 +274,7 @@ namespace SeriesMovieInfoDatabase
 
 		private Series[] FindSeries(string title, int totalResults)
 		{
-			Series[] seriesArray = new Series[totalResults];
+			var seriesArray = new Series[totalResults];
 
 			int pageIndex = 1;
 			int seriesIndex = 0;
@@ -283,9 +286,9 @@ namespace SeriesMovieInfoDatabase
 				{
 					seriesArray[seriesIndex++] = OnNewVideo(GetSeries(series));
 					if (seriesIndex >= totalResults) break;
-					if (_cancelled) break;
+					if (CurrentState == State.Stopping) break;
 				}
-				if (_cancelled) break;
+				if (CurrentState == State.Stopping) break;
 				pageIndex++;
 			} while (seriesIndex < totalResults);
 
@@ -330,7 +333,7 @@ namespace SeriesMovieInfoDatabase
 		/// <param name="e"></param>
 		private void OnVideoFound(VideoFoundEventArgs e)
 		{
-			EventHandler<VideoFoundEventArgs> handler = VideoFound;
+			var handler = VideoFound;
 			if (handler != null)
 			{
 				handler(this, e);
@@ -343,7 +346,7 @@ namespace SeriesMovieInfoDatabase
 		/// <param name="title">Title of series or movie.</param>
 		/// <exception cref="System.ArgumentNullException">Thrown when title is null.</exception>
 		/// <exception cref="System.ArgumentException">Thrown when title is empty.</exception>
-		private void Validate(string title)
+		private static void Validate(string title)
 		{
 			if (title == null)
 			{
@@ -356,83 +359,15 @@ namespace SeriesMovieInfoDatabase
 		}
 
 		//=============================================================
-		//	Public classes
-		//=============================================================
-
-		public class SearchProgressEventArgs : EventArgs
-		{
-			/// <summary>
-			/// Creates object of this class using current and total values. Calcualtes percentage value of given two values.
-			/// Should be (current < total).
-			/// </summary>
-			/// <param name="current"></param>
-			/// <param name="total"></param>
-			public SearchProgressEventArgs(int current, int total)
-			{
-				this.CurrentItemsCount = current;
-				this.TotalItemsCount = total;
-				this.ProgressInPercents = 100 * current / total;
-			}
-
-			/// <summary>
-			/// [GET]
-			/// </summary>
-			public int CurrentItemsCount
-			{
-				get;
-				private set;
-			}
-
-			/// <summary>
-			/// [GET]
-			/// </summary>
-			public int TotalItemsCount
-			{
-				get;
-				private set;
-			}
-
-			/// <summary>
-			/// [GET] Progress in percents(0..100). Calculated from TotalItemsCount and CurrentItemsCount.
-			/// </summary>
-			public int ProgressInPercents
-			{
-				get;
-				private set;
-			}
-		}
-
-		public class VideoFoundEventArgs : EventArgs
-		{
-			/// <summary>
-			/// Constructs event args with AbstractVideo object.
-			/// </summary>
-			/// <param name="video"></param>
-			public VideoFoundEventArgs(AbstractVideo video)
-			{
-				this.Video = video;
-			}
-
-			/// <summary>
-			/// [GET] <see cref="AbstractVideo">AbstractVideo</see> object.
-			/// </summary>
-			public AbstractVideo Video
-			{
-				get;
-				private set;
-			}
-		}
-
-		//-------------------------------------------------------------
 		//	Private classes
-		//-------------------------------------------------------------
+		//=============================================================
 
 		private class SearchProgress
 		{
 			public SearchProgress()
 			{
-				this.CurrentItemsCount = 0;
-				this.TotalItemsCount = 0;
+				CurrentItemsCount = 0;
+				TotalItemsCount = 0;
 			}
 
 			public int CurrentItemsCount
@@ -446,6 +381,74 @@ namespace SeriesMovieInfoDatabase
 				get;
 				set;
 			}
+		}
+	}
+
+	//=============================================================
+	//	Public EventArgs classes
+	//=============================================================
+
+	public class SearchProgressEventArgs : EventArgs
+	{
+		/// <summary>
+		/// Creates object of this class using current and total values. Calculates percentage value of given two values.
+		/// Should be (current < total).
+		/// </summary>
+		/// <param name="current"></param>
+		/// <param name="total"></param>
+		public SearchProgressEventArgs(int current, int total)
+		{
+			CurrentItemsCount = current;
+			TotalItemsCount = total;
+			ProgressInPercents = 100 * current / total;
+		}
+
+		/// <summary>
+		/// [GET]
+		/// </summary>
+		public int CurrentItemsCount
+		{
+			get;
+			private set;
+		}
+
+		/// <summary>
+		/// [GET]
+		/// </summary>
+		public int TotalItemsCount
+		{
+			get;
+			private set;
+		}
+
+		/// <summary>
+		/// [GET] Progress in percentages(0..100). Calculated from TotalItemsCount and CurrentItemsCount.
+		/// </summary>
+		public int ProgressInPercents
+		{
+			get;
+			private set;
+		}
+	}
+
+	public class VideoFoundEventArgs : EventArgs
+	{
+		/// <summary>
+		/// Constructs event args with AbstractVideo object.
+		/// </summary>
+		/// <param name="video"></param>
+		public VideoFoundEventArgs(AbstractVideo video)
+		{
+			Video = video;
+		}
+
+		/// <summary>
+		/// [GET] <see cref="AbstractVideo">AbstractVideo</see> object.
+		/// </summary>
+		public AbstractVideo Video
+		{
+			get;
+			private set;
 		}
 	}
 }
