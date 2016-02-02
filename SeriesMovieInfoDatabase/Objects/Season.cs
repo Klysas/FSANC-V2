@@ -8,7 +8,7 @@ namespace SeriesMovieInfoDatabase.Objects
 		//	Private variables
 		//=============================================================
 
-		private Episode[] _episodes;
+		private readonly Episode[] _episodes;
 
 		//=============================================================
 		//	Public constructors
@@ -26,8 +26,8 @@ namespace SeriesMovieInfoDatabase.Objects
 			{
 				throw new ArgumentException("episodes contains null elements(s).", "episodes");
 			}
-			this.Number = seasonNumber;
-			this._episodes = episodes == null ? new Episode[0] : episodes;
+			Number = seasonNumber;
+			_episodes = episodes ?? new Episode[0];
 		}
 
 		//=============================================================

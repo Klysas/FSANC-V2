@@ -20,7 +20,7 @@ namespace SeriesMovieInfoDatabase.Objects
 		public Movie(string title, int year, string[] genres)
 			: base(title, year, genres)
 		{
-			this.Type = VideoType.Movie;
+			Type = VideoType.Movie;
 		}
 	}
 }

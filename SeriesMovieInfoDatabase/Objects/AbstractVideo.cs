@@ -14,7 +14,7 @@ namespace SeriesMovieInfoDatabase.Objects
 		//	Private variables
 		//=============================================================
 
-		private string[] _genres;
+		private readonly string[] _genres;
 
 		//=============================================================
 		//	Protected constructors
@@ -44,9 +44,9 @@ namespace SeriesMovieInfoDatabase.Objects
 			{
 				throw new ArgumentException("Genres array contains null element(s).", "genres");
 			}
-			this.Title = title;
-			this.Year = year;
-			this._genres = genres == null ? new string[0] : genres;
+			Title = title;
+			Year = year;
+			_genres = genres ?? new string[0];
 		}
 
 		//=============================================================
@@ -97,7 +97,7 @@ namespace SeriesMovieInfoDatabase.Objects
 
 		public override string ToString()
 		{
-			return string.Format("{0}: \t{1}\t\t {2}", this.Type.ToString(), this.Title, this.Year);
+			return string.Format("{0}: \t{1}\t\t {2}", Type.ToString(), Title, Year);
 		}
 	}
 }

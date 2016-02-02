@@ -26,9 +26,9 @@ namespace SeriesMovieInfoDatabase.Objects
 			{
 				throw new ArgumentException("Title can't be empty.", "title");
 			}
-			this.Title = title;
-			this.Number = episodeNumber;
-			this.SeasonNumber = seasonNumber;
+			Title = title;
+			Number = episodeNumber;
+			SeasonNumber = seasonNumber;
 		}
 
 		//=============================================================

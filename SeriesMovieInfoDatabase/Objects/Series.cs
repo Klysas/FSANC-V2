@@ -8,7 +8,7 @@ namespace SeriesMovieInfoDatabase.Objects
 		//	Private variables
 		//=============================================================
 
-		private Season[] _seasons;
+		private readonly Season[] _seasons;
 
 		//=============================================================
 		//	Public constructors
@@ -34,7 +34,7 @@ namespace SeriesMovieInfoDatabase.Objects
 			}
 			if (seasons != null)
 			{
-				this._seasons = seasons;
+				_seasons = seasons;
 			}
 		}
 
@@ -49,8 +49,8 @@ namespace SeriesMovieInfoDatabase.Objects
 		public Series(string title, int year, string[] genres)
 			: base(title, year, genres)
 		{
-			this.Type = VideoType.Series;
-			this._seasons = new Season[0]; // Empty array.
+			Type = VideoType.Series;
+			_seasons = new Season[0];
 		}
 
 		//=============================================================
