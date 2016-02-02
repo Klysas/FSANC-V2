@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using SeriesMovieInfoDatabase.Objects;
 
@@ -46,33 +47,47 @@ namespace FSANC_V2.Components
 		//=============================================================
 
 		/// <summary>
-		/// Updates control using given series information(seasons & episodes). If required, updates series info from database.
+		/// Updates control using given series information(seasons & episodes).
 		/// </summary>
 		/// <param name="series"></param>
 		public void Update(Series series)
 		{
-			// TODO: implement Update(Series series).
-		}
+			ClearInfo();
 
-		/// <summary>
-		/// Clears all stored information in control.
-		/// </summary>
-		public void ClearInfo()
-		{
-			foreach (var label in _linkLables)
+			if (series.SeasonsCount == 0) return; // TODO: Show "No information".
+
+			PrepareControls(series.SeasonsCount);
+
+			// Add information.
+			for (int index = 0; index < series.Seasons.Length; index++)
 			{
-				var listBox = (label.Tag as ListBox);
-				if (listBox != null)
+				var season = series.Seasons[index];
+				var listBox = _linkLables[index].Tag as ListBox;
+				if (listBox == null) continue; // CHECK: maybe throw RunTimeException, because it shouldn't happen.
+				foreach (var episode in season.Episodes)
 				{
-					listBox.Items.Clear();
-					listBox.Items.Add(string.Format("{0} \t{1}", "Number", "Title"));
+					listBox.Items.Add(string.Format("{0} \t{1}", episode.Number, episode.Title));
 				}
 			}
+
+			ShowControls(series.SeasonsCount);
 		}
 
 		//-------------------------------------------------------------
 		//	Private methods
 		//-------------------------------------------------------------
+
+		/// <summary>
+		/// Clears all stored information in control.
+		/// </summary>
+		private void ClearInfo()
+		{
+			foreach (var listBox in _linkLables.Select(label => (label.Tag as ListBox)).Where(listBox => listBox != null))
+			{
+				listBox.Items.Clear();
+				listBox.Items.Add(string.Format("{0} \t{1}", "Number", "Title"));
+			}
+		}
 
 		// Creates link labels(adds to the end of list).
 		private void CreateLinkLabels(int number)
@@ -106,12 +121,12 @@ namespace FSANC_V2.Components
 			_linkLabelPosX = x;
 		}
 
-		private ListBox CreateListBox()
+		private static ListBox CreateListBox()
 		{
 			var listBox = new ListBox
 			{
 				Anchor = ((AnchorStyles.Top | AnchorStyles.Bottom)
-				          | AnchorStyles.Left) | AnchorStyles.Right,
+						  | AnchorStyles.Left) | AnchorStyles.Right,
 				FormattingEnabled = true,
 				Location = new Point(7, 47),
 				Size = new Size(409, 147)
@@ -121,14 +136,18 @@ namespace FSANC_V2.Components
 			return listBox;
 		}
 
-		// Shows required number of link labels(adds more if needed).
-		private void ShowLinkLables(int number)
+		// Prepares controls. Call this before adding information from Series. If needed creates more controls.
+		private void PrepareControls(int seasonCount)
 		{
-			if (number > _linkLables.Count)
+			if (seasonCount > _linkLables.Count)
 			{
-				CreateLinkLabels(number - _linkLables.Count);
+				CreateLinkLabels(seasonCount - _linkLables.Count);
 			}
+		}
 
+		// Shows required number of link labels
+		private void ShowControls(int number)
+		{
 			// Hides unwanted controls(shows others).
 			for (var i = 0; i < _linkLables.Count; i++)
 			{
