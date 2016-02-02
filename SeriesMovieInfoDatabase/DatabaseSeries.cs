@@ -28,43 +28,30 @@ namespace SeriesMovieInfoDatabase
 
 			var seasons = new Season[show.NumberOfSeasons];
 
-			#region Refactor
-			// TODO: refactor.
-			int index = 0;
-			if (show.Seasons[0].SeasonNumber != 1)
-			{
-				index++;
-			}
-
+			int index = show.NumberOfSeasons != show.Seasons.Count ? 1 : 0;
 			for (int i = index; i < show.Seasons.Count; i++)
 			{
 				var currentSeason = show.Seasons[i];
 				seasons[currentSeason.SeasonNumber - 1] = new Season(currentSeason.SeasonNumber, GetEpisodes(show.Id, currentSeason));
 			}
-			#endregion
 
-			// Ensures no null in array.
-			for (int i = 0; i < seasons.Length; i++)
-			{
-				if (seasons[i] == null)
-				{
-					seasons[i] = new Season(i + 1, null);
-				}
-			}
 			return seasons;
 		}
 
 		private Episode[] GetEpisodes(int tvShowId, TvSeason season)
 		{
+			if (season.EpisodeCount == 0) return new Episode[0];
+
 			var episodeList = new Episode[season.EpisodeCount];
 			for (int i = 0; i < season.EpisodeCount; i++)
 			{
 				var episode = _client.GetTvEpisode(tvShowId, season.SeasonNumber, i + 1);
 
-				string sName = episode.Name == null ? "Unknown" : episode.Name;
+				string sName = episode.Name ?? "Unknown";
 
 				episodeList[i] = new Episode(sName, episode.EpisodeNumber, season.SeasonNumber);
 			}
+
 			return episodeList;
 		}
 	}
