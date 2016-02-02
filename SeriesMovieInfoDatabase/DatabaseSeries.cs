@@ -48,6 +48,7 @@ namespace SeriesMovieInfoDatabase
 				var episode = _client.GetTvEpisode(tvShowId, season.SeasonNumber, i + 1);
 
 				string sName = episode.Name ?? "Unknown";
+				if (sName.Equals("")) sName = "Unknown";
 
 				episodeList[i] = new Episode(sName, episode.EpisodeNumber, season.SeasonNumber);
 			}
