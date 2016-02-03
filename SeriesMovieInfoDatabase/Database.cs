@@ -156,7 +156,7 @@ namespace SeriesMovieInfoDatabase
 				var series = FindSeries(title, seriesCount);
 				return movies.Union<AbstractVideo>(series).ToArray();
 			}
-			catch (CancelledException ex)
+			catch (CancelledException)
 			{
 				return new AbstractVideo[0];
 			}
@@ -193,7 +193,7 @@ namespace SeriesMovieInfoDatabase
 
 				return FindMovies(title, _progress.TotalItemsCount);
 			}
-			catch (CancelledException ex)
+			catch (CancelledException)
 			{
 				return new Movie[0];
 			}
@@ -230,7 +230,7 @@ namespace SeriesMovieInfoDatabase
 
 				return FindSeries(title, _progress.TotalItemsCount);
 			}
-			catch (CancelledException ex)
+			catch (CancelledException)
 			{
 				return new Series[0];
 			}
@@ -395,19 +395,7 @@ namespace SeriesMovieInfoDatabase
 
 		private class CancelledException : Exception
 		{
-			public CancelledException()
-			{
-			}
-
-			public CancelledException(string message)
-				: base(message)
-			{
-			}
-
-			public CancelledException(string message, Exception inner)
-				: base(message, inner)
-			{
-			}
+			// Default constructor is enough.
 		}
 	}
 
