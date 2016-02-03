@@ -30,6 +30,7 @@ namespace FSANC_V2.Components
 
 			_database = new Database(Properties.Settings.Default.API_KEY);
 			_database.VideoFound += Database_VideoFound;
+			_database.SearchProgressChanged += Database_SearchProgressChanged;
 
 			ComboBox_Type.DataSource = DescriptionEnum.GetDescriptionValues(typeof(SearchType));
 
@@ -68,6 +69,14 @@ namespace FSANC_V2.Components
 			var enumValue = DescriptionEnum.GetEnumByDescription(ComboBox_Type.SelectedItem.ToString(), typeof(SearchType));
 			if (enumValue == null) return;
 			_current = (SearchType)enumValue;
+		}
+
+		private void Database_SearchProgressChanged(object sender, SearchProgressEventArgs e)
+		{
+			Invoke(new MethodInvoker(delegate
+			{
+				ProgressBar_DatabaseSearch.Value = e.ProgressInPercents;
+			}));
 		}
 
 		private void Database_VideoFound(object sender, VideoFoundEventArgs e)
@@ -145,6 +154,8 @@ namespace FSANC_V2.Components
 
 		private async void RunSearch()
 		{
+			ProgressBar_DatabaseSearch.Value = 0;
+			
 			var title = TextBox_SearchField.Text.Trim();
 			if (string.IsNullOrEmpty(title))
 			{
@@ -155,26 +166,37 @@ namespace FSANC_V2.Components
 
 			ListView_SearchResults.Items.Clear();
 
-			EnableControls(false);
-			switch (_current)
+			try
 			{
-				case SearchType.Both:
+				EnableControls(false);
+				switch (_current)
+				{
+					case SearchType.Both:
 					{
 						await Task.Run(() => _database.FindSeriesAndMovies(title));
 						break;
 					}
-				case SearchType.Movies:
+					case SearchType.Movies:
 					{
 						await Task.Run(() => _database.FindMovies(title));
 						break;
 					}
-				case SearchType.Series:
+					case SearchType.Series:
 					{
 						await Task.Run(() => _database.FindSeries(title));
 						break;
 					}
+				}
 			}
-			EnableControls(true);
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.StackTrace);
+				// TODO: handle and log exception.
+			}
+			finally
+			{
+				EnableControls(true);
+			}
 		}
 	}
 }

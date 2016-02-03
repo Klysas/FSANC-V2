@@ -39,11 +39,13 @@
 			this.TextBox_SearchField = new System.Windows.Forms.TextBox();
 			this.ComboBox_Type = new System.Windows.Forms.ComboBox();
 			this.TextBox_ToolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.ProgressBar_DatabaseSearch = new System.Windows.Forms.ProgressBar();
 			this.GrpBoxMain.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// GrpBoxMain
 			// 
+			this.GrpBoxMain.Controls.Add(this.ProgressBar_DatabaseSearch);
 			this.GrpBoxMain.Controls.Add(this.Button_StopSearch);
 			this.GrpBoxMain.Controls.Add(this.Button_Search);
 			this.GrpBoxMain.Controls.Add(this.ListView_SearchResults);
@@ -143,6 +145,17 @@
 			this.TextBox_ToolTip.IsBalloon = true;
 			this.TextBox_ToolTip.OwnerDraw = true;
 			// 
+			// ProgressBar_DatabaseSearch
+			// 
+			this.ProgressBar_DatabaseSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.ProgressBar_DatabaseSearch.Location = new System.Drawing.Point(6, 42);
+			this.ProgressBar_DatabaseSearch.Name = "ProgressBar_DatabaseSearch";
+			this.ProgressBar_DatabaseSearch.Size = new System.Drawing.Size(337, 4);
+			this.ProgressBar_DatabaseSearch.Step = 1;
+			this.ProgressBar_DatabaseSearch.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+			this.ProgressBar_DatabaseSearch.TabIndex = 5;
+			// 
 			// Searcher
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -169,5 +182,6 @@
 		private System.Windows.Forms.ColumnHeader ColumnHeader_Title;
 		private System.Windows.Forms.ColumnHeader ColumnHeader_Year;
 		private System.Windows.Forms.Button Button_StopSearch;
+		private System.Windows.Forms.ProgressBar ProgressBar_DatabaseSearch;
 	}
 }
