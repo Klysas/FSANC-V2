@@ -6,6 +6,17 @@ namespace SeriesMovieInfoDatabase
 {
 	public sealed partial class Database
 	{
+		//-------------------------------------------------------------
+		//	Private variables
+		//-------------------------------------------------------------
+
+		private const int PROGRESS_POINTS_PER_SERIES = 50;
+
+		/// <summary>
+		/// Used to tract progress of individual series.
+		/// </summary>
+		private readonly SearchProgress _seriesProgress;
+
 		//=============================================================
 		//	Private methods
 		//=============================================================
@@ -13,6 +24,10 @@ namespace SeriesMovieInfoDatabase
 		private Series GetSeries(SearchTv series)
 		{
 			var tempSeries = _client.GetTvShow(series.Id);
+
+			// Reset progress for series.
+			_seriesProgress.CurrentItemsCount = 0;
+			_seriesProgress.TotalItemsCount = tempSeries.NumberOfEpisodes;
 
 			var sTitle = series.Name;
 			var sYear = ExtractYear(series.FirstAirDate);
@@ -55,9 +70,21 @@ namespace SeriesMovieInfoDatabase
 				if (sName.Equals("")) sName = "Unknown";
 
 				episodeList[i] = new Episode(sName, episode.EpisodeNumber, season.SeasonNumber);
+
+				_seriesProgress.CurrentItemsCount++;
+				ReportSeriesProgress();
 			}
 
 			return episodeList;
+		}
+
+		/// <summary>
+		/// Triggers ProgressChanged event.
+		/// </summary>
+		private void ReportSeriesProgress()
+		{
+			var pointsCompleted = _seriesProgress.CurrentItemsCount * PROGRESS_POINTS_PER_SERIES / _seriesProgress.TotalItemsCount;
+			OnSearchProgressChanged(new SearchProgressEventArgs(_progress.CurrentItemsCount + pointsCompleted, _progress.TotalItemsCount));
 		}
 	}
 }

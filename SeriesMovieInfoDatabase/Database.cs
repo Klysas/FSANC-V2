@@ -46,6 +46,7 @@ namespace SeriesMovieInfoDatabase
 			// Initialization.
 			_client = new TMDbClient(key);
 			_progress = new SearchProgress();
+			_seriesProgress = new SearchProgress();
 
 			// Setting up current state.
 			CurrentState = State.Idle;
@@ -145,12 +146,12 @@ namespace SeriesMovieInfoDatabase
 				}
 				else
 				{
-					moviesCount = seriesCount = ReturnedResultsCount/2;
+					moviesCount = seriesCount = ReturnedResultsCount / 2;
 				}
 
 				_progress.CurrentItemsCount = 0;
 				_progress.TotalItemsCount = moviesCount;
-				_progress.TotalItemsCount += seriesCount;
+				_progress.TotalItemsCount += (seriesCount * PROGRESS_POINTS_PER_SERIES);
 
 				var movies = FindMovies(title, moviesCount);
 				var series = FindSeries(title, seriesCount);
@@ -225,8 +226,8 @@ namespace SeriesMovieInfoDatabase
 				if (container.Results.Count == 0) return new Series[0];
 
 				_progress.CurrentItemsCount = 0;
-				_progress.TotalItemsCount = (ReturnedResultsCount == 0) || (ReturnedResultsCount > container.TotalResults)
-					? container.TotalResults : ReturnedResultsCount;
+				_progress.TotalItemsCount = ((ReturnedResultsCount == 0) || (ReturnedResultsCount > container.TotalResults)
+					? container.TotalResults : ReturnedResultsCount) * PROGRESS_POINTS_PER_SERIES;
 
 				return FindSeries(title, _progress.TotalItemsCount);
 			}
@@ -307,19 +308,20 @@ namespace SeriesMovieInfoDatabase
 
 		private Series OnNewVideo(Series series)
 		{
+			_progress.CurrentItemsCount += PROGRESS_POINTS_PER_SERIES;
 			OnNewVideo((AbstractVideo)series);
 			return series;
 		}
 
 		private Movie OnNewVideo(Movie movie)
 		{
+			_progress.CurrentItemsCount++;
 			OnNewVideo((AbstractVideo)movie);
 			return movie;
 		}
 
 		private void OnNewVideo(AbstractVideo video)
 		{
-			_progress.CurrentItemsCount++;
 			OnVideoFound(new VideoFoundEventArgs(video));
 			OnSearchProgressChanged(new SearchProgressEventArgs(_progress.CurrentItemsCount, _progress.TotalItemsCount));
 		}
