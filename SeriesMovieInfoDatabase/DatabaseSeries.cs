@@ -19,6 +19,8 @@ namespace SeriesMovieInfoDatabase
 			var sGenres = GenresToArray(tempSeries.Genres);
 			var sSeasons = GetSeasons(tempSeries);
 
+			ThrowIfCancelled();
+
 			return new Series(sTitle, sYear, sGenres, sSeasons);
 		}
 
@@ -46,6 +48,8 @@ namespace SeriesMovieInfoDatabase
 			for (int i = 0; i < season.EpisodeCount; i++)
 			{
 				var episode = _client.GetTvEpisode(tvShowId, season.SeasonNumber, i + 1);
+
+				ThrowIfCancelled();
 
 				string sName = episode.Name ?? "Unknown";
 				if (sName.Equals("")) sName = "Unknown";

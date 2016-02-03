@@ -31,9 +31,9 @@ namespace SeriesMovieInfoDatabase
 			}
 		}
 
-		//=============================================================
+		//-------------------------------------------------------------
 		//	Private static methods
-		//=============================================================
+		//-------------------------------------------------------------
 
 		/// <summary>
 		/// Gets year value from date.
@@ -61,6 +61,22 @@ namespace SeriesMovieInfoDatabase
 				array[i++] = genre.Name.Equals("Science Fiction") ? "Sci-Fi" : genre.Name;
 			}
 			return array;
+		}
+
+		//-------------------------------------------------------------
+		//	Private non-static methods
+		//-------------------------------------------------------------
+
+		/// <summary>
+		/// Exception is thrown if CurrentState == Stopping.
+		/// </summary>
+		/// <exception cref="CancelledException"></exception>
+		private void ThrowIfCancelled()
+		{
+			if (CurrentState == State.Stopping)
+			{
+				throw new CancelledException();
+			}
 		}
 	}
 }

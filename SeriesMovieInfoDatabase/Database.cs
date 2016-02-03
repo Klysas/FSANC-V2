@@ -145,7 +145,7 @@ namespace SeriesMovieInfoDatabase
 				}
 				else
 				{
-					moviesCount = seriesCount = ReturnedResultsCount / 2;
+					moviesCount = seriesCount = ReturnedResultsCount/2;
 				}
 
 				_progress.CurrentItemsCount = 0;
@@ -155,6 +155,10 @@ namespace SeriesMovieInfoDatabase
 				var movies = FindMovies(title, moviesCount);
 				var series = FindSeries(title, seriesCount);
 				return movies.Union<AbstractVideo>(series).ToArray();
+			}
+			catch (CancelledException ex)
+			{
+				return new AbstractVideo[0];
 			}
 			finally
 			{
@@ -184,9 +188,14 @@ namespace SeriesMovieInfoDatabase
 				if (container.Results.Count == 0) return new Movie[0];
 
 				_progress.CurrentItemsCount = 0;
-				_progress.TotalItemsCount = (ReturnedResultsCount == 0) || (ReturnedResultsCount > container.TotalResults) ? container.TotalResults : ReturnedResultsCount;
+				_progress.TotalItemsCount = (ReturnedResultsCount == 0) || (ReturnedResultsCount > container.TotalResults)
+					? container.TotalResults : ReturnedResultsCount;
 
 				return FindMovies(title, _progress.TotalItemsCount);
+			}
+			catch (CancelledException ex)
+			{
+				return new Movie[0];
 			}
 			finally
 			{
@@ -216,9 +225,14 @@ namespace SeriesMovieInfoDatabase
 				if (container.Results.Count == 0) return new Series[0];
 
 				_progress.CurrentItemsCount = 0;
-				_progress.TotalItemsCount = (ReturnedResultsCount == 0) || (ReturnedResultsCount > container.TotalResults) ? container.TotalResults : ReturnedResultsCount;
+				_progress.TotalItemsCount = (ReturnedResultsCount == 0) || (ReturnedResultsCount > container.TotalResults)
+					? container.TotalResults : ReturnedResultsCount;
 
 				return FindSeries(title, _progress.TotalItemsCount);
+			}
+			catch (CancelledException ex)
+			{
+				return new Series[0];
 			}
 			finally
 			{
@@ -263,9 +277,7 @@ namespace SeriesMovieInfoDatabase
 				{
 					movies[movieIndex++] = OnNewVideo(GetMovie(movie));
 					if (movieIndex >= totalResults) break;
-					if (CurrentState == State.Stopping) break;
 				}
-				if (CurrentState == State.Stopping) break;
 				pageIndex++;
 			} while (movieIndex < totalResults);
 
@@ -286,9 +298,7 @@ namespace SeriesMovieInfoDatabase
 				{
 					seriesArray[seriesIndex++] = OnNewVideo(GetSeries(series));
 					if (seriesIndex >= totalResults) break;
-					if (CurrentState == State.Stopping) break;
 				}
-				if (CurrentState == State.Stopping) break;
 				pageIndex++;
 			} while (seriesIndex < totalResults);
 
@@ -380,6 +390,23 @@ namespace SeriesMovieInfoDatabase
 			{
 				get;
 				set;
+			}
+		}
+
+		private class CancelledException : Exception
+		{
+			public CancelledException()
+			{
+			}
+
+			public CancelledException(string message)
+				: base(message)
+			{
+			}
+
+			public CancelledException(string message, Exception inner)
+				: base(message, inner)
+			{
 			}
 		}
 	}

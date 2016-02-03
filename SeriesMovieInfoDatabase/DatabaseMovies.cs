@@ -17,6 +17,8 @@ namespace SeriesMovieInfoDatabase
 			var mYear = ExtractYear(movie.ReleaseDate);
 			var mGenres = GenresToArray(tempMovie.Genres);
 
+			ThrowIfCancelled();
+
 			return new Movie(mTitle, mYear, mGenres);
 		}
 	}
