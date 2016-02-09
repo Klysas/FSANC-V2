@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Aga.Controls">
+      <HintPath>..\packages\AdamsLair.TreeViewAdv.1.7.5.0\lib\net20\Aga.Controls.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.DirectoryServices" />
@@ -75,8 +78,13 @@
     <Compile Include="Components\InfoDisplayer.Designer.cs">
       <DependentUpon>InfoDisplayer.cs</DependentUpon>
     </Compile>
-    <Compile Include="File.cs" />
+    <Compile Include="StorageUnitTree\File.cs" />
+    <Compile Include="StorageUnitTree\Folder.cs" />
+    <Compile Include="Components\FolderBrowserDialogEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ISettings.cs" />
+    <Compile Include="StorageUnitTree\StorageUnit.cs" />
     <Compile Include="KeyGatherer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -104,6 +112,7 @@
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
     <Compile Include="DescriptionEnum.cs" />
+    <Compile Include="StorageUnitTree\TreeContainerConstructor.cs" />
     <Compile Include="Utils.cs" />
     <EmbeddedResource Include="Components\FileRenameDisplayer.resx">
       <DependentUpon>FileRenameDisplayer.cs</DependentUpon>

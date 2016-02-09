@@ -1,25 +1,25 @@
 ﻿using System;
 using System.IO;
 
-namespace FSANC_V2
+namespace FSANC_V2.StorageUnitTree
 {
-	public sealed class File
+	public sealed class File : StorageUnit
 	{
 		//=============================================================
 		//	Public constructors
 		//=============================================================
 
 		/// <summary>
-		/// Creates file for given path.
+		/// Creates object of this class for given path.
 		/// </summary>
-		/// <param name="path">File path.</param>
+		/// <param name="path"></param>
+		/// <exception cref="ArgumentNullException">When path is null.</exception>
+		/// <exception cref="ArgumentException">When path is empty.</exception>
 		public File(string path)
+			: base(path)
 		{
-			if (path == null) throw new ArgumentNullException("path");
-
 			Extension = Path.GetExtension(path);
 			OriginalName = Path.GetFileNameWithoutExtension(path);
-			OriginalPath = Path.GetDirectoryName(path);
 		}
 
 		//=============================================================
@@ -35,31 +35,13 @@ namespace FSANC_V2
 			private set;
 		}
 
-		/// <summary>
-		/// [GET] Full path to file(excluding file name and extension).
-		/// </summary>
-		public string OriginalPath
-		{
-			get;
-			private set;
-		}
-
-		/// <summary>
-		/// [GET] File name without extension.
-		/// </summary>
-		public string OriginalName
-		{
-			get;
-			private set;
-		}
-
 		//=============================================================
 		//	Public methods
 		//=============================================================
 
 		public override string ToString()
 		{
-			return Path.Combine(OriginalPath, OriginalName + Extension);
+			return base.ToString() + Extension;
 		}
 	}
 }

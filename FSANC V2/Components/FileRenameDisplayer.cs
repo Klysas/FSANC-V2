@@ -1,8 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Aga.Controls.Tree;
 using SeriesMovieInfoDatabase.Objects;
+using FSANC_V2.StorageUnitTree;
 
 namespace FSANC_V2.Components
 {
@@ -12,7 +15,10 @@ namespace FSANC_V2.Components
 		//	Private variables
 		//=============================================================
 
-		private readonly List<File> _files;
+		// To add nodes to TreeViewAdv.
+		private readonly TreeModel _model;
+
+		private readonly TreeContainerConstructor _treeContainer;
 
 		//=============================================================
 		//	Public constructors
@@ -22,9 +28,9 @@ namespace FSANC_V2.Components
 		{
 			InitializeComponent();
 
-			_files = new List<File>();
-
-			UpdateUI();
+			_model = new TreeModel();
+			TreeViewAdv_Files.Model = _model;
+			_treeContainer = new TreeContainerConstructor();
 		}
 
 		//=============================================================
@@ -38,12 +44,51 @@ namespace FSANC_V2.Components
 
 		private void ButtonSelectFiles_Click(object sender, EventArgs e)
 		{
-			OpenFileDialog.ShowDialog();
-			foreach (var path in OpenFileDialog.FileNames.Where(path => !IsFileLoaded(path)))
+			var dialog = new FolderBrowserDialogEx
 			{
-				_files.Add(new File(path));
+				ShowNewFolderButton = true,
+				ShowBothFilesAndFolders = true,
+			};
+
+			var result = dialog.ShowDialog();
+
+			try
+			{
+				if (result != DialogResult.OK) return;
+				_treeContainer.UpdateTreeContainer(dialog.SelectedPath);
+				UpdateTreeView();
 			}
-			UpdateUI(); 
+			catch (ArgumentException)
+			{
+				MessageBox.Show(@"File or folder is already loaded.", null, MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
+			finally
+			{
+				dialog.Dispose();
+			}
+		}
+
+		private void ContextMenuStripTreeViewAdvFiles_Opening(object sender, CancelEventArgs e)
+		{
+			if (!_treeContainer.TreeRootStorageUnits.Any())
+			{
+				e.Cancel = true;
+			}
+		}
+
+		private void MenuItemRemoveSelected_Click(object sender, EventArgs e)
+		{
+			foreach (var storageUnit in TreeViewAdv_Files.SelectedNodes.Select(treeNodeAdv => treeNodeAdv.Tag as Node).Select(node => node.Tag as StorageUnit))
+			{
+				_treeContainer.Remove(storageUnit);
+			}
+			UpdateTreeView();
+		}
+
+		private void MenuItemRemoveAll_Click(object sender, EventArgs e)
+		{
+			_treeContainer.Clear();
+			UpdateTreeView();
 		}
 
 		//=============================================================
@@ -59,7 +104,6 @@ namespace FSANC_V2.Components
 			Label_Title.Text = video.Title;
 
 			base.Update(video);
-			UpdateRenamedNamesInListView();
 		}
 
 		//-------------------------------------------------------------
@@ -77,7 +121,31 @@ namespace FSANC_V2.Components
 		}
 
 		//-------------------------------------------------------------
-		//	Private methods
+		//	Private static methods
+		//-------------------------------------------------------------
+
+		private static void UpdateTreeView(Folder folder, Node folderNode)
+		{
+			foreach (var child in folder.Children)
+			{
+				var file = child as File;
+				if (file != null)
+				{
+					var fileNode = new Node(file.OriginalName + file.Extension) { Tag = file };
+					folderNode.Nodes.Add(fileNode);
+				}
+
+				var subFolder = child as Folder;
+				if (subFolder == null) { continue; }
+
+				var subFolderNode = new Node(subFolder.OriginalName) { Tag = subFolder };
+				folderNode.Nodes.Add(subFolderNode);
+				UpdateTreeView(subFolder, subFolderNode);
+			}
+		}
+
+		//-------------------------------------------------------------
+		//	Private non-static methods
 		//-------------------------------------------------------------
 
 		private string ConstructName(AbstractVideo video)
@@ -106,33 +174,65 @@ namespace FSANC_V2.Components
 			return name;
 		}
 
-		private bool IsFileLoaded(string path)
+		private void ResizeViewColumns()
 		{
-			return _files.Any(file => file.ToString().Equals(path));
+			if (!_treeContainer.TreeRootStorageUnits.Any()) return;
+			var measureContext = new DrawContext
+			{
+				Graphics = Graphics.FromImage(new Bitmap(1, 1)),
+				Font = TreeViewAdv_Files.Font
+			};
+
+			// On the first column take head for the plus/minus and lines. The 7 is the LeftMargin of the PlusMinus. 
+			int newWidth = (TreeViewAdv_Files.ShowPlusMinus ? 20 : 0) + 7;
+			foreach (var column in TreeViewAdv_Files.Columns)
+			{
+				foreach (var nodeControl in TreeViewAdv_Files.NodeControls)
+				{
+					if (nodeControl.ParentColumn != column) continue;
+					// Many controls can be displayed in the same column
+					int maxControlWidth = 0;
+					foreach (var nodeAdv in TreeViewAdv_Files.AllNodes)
+					{
+						var size = nodeControl.MeasureSize(nodeAdv, measureContext);
+						maxControlWidth = Math.Max(maxControlWidth, (size.Width + nodeControl.LeftMargin));
+					}
+					newWidth += maxControlWidth;
+				}
+				column.Width = newWidth;
+				newWidth = 0;
+			}
 		}
 
-		private void UpdateRenamedNamesInListView()
+		private void UpdateTreeView()
 		{
-			if (Video == null || _files.Count <= 0) return;
+			_model.Nodes.Clear();
 
-			var name = ConstructName(Video);
-
-			foreach (ListViewItem item in ListView_Files.Items)
+			TreeViewAdv_Files.BeginUpdate();
+			foreach (var storageUnit in _treeContainer.TreeRootStorageUnits)
 			{
-				item.SubItems[1].Text = name;
+				var file = storageUnit as File;
+				if (file != null)
+				{
+					var fileNode = new Node(file.OriginalName + file.Extension) { Tag = file };
+					_model.Nodes.Add(fileNode);
+				}
+
+				var folder = storageUnit as Folder;
+				if (folder == null) { continue; }
+
+				var folderNode = new Node(folder.OriginalName) { Tag = folder };
+				_model.Nodes.Add(folderNode);
+				UpdateTreeView(folder, folderNode);
 			}
+			TreeViewAdv_Files.EndUpdate();
+			TreeViewAdv_Files.ExpandAll();
+			ResizeViewColumns();
 		}
 
 		private void UpdateUI()
 		{
-			ListView_Files.Items.Clear();
-			foreach (var file in _files)
-			{
-				ListView_Files.Items.Add(new ListViewItem(new[] { file.OriginalName, string.Empty })).Tag = file;
-			}
-
-			UpdateRenamedNamesInListView();
-			ListView_Files.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+			// Empty. For future.
 		}
 	}
 }
