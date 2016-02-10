@@ -134,7 +134,7 @@
             this.MenuItem_RemoveAll});
 			this.ContextMenuStrip_TreeViewAdvFiles.Name = "ContextMenuStrip_TreeViewAdvFiles";
 			this.ContextMenuStrip_TreeViewAdvFiles.ShowItemToolTips = false;
-			this.ContextMenuStrip_TreeViewAdvFiles.Size = new System.Drawing.Size(164, 70);
+			this.ContextMenuStrip_TreeViewAdvFiles.Size = new System.Drawing.Size(164, 48);
 			this.ContextMenuStrip_TreeViewAdvFiles.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStripTreeViewAdvFiles_Opening);
 			// 
 			// MenuItem_RemoveSelected
@@ -160,6 +160,7 @@
 			// 
 			// NodeTextBox_NewTitle
 			// 
+			this.NodeTextBox_NewTitle.DataPropertyName = "SecondText";
 			this.NodeTextBox_NewTitle.IncrementalSearchEnabled = true;
 			this.NodeTextBox_NewTitle.LeftMargin = 3;
 			this.NodeTextBox_NewTitle.ParentColumn = this.TreeColumn_NewTitle;

@@ -124,21 +124,21 @@ namespace FSANC_V2.Components
 		//	Private static methods
 		//-------------------------------------------------------------
 
-		private static void UpdateTreeView(Folder folder, Node folderNode)
+		private static void UpdateTreeView(Folder folder, CustomNode folderNode)
 		{
 			foreach (var child in folder.Children)
 			{
 				var file = child as File;
 				if (file != null)
 				{
-					var fileNode = new Node(file.OriginalName + file.Extension) { Tag = file };
+					var fileNode = new CustomNode(file.OriginalName + file.Extension) { Tag = file };
 					folderNode.Nodes.Add(fileNode);
 				}
 
 				var subFolder = child as Folder;
 				if (subFolder == null) { continue; }
 
-				var subFolderNode = new Node(subFolder.OriginalName) { Tag = subFolder };
+				var subFolderNode = new CustomNode(subFolder.OriginalName) { Tag = subFolder };
 				folderNode.Nodes.Add(subFolderNode);
 				UpdateTreeView(subFolder, subFolderNode);
 			}
@@ -214,14 +214,14 @@ namespace FSANC_V2.Components
 				var file = storageUnit as File;
 				if (file != null)
 				{
-					var fileNode = new Node(file.OriginalName + file.Extension) { Tag = file };
+					var fileNode = new CustomNode(file.OriginalName + file.Extension) { Tag = file };
 					_model.Nodes.Add(fileNode);
 				}
 
 				var folder = storageUnit as Folder;
 				if (folder == null) { continue; }
 
-				var folderNode = new Node(folder.OriginalName) { Tag = folder };
+				var folderNode = new CustomNode(folder.OriginalName) { Tag = folder };
 				_model.Nodes.Add(folderNode);
 				UpdateTreeView(folder, folderNode);
 			}
@@ -233,6 +233,40 @@ namespace FSANC_V2.Components
 		private void UpdateUI()
 		{
 			// Empty. For future.
+		}
+
+		//=============================================================
+		//	Private classes
+		//=============================================================
+
+		private class CustomNode : Node
+		{
+			private string _secondText = "";
+
+			public CustomNode()
+				: base()
+			{
+
+			}
+
+			public CustomNode(string text)
+				: base(text)
+			{
+
+			}
+
+			/// <summary>
+			/// [GET/SET]
+			/// </summary>
+			public string SecondText
+			{
+				get { return _secondText; }
+				set
+				{
+					if (value == null) return;
+					_secondText = value;
+				}
+			}
 		}
 	}
 }
