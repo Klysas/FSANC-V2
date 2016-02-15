@@ -149,6 +149,16 @@ namespace SeriesMovieInfoDatabase
 					moviesCount = seriesCount = ReturnedResultsCount / 2;
 				}
 
+				if (movieContainer.TotalResults < moviesCount)
+				{
+					moviesCount = movieContainer.TotalResults;
+				}
+
+				if (seriesContainer.TotalResults < seriesCount)
+				{
+					seriesCount = seriesContainer.TotalResults;
+				}
+
 				_progress.CurrentItemsCount = 0;
 				_progress.TotalItemsCount = moviesCount;
 				_progress.TotalItemsCount += (seriesCount * PROGRESS_POINTS_PER_SERIES);
@@ -272,6 +282,7 @@ namespace SeriesMovieInfoDatabase
 			int movieIndex = 0;
 			do
 			{
+				ThrowIfCancelled();
 				var container = _client.SearchMovie(title, pageIndex);
 
 				foreach (SearchMovie movie in container.Results)
@@ -293,6 +304,7 @@ namespace SeriesMovieInfoDatabase
 			int seriesIndex = 0;
 			do
 			{
+				ThrowIfCancelled();
 				var container = _client.SearchTvShow(title, pageIndex);
 
 				foreach (SearchTv series in container.Results)
