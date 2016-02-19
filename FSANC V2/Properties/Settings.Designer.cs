@@ -38,24 +38,48 @@ namespace FSANC_V2.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string MOVIE_NAME_FORMAT {
+        public string FORMAT_MOVIE_FILE_NAME {
             get {
-                return ((string)(this["MOVIE_NAME_FORMAT"]));
+                return ((string)(this["FORMAT_MOVIE_FILE_NAME"]));
             }
             set {
-                this["MOVIE_NAME_FORMAT"] = value;
+                this["FORMAT_MOVIE_FILE_NAME"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string SERIES_NAME_FORMAT {
+        public string FORMAT_SERIES_FILE_NAME {
             get {
-                return ((string)(this["SERIES_NAME_FORMAT"]));
+                return ((string)(this["FORMAT_SERIES_FILE_NAME"]));
             }
             set {
-                this["SERIES_NAME_FORMAT"] = value;
+                this["FORMAT_SERIES_FILE_NAME"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string FORMAT_MOVIE_DIR_NAME {
+            get {
+                return ((string)(this["FORMAT_MOVIE_DIR_NAME"]));
+            }
+            set {
+                this["FORMAT_MOVIE_DIR_NAME"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string FORMAT_SERIES_DIR_NAME {
+            get {
+                return ((string)(this["FORMAT_SERIES_DIR_NAME"]));
+            }
+            set {
+                this["FORMAT_SERIES_DIR_NAME"] = value;
             }
         }
     }

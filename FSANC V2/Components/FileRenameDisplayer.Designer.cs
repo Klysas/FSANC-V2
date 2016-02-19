@@ -31,17 +31,23 @@
 			this.components = new System.ComponentModel.Container();
 			this.Label_Title = new System.Windows.Forms.Label();
 			this.Label_Separator = new System.Windows.Forms.Label();
-			this.Button_SelectFiles = new System.Windows.Forms.Button();
+			this.Button_LoadFiles = new System.Windows.Forms.Button();
 			this.Button_RenameFiles = new System.Windows.Forms.Button();
 			this.TreeViewAdv_Files = new Aga.Controls.Tree.TreeViewAdv();
 			this.TreeColumn_Title = new Aga.Controls.Tree.TreeColumn();
 			this.TreeColumn_NewTitle = new Aga.Controls.Tree.TreeColumn();
 			this.ContextMenuStrip_TreeViewAdvFiles = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.MenuItem_ModifyValues = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.MenuItem_SelectAll = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.MenuItem_RemoveSelected = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuItem_RemoveAll = new System.Windows.Forms.ToolStripMenuItem();
 			this.NodeTextBox_Title = new Aga.Controls.Tree.NodeControls.NodeTextBox();
 			this.NodeTextBox_NewTitle = new Aga.Controls.Tree.NodeControls.NodeTextBox();
 			this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+			this.Button_ConstructNames = new System.Windows.Forms.Button();
+			this.ComboBox_Languages = new System.Windows.Forms.ComboBox();
 			this.ContextMenuStrip_TreeViewAdvFiles.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -64,15 +70,15 @@
 			this.Label_Separator.Size = new System.Drawing.Size(421, 2);
 			this.Label_Separator.TabIndex = 1;
 			// 
-			// Button_SelectFiles
+			// Button_LoadFiles
 			// 
-			this.Button_SelectFiles.Location = new System.Drawing.Point(12, 38);
-			this.Button_SelectFiles.Name = "Button_SelectFiles";
-			this.Button_SelectFiles.Size = new System.Drawing.Size(75, 23);
-			this.Button_SelectFiles.TabIndex = 2;
-			this.Button_SelectFiles.Text = "Select files";
-			this.Button_SelectFiles.UseVisualStyleBackColor = true;
-			this.Button_SelectFiles.Click += new System.EventHandler(this.ButtonSelectFiles_Click);
+			this.Button_LoadFiles.Location = new System.Drawing.Point(12, 38);
+			this.Button_LoadFiles.Name = "Button_LoadFiles";
+			this.Button_LoadFiles.Size = new System.Drawing.Size(75, 23);
+			this.Button_LoadFiles.TabIndex = 2;
+			this.Button_LoadFiles.Text = "Load files";
+			this.Button_LoadFiles.UseVisualStyleBackColor = true;
+			this.Button_LoadFiles.Click += new System.EventHandler(this.ButtonLoadFiles_Click);
 			// 
 			// Button_RenameFiles
 			// 
@@ -130,12 +136,40 @@
 			// ContextMenuStrip_TreeViewAdvFiles
 			// 
 			this.ContextMenuStrip_TreeViewAdvFiles.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuItem_ModifyValues,
+            this.toolStripSeparator1,
+            this.MenuItem_SelectAll,
+            this.toolStripSeparator2,
             this.MenuItem_RemoveSelected,
             this.MenuItem_RemoveAll});
 			this.ContextMenuStrip_TreeViewAdvFiles.Name = "ContextMenuStrip_TreeViewAdvFiles";
 			this.ContextMenuStrip_TreeViewAdvFiles.ShowItemToolTips = false;
-			this.ContextMenuStrip_TreeViewAdvFiles.Size = new System.Drawing.Size(164, 48);
+			this.ContextMenuStrip_TreeViewAdvFiles.Size = new System.Drawing.Size(164, 104);
 			this.ContextMenuStrip_TreeViewAdvFiles.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStripTreeViewAdvFiles_Opening);
+			// 
+			// MenuItem_ModifyValues
+			// 
+			this.MenuItem_ModifyValues.Name = "MenuItem_ModifyValues";
+			this.MenuItem_ModifyValues.Size = new System.Drawing.Size(163, 22);
+			this.MenuItem_ModifyValues.Text = "Modify values";
+			this.MenuItem_ModifyValues.Click += new System.EventHandler(this.MenuItemModifyValues_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(160, 6);
+			// 
+			// MenuItem_SelectAll
+			// 
+			this.MenuItem_SelectAll.Name = "MenuItem_SelectAll";
+			this.MenuItem_SelectAll.Size = new System.Drawing.Size(163, 22);
+			this.MenuItem_SelectAll.Text = "Select all";
+			this.MenuItem_SelectAll.Click += new System.EventHandler(this.MenuItemSelectAll_Click);
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(160, 6);
 			// 
 			// MenuItem_RemoveSelected
 			// 
@@ -161,17 +195,42 @@
 			// NodeTextBox_NewTitle
 			// 
 			this.NodeTextBox_NewTitle.DataPropertyName = "SecondText";
+			this.NodeTextBox_NewTitle.EditEnabled = true;
+			this.NodeTextBox_NewTitle.EditOnClick = true;
 			this.NodeTextBox_NewTitle.IncrementalSearchEnabled = true;
 			this.NodeTextBox_NewTitle.LeftMargin = 3;
 			this.NodeTextBox_NewTitle.ParentColumn = this.TreeColumn_NewTitle;
+			// 
+			// Button_ConstructNames
+			// 
+			this.Button_ConstructNames.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.Button_ConstructNames.Location = new System.Drawing.Point(244, 38);
+			this.Button_ConstructNames.Name = "Button_ConstructNames";
+			this.Button_ConstructNames.Size = new System.Drawing.Size(96, 23);
+			this.Button_ConstructNames.TabIndex = 6;
+			this.Button_ConstructNames.Text = "Construct names";
+			this.Button_ConstructNames.UseVisualStyleBackColor = true;
+			this.Button_ConstructNames.Click += new System.EventHandler(this.ButtonConstructNames_Click);
+			// 
+			// ComboBox_Languages
+			// 
+			this.ComboBox_Languages.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.ComboBox_Languages.FormattingEnabled = true;
+			this.ComboBox_Languages.Location = new System.Drawing.Point(93, 38);
+			this.ComboBox_Languages.Name = "ComboBox_Languages";
+			this.ComboBox_Languages.Size = new System.Drawing.Size(145, 21);
+			this.ComboBox_Languages.TabIndex = 7;
+			this.ComboBox_Languages.Text = "Language";
 			// 
 			// FileRenameDisplayer
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.ComboBox_Languages);
+			this.Controls.Add(this.Button_ConstructNames);
 			this.Controls.Add(this.TreeViewAdv_Files);
 			this.Controls.Add(this.Button_RenameFiles);
-			this.Controls.Add(this.Button_SelectFiles);
+			this.Controls.Add(this.Button_LoadFiles);
 			this.Controls.Add(this.Label_Separator);
 			this.Controls.Add(this.Label_Title);
 			this.Name = "FileRenameDisplayer";
@@ -186,7 +245,7 @@
 
 		private System.Windows.Forms.Label Label_Title;
 		private System.Windows.Forms.Label Label_Separator;
-		private System.Windows.Forms.Button Button_SelectFiles;
+		private System.Windows.Forms.Button Button_LoadFiles;
 		private System.Windows.Forms.Button Button_RenameFiles;
 		private Aga.Controls.Tree.TreeViewAdv TreeViewAdv_Files;
 		private Aga.Controls.Tree.TreeColumn TreeColumn_Title;
@@ -197,5 +256,11 @@
 		private System.Windows.Forms.ContextMenuStrip ContextMenuStrip_TreeViewAdvFiles;
 		private System.Windows.Forms.ToolStripMenuItem MenuItem_RemoveSelected;
 		private System.Windows.Forms.ToolStripMenuItem MenuItem_RemoveAll;
+		private System.Windows.Forms.Button Button_ConstructNames;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripMenuItem MenuItem_ModifyValues;
+		private System.Windows.Forms.ToolStripMenuItem MenuItem_SelectAll;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+		private System.Windows.Forms.ComboBox ComboBox_Languages;
 	}
 }

@@ -14,14 +14,20 @@ namespace FSANC_V2
 		//=============================================================
 		//	Public constructors
 		//=============================================================
-		
+
 		public Settings()
 		{
 			InitializeComponent();
 
 			// Set default values if no value is set.
-			if (_settings.MOVIE_NAME_FORMAT.Equals(string.Empty)) _settings.MOVIE_NAME_FORMAT = Properties.Resources.DEFAULT_MOVIE_NAME_FORMAT;
-			if (_settings.SERIES_NAME_FORMAT.Equals(string.Empty)) _settings.SERIES_NAME_FORMAT = Properties.Resources.DEFAULT_SERIES_NAME_FORMAT;
+			if (_settings.FORMAT_MOVIE_FILE_NAME.Equals(""))
+				_settings.FORMAT_MOVIE_FILE_NAME = Properties.Resources.DEFAULT_FORMAT_MOVIE_FILE_NAME;
+			if (_settings.FORMAT_SERIES_FILE_NAME.Equals(""))
+				_settings.FORMAT_SERIES_FILE_NAME = Properties.Resources.DEFAULT_FORMAT_SERIES_FILE_NAME;
+			if (_settings.FORMAT_MOVIE_DIR_NAME.Equals(""))
+				_settings.FORMAT_MOVIE_DIR_NAME = Properties.Resources.DEFAULT_FORMAT_MOVIE_DIR_NAME;
+			if (_settings.FORMAT_SERIES_DIR_NAME.Equals(""))
+				_settings.FORMAT_SERIES_DIR_NAME = Properties.Resources.DEFAULT_FORMAT_SERIES_DIR_NAME;
 			_settings.Save();
 
 			UpdateUI();
@@ -31,14 +37,34 @@ namespace FSANC_V2
 		//	Private events
 		//=============================================================
 
-		private void ButtonSave_Click(object sender, EventArgs e)
+		private void ButtonCancel_Click(object sender, EventArgs e)
 		{
-			SaveSettings();
 			Close();
 		}
 
-		private void ButtonCancel_Click(object sender, EventArgs e)
+		private void ButtonDefaultMovieFileNameFormat_Click(object sender, EventArgs e)
 		{
+			TextBox_MovieNameFileFormat.Text = Properties.Resources.DEFAULT_FORMAT_MOVIE_FILE_NAME;
+		}
+
+		private void ButtonDefaultSeriesFileNameFormat_Click(object sender, EventArgs e)
+		{
+			TextBox_SeriesNameFileFormat.Text = Properties.Resources.DEFAULT_FORMAT_SERIES_FILE_NAME;
+		}
+
+		private void ButtonDefaultMovieDirNameFormat_Click(object sender, EventArgs e)
+		{
+			TextBox_MovieNameDirFormat.Text = Properties.Resources.DEFAULT_FORMAT_MOVIE_DIR_NAME;
+		}
+
+		private void ButtonDefaultSeriesDirNameFormat_Click(object sender, EventArgs e)
+		{
+			TextBox_SeriesNameDirFormat.Text = Properties.Resources.DEFAULT_FORMAT_SERIES_DIR_NAME;
+		}
+
+		private void ButtonSave_Click(object sender, EventArgs e)
+		{
+			SaveSettings();
 			Close();
 		}
 
@@ -71,17 +97,22 @@ namespace FSANC_V2
 		//	Private non-static methods
 		//-------------------------------------------------------------
 
-		private void UpdateUI(){
+		private void UpdateUI()
+		{
 			_settings.Reload();
-			TextBox_MovieNameFormat.Text = _settings.MOVIE_NAME_FORMAT;
-			TextBox_SeriesNameFormat.Text = _settings.SERIES_NAME_FORMAT;
+			TextBox_MovieNameFileFormat.Text = _settings.FORMAT_MOVIE_FILE_NAME;
+			TextBox_SeriesNameFileFormat.Text = _settings.FORMAT_SERIES_FILE_NAME;
+			TextBox_MovieNameDirFormat.Text = _settings.FORMAT_MOVIE_DIR_NAME;
+			TextBox_SeriesNameDirFormat.Text = _settings.FORMAT_SERIES_DIR_NAME;
 		}
 
 		private void SaveSettings()
 		{
 			// TODO: settings validation.
-			_settings.SERIES_NAME_FORMAT = TextBox_SeriesNameFormat.Text;
-			_settings.MOVIE_NAME_FORMAT = TextBox_MovieNameFormat.Text;
+			_settings.FORMAT_SERIES_FILE_NAME = TextBox_SeriesNameFileFormat.Text;
+			_settings.FORMAT_MOVIE_FILE_NAME = TextBox_MovieNameFileFormat.Text;
+			_settings.FORMAT_MOVIE_DIR_NAME = TextBox_MovieNameDirFormat.Text;
+			_settings.FORMAT_SERIES_DIR_NAME = TextBox_SeriesNameDirFormat.Text;
 			_settings.Save();
 			UpdateSettings(Owner);
 		}

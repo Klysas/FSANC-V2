@@ -61,20 +61,38 @@ namespace FSANC_V2.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to $name [$year][$genres].
+        ///   Looks up a localized string similar to $title [$year] [$genres].
         /// </summary>
-        internal static string DEFAULT_MOVIE_NAME_FORMAT {
+        internal static string DEFAULT_FORMAT_MOVIE_DIR_NAME {
             get {
-                return ResourceManager.GetString("DEFAULT_MOVIE_NAME_FORMAT", resourceCulture);
+                return ResourceManager.GetString("DEFAULT_FORMAT_MOVIE_DIR_NAME", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to $name [$year][$genres].
+        ///   Looks up a localized string similar to $title [$year][$language] [$genres].
         /// </summary>
-        internal static string DEFAULT_SERIES_NAME_FORMAT {
+        internal static string DEFAULT_FORMAT_MOVIE_FILE_NAME {
             get {
-                return ResourceManager.GetString("DEFAULT_SERIES_NAME_FORMAT", resourceCulture);
+                return ResourceManager.GetString("DEFAULT_FORMAT_MOVIE_FILE_NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to $title.
+        /// </summary>
+        internal static string DEFAULT_FORMAT_SERIES_DIR_NAME {
+            get {
+                return ResourceManager.GetString("DEFAULT_FORMAT_SERIES_DIR_NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to $title [$se $episodeTitle].
+        /// </summary>
+        internal static string DEFAULT_FORMAT_SERIES_FILE_NAME {
+            get {
+                return ResourceManager.GetString("DEFAULT_FORMAT_SERIES_FILE_NAME", resourceCulture);
             }
         }
         
@@ -109,6 +127,24 @@ namespace FSANC_V2.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to EN|LT|EN-Original|LT-Original|EN-Sub|LT-Sub.
+        /// </summary>
+        internal static string STR_ARRAY_LANGUAGES {
+            get {
+                return ResourceManager.GetString("STR_ARRAY_LANGUAGES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to $episodeTitle.
+        /// </summary>
+        internal static string STR_CODE_EPISODE_TITLE {
+            get {
+                return ResourceManager.GetString("STR_CODE_EPISODE_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to $genres.
         /// </summary>
         internal static string STR_CODE_GENRES {
@@ -118,11 +154,29 @@ namespace FSANC_V2.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to $name.
+        ///   Looks up a localized string similar to $language.
         /// </summary>
-        internal static string STR_CODE_NAME {
+        internal static string STR_CODE_LANGUAGE {
             get {
-                return ResourceManager.GetString("STR_CODE_NAME", resourceCulture);
+                return ResourceManager.GetString("STR_CODE_LANGUAGE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to $se.
+        /// </summary>
+        internal static string STR_CODE_SE {
+            get {
+                return ResourceManager.GetString("STR_CODE_SE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to $title.
+        /// </summary>
+        internal static string STR_CODE_TITLE {
+            get {
+                return ResourceManager.GetString("STR_CODE_TITLE", resourceCulture);
             }
         }
         

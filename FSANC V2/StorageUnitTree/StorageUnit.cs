@@ -6,6 +6,12 @@ namespace FSANC_V2.StorageUnitTree
 	public class StorageUnit
 	{
 		//=============================================================
+		//	Private variables
+		//=============================================================
+
+		private string _newName = "";
+
+		//=============================================================
 		//	Protected constructors
 		//=============================================================
 
@@ -27,6 +33,19 @@ namespace FSANC_V2.StorageUnitTree
 		//=============================================================
 		//	Public properties
 		//=============================================================
+
+		/// <summary>
+		/// [GET/SET]
+		/// </summary>
+		public string NewName
+		{
+			get { return _newName; }
+			set
+			{
+				if (value == null) return;
+				_newName = value;
+			}
+		}
 
 		/// <summary>
 		/// [GET] Full path to file or directory(excluding name).

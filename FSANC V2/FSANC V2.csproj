@@ -78,6 +78,12 @@
     <Compile Include="Components\InfoDisplayer.Designer.cs">
       <DependentUpon>InfoDisplayer.cs</DependentUpon>
     </Compile>
+    <Compile Include="SerialEpisodeValuesChanger.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SerialEpisodeValuesChanger.Designer.cs">
+      <DependentUpon>SerialEpisodeValuesChanger.cs</DependentUpon>
+    </Compile>
     <Compile Include="StorageUnitTree\File.cs" />
     <Compile Include="StorageUnitTree\Folder.cs" />
     <Compile Include="Components\FolderBrowserDialogEx.cs">
@@ -144,6 +150,9 @@
     </Compile>
     <EmbeddedResource Include="Components\Searcher.resx">
       <DependentUpon>Searcher.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SerialEpisodeValuesChanger.resx">
+      <DependentUpon>SerialEpisodeValuesChanger.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>

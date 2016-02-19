@@ -5,10 +5,16 @@
     <Setting Name="API_KEY" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="MOVIE_NAME_FORMAT" Type="System.String" Scope="User">
+    <Setting Name="FORMAT_MOVIE_FILE_NAME" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="SERIES_NAME_FORMAT" Type="System.String" Scope="User">
+    <Setting Name="FORMAT_SERIES_FILE_NAME" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="FORMAT_MOVIE_DIR_NAME" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="FORMAT_SERIES_DIR_NAME" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>
