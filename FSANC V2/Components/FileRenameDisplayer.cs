@@ -85,7 +85,7 @@ namespace FSANC_V2.Components
 				{
 					if (node.Tag is File)
 					{
-						var file = (File)node.Tag;
+						var file = (File) node.Tag;
 						if (file == null) continue;
 						System.IO.File.Move(file.ToString(), Path.Combine(file.OriginalPath, node.SecondText + file.Extension));
 						_treeContainer.Remove(file);
@@ -98,6 +98,10 @@ namespace FSANC_V2.Components
 						_treeContainer.Remove(folder);
 					}
 				}
+			}
+			catch (NotSupportedException ex)
+			{
+				MessageBox.Show(ex.Message, @"Exception", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 			catch (IOException ex)
 			{
@@ -206,7 +210,7 @@ namespace FSANC_V2.Components
 
 				var language = ComboBox_Languages.SelectedItem == null ? "" : ComboBox_Languages.SelectedItem.ToString();
 
-				customNode.SecondText = ConstructName(customNode.Tag is File, language, season, episode);
+				customNode.SecondText = ValidateFileName(ConstructName(customNode.Tag is File, language, season, episode));
 				if (customNode.Tag is StorageUnit)
 				{
 					((StorageUnit)customNode.Tag).NewName = customNode.SecondText;
@@ -406,6 +410,16 @@ namespace FSANC_V2.Components
 				folderNode.Nodes.Add(subFolderNode);
 				UpdateTreeView(subFolder, subFolderNode);
 			}
+		}
+
+		/// <summary>
+		/// Removes invalid characters from name.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns>Valid file name.</returns>
+		private static string ValidateFileName(string name)
+		{
+			return Path.GetInvalidFileNameChars().Aggregate(name, (current, c) => current.Replace(c.ToString(), ""));
 		}
 
 		//-------------------------------------------------------------
