@@ -9,6 +9,7 @@ using Aga.Controls.Tree;
 using SeriesMovieInfoDatabase.Objects;
 using FSANC_V2.StorageUnitTree;
 using File = FSANC_V2.StorageUnitTree.File;
+using SysFile = System.IO.File;
 
 namespace FSANC_V2.Components
 {
@@ -142,11 +143,26 @@ namespace FSANC_V2.Components
 				return;
 			}
 
+			var menuItemDeleteSelected = ContextMenuStrip_TreeViewAdvFiles.Items.Find("MenuItem_DeleteSelected", false).FirstOrDefault();
+			if (TreeViewAdv_Files.SelectedNodes.Count > 0)
+			{
+				if (menuItemDeleteSelected != null) menuItemDeleteSelected.Enabled = true;
+			}
+			else
+			{
+				if (menuItemDeleteSelected != null) menuItemDeleteSelected.Enabled = false;
+			}
+
 			var menuItemModifyValues = ContextMenuStrip_TreeViewAdvFiles.Items.Find("MenuItem_ModifyValues", false).FirstOrDefault();
+			var menuItemOpenFile = ContextMenuStrip_TreeViewAdvFiles.Items.Find("MenuItem_OpenFile", false).FirstOrDefault();
+
 			if (TreeViewAdv_Files.SelectedNodes.Count != 1)
 			{
+				if (menuItemOpenFile != null) menuItemOpenFile.Enabled = false;
 				if (menuItemModifyValues != null) menuItemModifyValues.Enabled = false;
+
 				ContextMenuStrip_TreeViewAdvFiles.Items[0].Text = GetSeasonEpisodeInDefaultFormat(0, 0);
+
 				return;
 			}
 
@@ -161,7 +177,9 @@ namespace FSANC_V2.Components
 				var menuItemSeasonEpisodeLabel = ContextMenuStrip_TreeViewAdvFiles.Items.Find("MenuItem_SeasonEpisodeLabel", false).FirstOrDefault();
 				if (menuItemSeasonEpisodeLabel != null) menuItemSeasonEpisodeLabel.Text = GetSeasonEpisodeInDefaultFormat(season, episode);
 			}
+
 			if (menuItemModifyValues != null) menuItemModifyValues.Enabled = true;
+			if (menuItemOpenFile != null) menuItemOpenFile.Enabled = true;
 		}
 
 		private void ButtonConstructNames_Click(object sender, EventArgs e)
@@ -196,6 +214,31 @@ namespace FSANC_V2.Components
 			}
 			TreeViewAdv_Files.EndUpdate();
 			ResizeViewColumns();
+		}
+
+		private void MenuItemDeleteSelected_Click(object sender, EventArgs e)
+		{
+			var result = MessageBox.Show(@"Are you sure you want to delete those files/directories?", "", MessageBoxButtons.YesNo);
+			if (result != DialogResult.Yes) return;
+
+			foreach (var storageUnit in TreeViewAdv_Files.SelectedNodes.Select(treeNodeAdv => treeNodeAdv.Tag as Node).Select(node => node.Tag as StorageUnit).ToList())
+			{
+				DeleteStorageUnit(storageUnit);
+				_treeContainer.Remove(storageUnit);
+			}
+			UpdateTreeView();
+		}
+
+		private void MenuItem_OpenFile_Click(object sender, EventArgs e)
+		{
+			var storageUnit =
+				TreeViewAdv_Files.SelectedNodes.Select(treeNodeAdv => treeNodeAdv.Tag as Node)
+					.Select(node => node.Tag as StorageUnit)
+					.FirstOrDefault();
+			var file = storageUnit as File;
+			if (file == null) return;
+
+			System.Diagnostics.Process.Start(file.ToString());
 		}
 
 		private void MenuItemRemoveSelected_Click(object sender, EventArgs e)
@@ -261,6 +304,25 @@ namespace FSANC_V2.Components
 		//-------------------------------------------------------------
 		//	Private static methods
 		//-------------------------------------------------------------
+
+		/// <summary>
+		/// Deletes given file or directory(all containing data too).
+		/// </summary>
+		/// <param name="storageUnit"></param>
+		private static void DeleteStorageUnit(StorageUnit storageUnit)
+		{
+			var file = storageUnit as File;
+			if (file != null)
+			{
+				if (!SysFile.Exists(file.ToString())) return;
+				SysFile.Delete(file.ToString());
+			}
+
+			var directory = storageUnit as Folder;
+			if (directory == null) return;
+			if (!Directory.Exists(directory.ToString())) return;
+			Directory.Delete(directory.ToString(), true);
+		}
 
 		/// <summary>
 		/// Inserts season and episode values into S**E** string, where ** are season and episode values.
