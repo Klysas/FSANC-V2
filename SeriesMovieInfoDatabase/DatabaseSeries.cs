@@ -83,7 +83,7 @@ namespace SeriesMovieInfoDatabase
 		/// </summary>
 		private void ReportSeriesProgress()
 		{
-			var pointsCompleted = _seriesProgress.CurrentItemsCount * PROGRESS_POINTS_PER_SERIES / _seriesProgress.TotalItemsCount;
+			var pointsCompleted = _seriesProgress.CurrentItemsCount * PROGRESS_POINTS_PER_SERIES / _seriesProgress.TotalItemsCount; // FIX: TotalItemsCount can be zero(protect).
 			OnSearchProgressChanged(new SearchProgressEventArgs(_progress.CurrentItemsCount + pointsCompleted, _progress.TotalItemsCount));
 		}
 	}
